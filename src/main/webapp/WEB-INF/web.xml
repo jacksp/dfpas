@@ -8,7 +8,7 @@
 
   <servlet>
     <servlet-name>HelloServlet</servlet-name>
-    <servlet-class>main.java.wscentral</servlet-class>
+    <servlet-class>wscentral.HolaMundoServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
