@@ -16,6 +16,17 @@
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/HelloServlet</url-pattern>
   </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>PdfServlet</servlet-name>
+    <servlet-class>wscentral.Dfpas_reportServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>PdfServlet</servlet-name>
+    <url-pattern>/PdfServlet</url-pattern>
+  </servlet-mapping>
          
 </web-app>
 
