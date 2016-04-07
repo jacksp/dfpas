@@ -48,7 +48,7 @@ public class Dfpas_reportServlet extends HttpServlet {
                 response.getOutputStream().print(stringWriter.toString());
             }
         } catch (Exception e) {
-            salida = "Error generando Reporte Jasper, el error del Sistema es " + e;
+            salida = "Error generando Reporte Jasper, el error del Sistema es " + e.getStackTrace();
             PrintWriter out = response.getWriter();
             out.println(salida);
         }
