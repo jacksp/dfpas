@@ -21,7 +21,7 @@ public class Dfpas_reportServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
-			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath("//formatosjasper//reclamacionesAena1.jasper");
+			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath("//formatosjasper//reclamacionesAena.jasper");
 //			String s = request.getServletPath();
 //            String jrxmlFileName = s+"//formatosjasper//reclamacionesAena.jasper";
             File archivoReporte = new File(jrxmlFileName);
