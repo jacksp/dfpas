@@ -33,6 +33,7 @@ public class Dfpas_reportServlet extends HttpServlet {
             hm = new HashMap();
  
             ServletOutputStream servletOutputStream = response.getOutputStream();
+            hm.put("aeropuerto", "me cago en rusia");
  
             byte[] bytes = null;
  
