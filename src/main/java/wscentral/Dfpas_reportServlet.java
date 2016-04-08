@@ -22,35 +22,35 @@ public class Dfpas_reportServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		 PrintWriter out = response.getWriter();
 		try {
-			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath(".");
+//			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath(".");
 			 
-			 jrxmlFileName =  System.getenv("OPENSHIFT_DATA_DIR");
+			 String jrxmlFileName =   System.getenv("OPENSHIFT_DATA_DIR");
 //			String s = request.getServletPath();
-//            String jrxmlFileName = s+"//formatosjasper//reclamacionesAena.jasper";
-			 out.println("jrxmlFileName:"+jrxmlFileName);
-//            File archivoReporte = new File(jrxmlFileName);
-//            HashMap hm = null;
-//            hm = new HashMap();
-// 
-//            ServletOutputStream servletOutputStream = response.getOutputStream();
-// 
-//            byte[] bytes = null;
-// 
-//            try {
-//                bytes = JasperRunManager.runReportToPdf(archivoReporte.getPath(), hm, new JREmptyDataSource());
-// 
-//                response.setContentType("application/pdf");
-//                response.setContentLength(bytes.length);
-//                servletOutputStream.write(bytes, 0, bytes.length);
-//                servletOutputStream.flush();
-//                servletOutputStream.close();
-//            } catch (JRException e) {
-//                StringWriter stringWriter = new StringWriter();
-//                PrintWriter printWriter = new PrintWriter(stringWriter);
-//                e.printStackTrace(printWriter);
-//                response.setContentType("text/plain");
-//                response.getOutputStream().print(stringWriter.toString());
-//            }
+             jrxmlFileName = jrxmlFileName+"/jasper/reclamacionesAena.jasper";
+//			 out.println("jrxmlFileName:"+jrxmlFileName);
+            File archivoReporte = new File(jrxmlFileName);
+            HashMap hm = null;
+            hm = new HashMap();
+ 
+            ServletOutputStream servletOutputStream = response.getOutputStream();
+ 
+            byte[] bytes = null;
+ 
+            try {
+                bytes = JasperRunManager.runReportToPdf(archivoReporte.getPath(), hm, new JREmptyDataSource());
+ 
+                response.setContentType("application/pdf");
+                response.setContentLength(bytes.length);
+                servletOutputStream.write(bytes, 0, bytes.length);
+                servletOutputStream.flush();
+                servletOutputStream.close();
+            } catch (JRException e) {
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                e.printStackTrace(printWriter);
+                response.setContentType("text/plain");
+                response.getOutputStream().print(stringWriter.toString());
+            }
         } catch (Exception e) {
         	 StringWriter errors = new StringWriter();
         	    e.printStackTrace(new PrintWriter(errors));
