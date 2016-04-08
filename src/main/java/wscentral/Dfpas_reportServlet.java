@@ -20,7 +20,7 @@ public class Dfpas_reportServlet extends HttpServlet {
 	String salida;
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		 PrintWriter out = response.getWriter();
+//		 PrintWriter out = response.getWriter();
 //		try {
 //			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath(".");
 			 
@@ -34,23 +34,23 @@ public class Dfpas_reportServlet extends HttpServlet {
  
             ServletOutputStream servletOutputStream = response.getOutputStream();
  
-//            byte[] bytes = null;
-// 
-//            try {
-//                bytes = JasperRunManager.runReportToPdf(archivoReporte.getPath(), hm, new JREmptyDataSource());
-// 
-//                response.setContentType("application/pdf");
-//                response.setContentLength(bytes.length);
-//                servletOutputStream.write(bytes, 0, bytes.length);
-//                servletOutputStream.flush();
-//                servletOutputStream.close();
-//            } catch (JRException e) {
-//                StringWriter stringWriter = new StringWriter();
-//                PrintWriter printWriter = new PrintWriter(stringWriter);
-//                e.printStackTrace(printWriter);
-//                response.setContentType("text/plain");
-//                response.getOutputStream().print(stringWriter.toString());
-//            }
+            byte[] bytes = null;
+ 
+            try {
+                bytes = JasperRunManager.runReportToPdf(archivoReporte.getPath(), hm, new JREmptyDataSource());
+ 
+                response.setContentType("application/pdf");
+                response.setContentLength(bytes.length);
+                servletOutputStream.write(bytes, 0, bytes.length);
+                servletOutputStream.flush();
+                servletOutputStream.close();
+            } catch (JRException e) {
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                e.printStackTrace(printWriter);
+                response.setContentType("text/plain");
+                response.getOutputStream().print(stringWriter.toString());
+            }
 //        } catch (Exception e) {
 //        	 StringWriter errors = new StringWriter();
 //        	    e.printStackTrace(new PrintWriter(errors));
