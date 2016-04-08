@@ -21,7 +21,7 @@ public class Dfpas_reportServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		 PrintWriter out = response.getWriter();
-		try {
+//		try {
 //			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath(".");
 			 
 			 String jrxmlFileName =   System.getenv("OPENSHIFT_DATA_DIR");
@@ -51,16 +51,16 @@ public class Dfpas_reportServlet extends HttpServlet {
                 response.setContentType("text/plain");
                 response.getOutputStream().print(stringWriter.toString());
             }
-        } catch (Exception e) {
-        	 StringWriter errors = new StringWriter();
-        	    e.printStackTrace(new PrintWriter(errors));
-        	    
-        	    
-        	    
-        	
-            salida = "Error generando Reporte Jasper, el error del Sistema es " + errors.toString();
-           
-            out.println(salida);
-        }
+//        } catch (Exception e) {
+//        	 StringWriter errors = new StringWriter();
+//        	    e.printStackTrace(new PrintWriter(errors));
+//        	    
+//        	    
+//        	    
+//        	
+//            salida = "Error generando Reporte Jasper, el error del Sistema es " + errors.toString();
+//           
+//            out.println(salida);
+//        }
 	}
 }
