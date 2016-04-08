@@ -23,6 +23,8 @@ public class Dfpas_reportServlet extends HttpServlet {
 		 PrintWriter out = response.getWriter();
 		try {
 			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath(".");
+			 
+			 jrxmlFileName =  System.getenv("OPENSHIFT_DATA_DIR");
 //			String s = request.getServletPath();
 //            String jrxmlFileName = s+"//formatosjasper//reclamacionesAena.jasper";
 			 out.println("jrxmlFileName:"+jrxmlFileName);
