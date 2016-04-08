@@ -22,7 +22,7 @@ public class Dfpas_reportServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		 PrintWriter out = response.getWriter();
 		try {
-			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath("/");
+			 String jrxmlFileName = this.getServletConfig().getServletContext().getRealPath(".");
 //			String s = request.getServletPath();
 //            String jrxmlFileName = s+"//formatosjasper//reclamacionesAena.jasper";
 			 out.println("jrxmlFileName:"+jrxmlFileName);
