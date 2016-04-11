@@ -24,7 +24,7 @@ public class MySqlServlet  extends HttpServlet{
 	      String ingredientes =  "huevo patatas";
 	       String nombre =  "tortilla de patadas";
 	       String url = String.format("jdbc:mysql://%s:%s/andi", host, port);
-	 
+	       PrintWriter out = response.getWriter();
 	        final String user = "admin9lmwL5t";
 	        final String password = "QYNXgYdgeRJB";
 	        try {
@@ -41,15 +41,17 @@ public class MySqlServlet  extends HttpServlet{
 	        s.setString(2, ingredientes);
 	        s.setString(3, nombre);
 	        s.executeUpdate();
-PrintWriter out = response.getWriter();
-	        out.println("Receta u ruajt me sukses ne server !");
+
+	        out.println("Receta hecho!");
 
 
 
 	        }  catch (SQLException e) {
 	            e.printStackTrace();
+	            out.println("Receta error1"+e.getMessage());
 	        } catch (ClassNotFoundException e) {
 	            e.printStackTrace();
+	            out.println("Receta error2"+e.getMessage());
 	        }
 	        
 	}
