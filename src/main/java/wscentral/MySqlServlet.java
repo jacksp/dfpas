@@ -23,7 +23,7 @@ public class MySqlServlet  extends HttpServlet{
 	       int id =  1;
 	      String ingredientes =  "huevo patatas";
 	       String nombre =  "tortilla de patadas";
-	       String url = String.format("jdbc:mysql://%s:%s/andi", host, port);
+	       String url = String.format("jdbc:mysql://%s:%s/wscentral", host, port);
 	       PrintWriter out = response.getWriter();
 	        final String user = "admin9lmwL5t";
 	        final String password = "QYNXgYdgeRJB";
