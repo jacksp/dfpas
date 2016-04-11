@@ -41,7 +41,8 @@ public class MySqlServlet  extends HttpServlet{
 	        s.setString(2, ingredientes);
 	        s.setString(3, nombre);
 	        s.executeUpdate();
-
+PrintWriter out = response.getWriter();
+	        out.println("Receta u ruajt me sukses ne server !");
 
 
 
@@ -50,8 +51,7 @@ public class MySqlServlet  extends HttpServlet{
 	        } catch (ClassNotFoundException e) {
 	            e.printStackTrace();
 	        }
-	        PrintWriter out = response.getWriter();
-	        out.println("Receta u ruajt me sukses ne server !");
+	        
 	}
 
 }
