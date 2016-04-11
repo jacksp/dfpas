@@ -47,10 +47,10 @@ public class MySqlServlet  extends HttpServlet{
 
 
 	        }  catch (SQLException e) {
-	            e.printStackTrace();
+	          
 	            out.println("Receta error1"+e.getMessage());
 	        } catch (ClassNotFoundException e) {
-	            e.printStackTrace();
+	  
 	            out.println("Receta error2"+e.getMessage());
 	        }
 	        
