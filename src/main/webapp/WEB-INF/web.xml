@@ -29,12 +29,12 @@
 
 
 	<servlet>
-		<servlet-name>mongoDB</servlet-name>
-		<servlet-class>wscentral.MongoDBServlet</servlet-class>
+		<servlet-name>mysqlDB</servlet-name>
+		<servlet-class>wscentral.MySqlServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>mongoDB</servlet-name>
-		<url-pattern>/mongoDB</url-pattern>
+		<servlet-name>mysqlDB</servlet-name>
+		<url-pattern>/mysqlDB</url-pattern>
 	</servlet-mapping>
 
 </web-app>
