@@ -1,5 +1,6 @@
 package com.prueba.copy;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +11,6 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import com.prueba.cxfrestservice.model.Employee;
@@ -27,9 +27,14 @@ public class CvsImportacion {
     public  List<Employee> importData() throws FileNotFoundException, IOException {
         //Crear el CSVFormat object
     	 CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
-         InputStream csv = 
-         		this.getClass().getClassLoader().getResourceAsStream("./test/employees.csv");
-         Reader reader = new InputStreamReader(csv);
+    	 String jrxmlFileName =   System.getenv("OPENSHIFT_DATA_DIR");
+    	 
+    	  FileInputStream fis = new FileInputStream(jrxmlFileName+"/test/employees.csv");
+          InputStream is = fis;
+//         
+//         InputStream csv = 
+//         		this.getClass().getClassLoader().getResourceAsStream(jrxmlFileName+"/test/employees.csv");
+         Reader reader = new InputStreamReader(is);
          CSVParser parser = new CSVParser(reader, format);
          List<Employee> emps = new ArrayList<Employee>();
          for(CSVRecord record : parser){
@@ -41,7 +46,7 @@ public class CvsImportacion {
              emps.add(emp);
          }
          parser.close();
-         
+         fis.close();  
         return emps;
     }
 
