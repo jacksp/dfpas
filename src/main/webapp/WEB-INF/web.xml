@@ -53,6 +53,20 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+		<listener>
+		<listener-class>com.dfp.servlets.SpringApplicationContextListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>CargaDatos</servlet-name>
+		<servlet-class>com.dfp.servlets.JSONServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>CargaDatos</servlet-name>
+		<url-pattern>/jsonServlet</url-pattern>
+	</servlet-mapping>
 
 </web-app>
 
