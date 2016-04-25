@@ -402,14 +402,7 @@
     </filter>
 -->
 
-<filter>
-		<filter-name>CorsFilter</filter-name>
-		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CorsFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	
 
   <!-- A filter that triggers request parameters parsing and rejects the    -->
   <!-- request if some parameters were skipped because of parsing errors or -->
@@ -4364,6 +4357,15 @@
         <extension>zmm</extension>
         <mime-type>application/vnd.handheld-entertainment+xml</mime-type>
     </mime-mapping>
+    
+    <filter>
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
   <!-- ==================== Default Welcome File List ===================== -->
   <!-- When a request URI refers to a directory, the default servlet looks  -->
