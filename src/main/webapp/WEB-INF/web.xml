@@ -36,8 +36,8 @@
 		<servlet-name>mysqlDB</servlet-name>
 		<url-pattern>/mysqlDB</url-pattern>
 	</servlet-mapping>
-	
-	 <context-param>
+
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/beans.xml</param-value>
 	</context-param>
@@ -49,12 +49,12 @@
 		<servlet-name>CXFServlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-		<listener>
+
+	<listener>
 		<listener-class>com.dfp.servlets.SpringApplicationContextListener</listener-class>
 	</listener>
 
@@ -67,6 +67,18 @@
 		<servlet-name>CargaDatos</servlet-name>
 		<url-pattern>/jsonServlet</url-pattern>
 	</servlet-mapping>
+	
+		 <filter>
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+
+
 
 </web-app>
 
