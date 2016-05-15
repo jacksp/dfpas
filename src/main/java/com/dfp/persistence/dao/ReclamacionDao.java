@@ -1,29 +1,82 @@
 package com.dfp.persistence.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
-import com.dfp.persistence.HibernateWraper;
-import com.dfp.persistencia.entities.Reclamacion;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
-public class ReclamacionDao extends HibernateWraper implements ReclamacionDaoInterface<Reclamacion, String> {
+import com.dfp.persistencia.entities.Estado;
+import com.dfp.persistencia.entities.Pasajero;
+import com.dfp.persistencia.entities.Reclamacion;
+import com.dfp.utiles.hibernate.HibernateUtil;
+
+public class ReclamacionDao  {
 	
-	/**
-	 * devuelve la lista de reclamaciones
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Reclamacion> getClaimDetail(String sCodeClaim) {		
+	
+	
+//	/**
+//	 * devuelve la lista de reclamaciones
+//	 */
+//	public List<Reclamacion> getEstadoByExample(Reclamacion claim) {	
+//		Criteria criteria = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Reclamacion.class);
+//		List<Reclamacion> oListReclamacion = null;
+//	//	String sQuery = "select r from reclamacion r";
+//	//	String sQueryEstado = "select e from estado e";
+//		
+//		if(claim.getId()!=null)
+//			criteria.add(Restrictions.eq("id", claim.getId()));
+//		
+//		if(claim.getEstado()!=null)
+//			criteria.add(Restrictions.eq("idEstado", claim.getEstado().getId()));
+//			
+//		try {
+//			oListReclamacion = (List<Reclamacion>) criteria.list();	
+//		} catch (Exception e) {
+//			System.out.println("Errro al recuperar la lista de estados");
+//		} 
+//		finally {
+//			return oListReclamacion.get(0).getEstado().getId();
+//		}
+//	}
+	
+	
+	public List<Reclamacion> getReclamacionByExample(Reclamacion claim) {	
+		Criteria criteria = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Reclamacion.class);
 		List<Reclamacion> oListReclamacion = null;
-		String sQuery = "select r from Claim r ";
 		
-		if(!sCodeClaim.isEmpty())
-			sQuery = sQuery + " where r.codigoReclamacion = "+sCodeClaim;
+		if(claim.getId()!=null)
+			criteria.add(Restrictions.eq("id", claim.getId()));
+		
+		if(claim.getEstado()!=null)
+			criteria.add(Restrictions.eq("idEstado", claim.getEstado().getId()));
 			
 		try {
-			oListReclamacion = (List<Reclamacion>) getCurrentSession().createQuery(sQuery).list();
+			
+			oListReclamacion = (List<Reclamacion>) criteria.list();
+		
+		
+			for (Reclamacion reclamacion: oListReclamacion){
+//				if(reclamacion.getEstado()!=null)
+//					criteriaEstado.add(Restrictions.eq("id", reclamacion.getEstado().getId()));
+//				
+				Estado estado = reclamacion.getEstado();
+				
+				
+				reclamacion.setEstado(estado);
+				
+//				if(reclamacion.getPasajero()!=null)
+//					criteriaPasajero.add(Restrictions.eq("id", reclamacion.getPasajero().getId()));
+				
+				Pasajero pasajero = reclamacion.getPasajero();
+				reclamacion.setPasajero(pasajero);
+				
+				
+			}
 		} catch (Exception e) {
-			System.out.println("Errro al recuperar la lista de reclamaciones");
-		} finally {
+			System.out.println("Errro al recuperar la lista de estados");
+		} 
+		finally {
 			return oListReclamacion;
 		}
 	}
@@ -31,34 +84,43 @@ public class ReclamacionDao extends HibernateWraper implements ReclamacionDaoInt
 	
 	
 	public int persist(Reclamacion entity) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try{
-			Serializable o = getCurrentSession().save(entity);
-			
-			
+			session.save(entity);
 		}catch(Exception e){
-			return 0;
+			return -1;
 		}
-		return 1;
+		
+		return entity.getId();
 	}
 
 	
-	public void update(Reclamacion entity) {
-		getCurrentSession().update(entity);
+	public Reclamacion update(Reclamacion entity) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.update(entity);
+		return entity;
 	}
 
-	public Reclamacion findById(String id) {
-		Reclamacion claim = (Reclamacion) getCurrentSession().get(Reclamacion.class, id);
-		return claim;
-	}
+
 
 	
 	public void delete(Reclamacion entity) {
-		getCurrentSession().delete(entity);
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.delete(entity);
 	}
 
 
-	public List<Reclamacion> findAll() {
-		List<Reclamacion> reclamaciones = (List<Reclamacion>) getCurrentSession().createQuery("from Reclamacion").list();
+	public List<Reclamacion> findAll() {		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		List<Reclamacion> reclamaciones = null;
+		Criteria criteria = session.createCriteria(Reclamacion.class);
+		try{
+			reclamaciones = criteria.list();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+//		List<Reclamacion> reclamaciones = (List<Reclamacion>) getCurrentSession().createQuery("from Reclamacion").list();
+//		session.getTransaction().commit();
 		return reclamaciones;
 	}
 
@@ -69,4 +131,8 @@ public class ReclamacionDao extends HibernateWraper implements ReclamacionDaoInt
 			delete(entity);
 		}
 	}
+
+
+
+
 }

@@ -1,133 +1,171 @@
 package com.dfp.persistencia.entities;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.dfp.core.dto.PasajeroDTO;
 
 /**
  * Created by Alberto on 30/12/2015.
  */
 @Entity
+@Table(name = "pasajero")
 public class Pasajero {
 
+	@Id // id de la entidad
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // el proovedor de
+														// persistencia gnerar
+														// un valor al
+														// insertarlo y se lo da
+	@Column(name = "id")
+	private int id;
 
-    @Id //id de la entidad
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//el proovedor de persistencia gnerar un valor al insertarlo y se lo da
-    private String id;
+	@Column(name = "nombre")
+	private String nombre = "";
 
-    private String nombre = "";
+	@Column(name = "apellidos")
+	private String apellidos = "";
 
-    private String apellidos = "";
+	@Column(name = "tipoDocumento")
+	private String tipoDocumento = "";
 
-    private String idPasajero = "";
+	@Column(name = "idDocumento")
+	private String idDocumento = "";
 
-    private String tipoDocumento = "";
+	@Column(name = "email")
+	private String email = "";
 
-    private String email = "";
+	@Column(name = "facebook")
+	private String facebook = "";
 
-    private String facebook = "";
+	@Column(name = "twitter")
+	private String twitter = "";
 
-    private String twitter = "";
+	@Column(name = "telefono")
+	private String telefono = "";
 
-    @OneToOne(cascade=CascadeType.ALL)
-    private DireccionPasajero direccionPasajero = null;
+	public void populate(PasajeroDTO pasajeroDTO) {
+		this.setNombre(pasajeroDTO.getNombre());
+		this.setApellidos(pasajeroDTO.getApellidos());
+		this.setEmail(pasajeroDTO.getEmail());
+		this.setTelefono(pasajeroDTO.getTelefono());
+	}
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    //con el cascadetype.all se insertan tambi�n la entidad pasajero al insertar reclamaci�n
+	@JoinColumn(name = "idVuelo", nullable = false)
+	private Vuelo vuelo;
+	
+	
+	public Vuelo getVuelo() {
+		return vuelo;
+	}
+	
+	public void setVuelo(Vuelo vuelo) {
+		this.vuelo = vuelo;
+	}
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="parentPasajero",cascade = CascadeType.PERSIST)
-    private List<Reclamacion> reclamacion = null;
+	
+	public Set<Reclamacion> getReclamaciones() {
+		return reclamaciones;
+	}
 
-    public List<Reclamacion> getReclamacion() {
-        return reclamacion;
-    }
+	public void setReclamaciones(Set<Reclamacion> reclamaciones) {
+		this.reclamaciones = reclamaciones;
+	}
 
-    public void setReclamacion(List<Reclamacion> reclamacion) {
-        this.reclamacion = reclamacion;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pasajero")
+	private Set<Reclamacion> reclamaciones = new HashSet<Reclamacion>(0);
+	
 
-    //@ManyToOne
-    private Vuelo parentVuelo = null;
+	public int getId() {
+		return id;
+	}
 
-    // En la Entidad Vuelo se referencia una instancia simple de la Entidad Pasajero.
-    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade =CascadeType.PERSIST)
-    public Vuelo getParentVuelo() {
-        return parentVuelo;
-    }
 
-    public void setParentVuelo(final Vuelo parent) {
-        this.parentVuelo = parent;
-    }
 
-   /* private Vuelo parent = null;*/
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public DireccionPasajero getDireccionPasajero() {
-        return direccionPasajero;
-    }
 
-    public void setDireccionPasajero(DireccionPasajero direccionPasajero) {
-        this.direccionPasajero = direccionPasajero;
-    }
 
-    public String getIdPasajero() {
-        return idPasajero;
-    }
+	public String getIdDocumento() {
+		return idDocumento;
+	}
 
-    public void setIdPasajero(String idPasajero) {
-        this.idPasajero = idPasajero;
-    }
+	public void setIdDocumento(String idDocumento) {
+		this.idDocumento = idDocumento;
+	}
 
-    public String getTipoDocumento() {
-        return tipoDocumento;
-    }
+	public String getTelefono() {
+		return telefono;
+	}
 
-    public void setTipoDocumento(String tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
-    }
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
 
-    public String getApellidos() {
-        return apellidos;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getApellidos() {
+		return apellidos;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
 
-    public String getFacebook() {
-        return facebook;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setFacebook(String facebook) {
-        this.facebook = facebook;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getTwitter() {
-        return twitter;
-    }
+	public String getFacebook() {
+		return facebook;
+	}
 
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
 
 }

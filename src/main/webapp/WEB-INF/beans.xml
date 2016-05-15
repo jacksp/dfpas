@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
  	http://cxf.apache.org/jaxrs
@@ -14,14 +12,14 @@
  	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<context:component-scan base-package="com.prueba.*" />
-	<!--  web services inyectado desde spring con jackson -->
-	<jaxrs:server id="employeeService" address="/employeeservices">
+	<context:component-scan base-package="com.*" />
+
+	<jaxrs:server id="claimService" address="/claimservices">
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
-			<ref bean="cxfServiceImpl" />
+			<ref bean="claimCxfServiceImpl" />
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
@@ -29,6 +27,67 @@
 		</jaxrs:extensionMappings>
 	</jaxrs:server>
 
-    <bean id="cxfServiceImpl" class="com.prueba.cxfrestservice.internal.CxfRestServiceImpl"/>
-    <bean id="employeeDao" class="com.prueba.cxfrestservice.dao.EmployeeDao"/>
+	<bean id="claimCxfServiceImpl" class="com.dfp.services.internal.ReclamacionCxfRestServiceImpl" />
+	<!-- <bean id="cxfServiceImpl" class="com.prueba.cxfrestservice.internal.CxfRestServiceImpl" 
+		/> -->
+
+	<bean id="reclamacionDao" class="com.dfp.persistence.dao.ReclamacionDao" />
+	<bean id="estadoDao" class="com.dfp.persistence.dao.EstadoDao" />
+ 	<bean id="pasajeroDao" class="com.dfp.persistence.dao.PasajeroDao" />
+	<bean id="vueloDao" class="com.dfp.persistence.dao.VueloDao" /> 
+	
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.defensadelpasajero.com" />
+		<property name="port" value="25" />
+		<property name="username" value="auto@defensadelpasajero.com" />
+		<property name="password" value="Judas974" />
+
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="mailMail" class="com.dfp.core.MailMail">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+	
+	<bean id="mailNuevaReclamacion" class="com.dfp.core.MailMail">
+        <property name="mailSender" ref="mailSender" />
+        <property name="simpleMailMessage" ref="mailReclamacionRecibida" />
+    </bean>
+
+   <bean id="mailReclamacionRecibida"
+        class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="from@no-spam.com" />
+        <property name="to" value="to@no-spam.com" />
+        <property name="subject" value="Recordatorio de contraseña" />
+        <property name="text">
+        <value>
+            <![CDATA[
+                Se ha recibido una reclamación con el código: <h1> %s <h1>
+            ]]>
+        </value>
+    </property>
+    </bean>
+    
+    
+   <bean id="mailNuevoEstadoReclamacion"
+        class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="from@no-spam.com" />
+        <property name="to" value="to@no-spam.com" />
+        <property name="subject" value="Recordatorio de contraseña" />
+        <property name="text">
+	        <value>
+	            <![CDATA[
+	                Se ha recibido una reclamación con el código: <h1> %s <h1>, tiene un nuevo estado:
+	                %s
+	            ]]>
+	        </value>
+	    </property>
+    </bean>
+
 </beans>

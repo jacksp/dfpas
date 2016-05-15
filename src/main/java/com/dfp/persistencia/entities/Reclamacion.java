@@ -1,20 +1,17 @@
 package com.dfp.persistencia.entities;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.dfp.core.dto.ReclamacionDTO;
 
@@ -24,6 +21,10 @@ import com.dfp.core.dto.ReclamacionDTO;
 @Entity
 @Table(name = "reclamacion")
 public class Reclamacion {
+
+	public Integer getId() {
+		return id;
+	}
 
 	// propiedades
 	@Id // id de la entidad
@@ -36,9 +37,12 @@ public class Reclamacion {
 
 	@Column(name = "codigoReclamacion")
 	private String codigoReclamacion = "";
+		
 
-	@Column(name = "idPasajero")
-	private String idPasajero = "";
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	@Column(name = "textoReclamacion")
 	private String textoReclamacion = "";
@@ -46,57 +50,53 @@ public class Reclamacion {
 	@Column(name = "fechaReclamacion")
 	private Date fechaReclamacion = null;
 
-	@Column(name = "fechaVuelo")
-	private Date fechaVuelo = null;
+
+	@Column(name = "horaInicioVueloPrevista")
+	private Date horaInicioVueloPrevista = null;
+
+	@Column(name = "horaFinVueloPrevista")
+	private Date horaFinVueloPrevista = null;
 
 	@Column(name = "horaInicioVueloReclamacion")
-	private Date horaInicioVueloReclamacion = null;
+	private Date horaInicioVueloReal = null;
+
+	
 
 	@Column(name = "horaFinVueloReclamacion")
-	private Date horaFinVueloReclamacion = null;
-
-//	@OneToOne(cascade=CascadeType.ALL)
-//	private Estado estado = null;
+	private Date horaFinVueloReal = null;
 	
-//	@Transient
-//	private Double importeReclamacion = null;
-//	
-//	private Pasajero parentPasajero = null;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idEstado", nullable = false)
+	private Estado estado;
 
-	// En la Entidad Vuelo se referencia una instancia simple de la Entidad
-	// Pasajero.
-//	@ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//	public Pasajero getParentPasajero() {
-//		return parentPasajero;
-//	}
+	public Estado getEstado() {
+		return this.estado;
+	}
+    
+    public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+    
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    //con el cascadetype.all se insertan tambi�n la entidad pasajero al insertar reclamaci�n
+    @JoinColumn(name = "idPasajero", nullable = false)
+	private Pasajero pasajero;
 
-//	public void setParentPasajero(final Pasajero parentPasajero) {
-//		this.parentPasajero = parentPasajero;
-//	}
-//	
-//	public void setIdCasosUso(List<String> idCasosUso) {
-//		this.idCasosUso = idCasosUso;
-//	}
-//
-//	public Double getImporteReclamacion() {
-//		return importeReclamacion;
-//	}
-//
-//	public void setImporteReclamacion(Double importeReclamacion) {
-//		this.importeReclamacion = importeReclamacion;
-//	}
 
-	// geters y setters
+	public Pasajero getPasajero() {
+		return pasajero;
+	}
 
+	public void setPasajero(Pasajero pasajero) {
+		this.pasajero = pasajero;
+	}
 	
 
-//	public Estado getEstado() {
-//		return estado;
-//	}
-//
-//	public void setEstado(Estado estado) {
-//		this.estado = estado;
-//	}
+
+
+
+
 
 	public Date getFechaReclamacion() {
 		return fechaReclamacion;
@@ -106,72 +106,8 @@ public class Reclamacion {
 		this.fechaReclamacion = fechaReclamacion;
 	}
 
-	public Date getFechaVuelo() {
-		return fechaVuelo;
-	}
 
-	public void setFechaVuelo(Date fechaVuelo) {
-		this.fechaVuelo = fechaVuelo;
-	}
 
-	// private Vuelo parentVuelo = null;
-
-	public Date getHoraInicioVueloReclamacion() {
-		return horaInicioVueloReclamacion;
-	}
-
-	public void setHoraInicioVueloReclamacion(Date horaInicioVueloReclamacion) {
-		this.horaInicioVueloReclamacion = horaInicioVueloReclamacion;
-	}
-
-	public Date getHoraFinVueloReclamacion() {
-		return horaFinVueloReclamacion;
-	}
-
-	public void setHoraFinVueloReclamacion(Date horaFinVueloReclamacion) {
-		this.horaFinVueloReclamacion = horaFinVueloReclamacion;
-	}
-
-//	@ElementCollection
-//	private List<String> idCasosUso = null;
-
-	// En la Entidad Vuelo se referencia una instancia simple de la Entidad
-	// Pasajero.
-	/*
-	 * @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade =
-	 * CascadeType.ALL) public Vuelo getParentVuelo() { return parentVuelo; }
-	 * 
-	 * public void setParentVuelo(final Vuelo parentVuelo) { this.parentVuelo =
-	 * parentVuelo; }
-	 */
-
-	
-
-	/*
-	 * private Estado parentEstado = null;
-	 * 
-	 * // En la Entidad Vuelo se referencia una instancia simple de la Entidad
-	 * Pasajero.
-	 * 
-	 * @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade =
-	 * CascadeType.ALL) public Estado getParentEstado() { return parentEstado; }
-	 * 
-	 * public void setParentEstado(final Estado parentEstado) {
-	 * this.parentEstado = parentEstado; }
-	 */
-//
-//	@ElementCollection
-//	private List<String> documentosAnexos = null;
-
-	
-
-//	public List getDocumentosAnexos() {
-//		return documentosAnexos;
-//	}
-//
-//	public void setDocumentosAnexos(List documentosAnexos) {
-//		this.documentosAnexos = documentosAnexos;
-//	}
 
 	public String getCodigoReclamacion() {
 		return codigoReclamacion;
@@ -181,13 +117,7 @@ public class Reclamacion {
 		this.codigoReclamacion = codigoReclamacion;
 	}
 
-	public String getIdPasajero() {
-		return idPasajero;
-	}
-
-	public void setIdPasajero(String idPasajero) {
-		this.idPasajero = idPasajero;
-	}
+	
 
 //	public List getIdCasosUso() {
 //		return idCasosUso;
@@ -207,13 +137,54 @@ public class Reclamacion {
 	public void populateFromReclamacionDTO(ReclamacionDTO reclamacion) {
 		if (reclamacion.getCodigoReclamacion() != null)
 			this.setCodigoReclamacion(reclamacion.getCodigoReclamacion());
-		if (reclamacion.getFechaVuelo() != null)
-			this.setFechaVuelo(reclamacion.getFechaVuelo());
+		
 		if (reclamacion.getTextoReclamacion() != null)
 			this.setTextoReclamacion(reclamacion.getTextoReclamacion());
-//		if (reclamacion.getDocumentosAnexos() != null)
-//			this.setDocumentosAnexos(reclamacion.getDocumentosAnexos());
+		
+		if (reclamacion.getHoraFinVueloPrevista()!=null)
+			this.setHoraFinVueloPrevista(reclamacion.getHoraFinVueloPrevista());
+		
+		if (reclamacion.getHoraInicioVueloPrevista()!=null)
+			this.setHoraInicioVueloPrevista(reclamacion.getHoraInicioVueloPrevista());
+
+		if (reclamacion.getHoraInicioVueloReal()!=null)
+			this.setHoraInicioVueloReal(reclamacion.getHoraInicioVueloReal());
+
+		if (reclamacion.getHoraFinVueloReal()!=null)
+			this.setHoraFinVueloReal(reclamacion.getHoraFinVueloReal());
+
+	}
 
 
+	public Date getHoraInicioVueloPrevista() {
+		return horaInicioVueloPrevista;
+	}
+
+	public void setHoraInicioVueloPrevista(Date horaInicioVueloPrevista) {
+		this.horaInicioVueloPrevista = horaInicioVueloPrevista;
+	}
+
+	public Date getHoraFinVueloPrevista() {
+		return horaFinVueloPrevista;
+	}
+
+	public void setHoraFinVueloPrevista(Date horaFinVueloPrevista) {
+		this.horaFinVueloPrevista = horaFinVueloPrevista;
+	}
+
+	public Date getHoraInicioVueloReal() {
+		return horaInicioVueloReal;
+	}
+
+	public void setHoraInicioVueloReal(Date horaInicioVueloReal) {
+		this.horaInicioVueloReal = horaInicioVueloReal;
+	}
+
+	public Date getHoraFinVueloReal() {
+		return horaFinVueloReal;
+	}
+
+	public void setHoraFinVueloReal(Date horaFinVueloReal) {
+		this.horaFinVueloReal = horaFinVueloReal;
 	}
 }

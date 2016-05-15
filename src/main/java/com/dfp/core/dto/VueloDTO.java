@@ -1,32 +1,51 @@
 package com.dfp.core.dto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Alberto on 30/12/2015.
  */
 public class VueloDTO {
+	
+	private SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy hh:mm"); 
 
 
     private String codigoVuelo = "";
 
     private String idCodigoCompania = "";
 
-    private Date horaInicioVuelo = null;
+    
+    private String aeropuertoDestino="";
+	
+	 private String aeropuertoOrigen="";
 
-    private Date horaFinVuelo = null;
+	public String getAeropuertoOrigen() {
+		return aeropuertoOrigen;
+	}
 
-    public String getCodigoVuelo() {
-        return codigoVuelo;
-    }
+	public void setAeropuertoOrigen(String aeropuertoOrigen) {
+		this.aeropuertoOrigen = aeropuertoOrigen;
+	}
 
-    public void setCodigoVuelo(String codigoVuelo) {
-        this.codigoVuelo = codigoVuelo;
-    }
+	public String getAeropuertoDestino() {
+		return aeropuertoDestino;
+	}
 
-  
+	public void setAeropuertoDestino(String aeropuertoDestino) {
+		this.aeropuertoDestino = aeropuertoDestino;
+	}
 
-    public String getIdCodigoCompania() {
+	public String getCodigoVuelo() {
+		return codigoVuelo;
+	}
+
+	public void setCodigoVuelo(String codigoVuelo) {
+		this.codigoVuelo = codigoVuelo;
+	}
+
+	public String getIdCodigoCompania() {
 		return idCodigoCompania;
 	}
 
@@ -34,21 +53,39 @@ public class VueloDTO {
 		this.idCodigoCompania = idCodigoCompania;
 	}
 
-	public Date getHoraInicioVuelo() {
-        return horaInicioVuelo;
-    }
+//	public Date getHllegadaprevista() {
+//		return hllegadaprevista;
+//	}
+//
+//	public void setHllegadaprevista(String hllegadaprevista) {
+//		Date date;
+//		try {
+//			date = dt.parse(hllegadaprevista);
+//			this.hllegadaprevista = date;
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//	}
+//
+//	public Date getHsalidaprevista() {
+//		return hsalidaprevista;
+//	}
+//
+//	public void setHsalidaprevista(String hsalidaprevista) {
+//		Date date;
+//		try {
+//			date = dt.parse(hsalidaprevista);
+//			this.hsalidaprevista = date;
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//	}
 
-    public void setHoraInicioVuelo(Date horaInicioVuelo) {
-        this.horaInicioVuelo = horaInicioVuelo;
-    }
-
-    public Date getHoraFinVuelo() {
-        return horaFinVuelo;
-    }
-
-    public void setHoraFinVuelo(Date horaFinVuelo) {
-        this.horaFinVuelo = horaFinVuelo;
-    }
+  
 
 
 }

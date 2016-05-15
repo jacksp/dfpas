@@ -13,6 +13,16 @@ public class PasajeroDTO {
 
     private String tipoDocumento = "";
     
+	public String getIdDocumento() {
+		return idDocumento;
+	}
+
+	public void setIdDocumento(String idDocumento) {
+		this.idDocumento = idDocumento;
+	}
+
+	private String idDocumento = "";
+    
     public String getTelefono() {
 		return telefono;
 	}

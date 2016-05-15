@@ -1,0 +1,72 @@
+
+
+CREATE TABLE library.vuelo (
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+codigoVuelo VARCHAR(10) ,
+idCodigoCompania VARCHAR(10) ,
+aeropuertoOrigen VARCHAR(50),
+aeropuertoDestino VARCHAR(50)
+)
+
+
+CREATE TABLE library.reclamacion (
+id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+codigoReclamacion VARCHAR(30) NOT NULL,
+idPasajero VARCHAR(30) NOT NULL,
+textoReclamacion VARCHAR(200),
+fechaReclamacion  DATE, 
+fechaVuelo DATE,
+horaInicioVueloReclamacion DATE, 
+horaFinVueloReclamacion  DATE,
+horaInicioVueloReclamacion DATE, 
+horaFinVueloReclamacion DATE, 
+horaInicioVueloPrevista DATE, 
+horaFinVueloPrevista DATE
+)
+
+
+CREATE TABLE library.pasajero (
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+codigoVuelo VARCHAR(10) ,
+nombre VARCHAR(30) ,
+apellidos VARCHAR(50),
+tipoDocumento VARCHAR(10),
+idDocumento VARCHAR(50),
+facebook VARCHAR(50),
+twitter VARCHAR(50),
+telefono VARCHAR(15)
+)
+
+
+CREATE TABLE `estado` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `secEstado` int(11) DEFAULT NULL,
+  `nombreEstado` varchar(10) DEFAULT NULL,
+  `descripcionEstado` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+
+
+INSERT INTO `library`.`estado`
+(
+`secEstado`,
+`nombreEstado`,
+`descripcionEstado`)
+VALUES
+(
+1,
+'Recibida',
+'La reclamación ha sido recibida en nuestros sistemas. Nuestros técnicos en menos de 24 horas procederan a procesarla.');
+
+
+INSERT INTO `library`.`estado`
+(
+`secEstado`,
+`nombreEstado`,
+`descripcionEstado`)
+VALUES
+(
+2,
+'Admitida',
+'La reclamación ha sido admitida, creemos muy posible sea concedida la indenización.');
