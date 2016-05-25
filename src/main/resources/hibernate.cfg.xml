@@ -6,7 +6,7 @@
    <session-factory>
    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-   <property name="hibernate.connection.url">jdbc:mysql://${OPENSHIFT_DB_HOST}:${OPENSHIFT_DB_PORT}/${OPENSHIFT_APP_NAME</property>
+   <property name="hibernate.connection.url">jdbc:mysql://${OPENSHIFT_DB_HOST}:${OPENSHIFT_DB_PORT}/${OPENSHIFT_APP_NAME}</property>
    <property name="hibernate.connection.username">${OPENSHIFT_MYSQL_DB_USERNAME}</property>
    <property name="hibernate.connection.password">${OPENSHIFT_MYSQL_DB_PASSWORD}</property>
    <property name="hibernate.hbm2ddl.auto">update</property>
