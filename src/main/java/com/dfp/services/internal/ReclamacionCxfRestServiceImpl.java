@@ -1,22 +1,19 @@
 package com.dfp.services.internal;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
-import com.dfp.core.dto.EstadoDTO;
+import com.dfp.core.MailService;
+import com.dfp.core.MailServiceImpl;
+import com.dfp.core.StringKeys;
 import com.dfp.core.dto.ReclamacionDTO;
 import com.dfp.persistence.dao.EstadoDao;
 import com.dfp.persistence.dao.ReclamacionDao;
@@ -25,10 +22,6 @@ import com.dfp.persistencia.entities.Reclamacion;
 import com.dfp.services.ReclamacionCxfRestService;
 import com.dfp.utiles.hibernate.HibernateUtil;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperRunManager;
-
 public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService {
 	
 //	private static final Logger log = Logger.getLogger(ReclamacionCxfRestServiceImpl.class.getName());
@@ -36,15 +29,48 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 	@Autowired
 	private ReclamacionDao reclamacionDao;
 	
-
 	@Autowired
 	private EstadoDao estadoDao;
+	
+	@Autowired
+	private ApplicationContext appContext;
 
 	public Response getClaimDetail(String claimId) {
+	    Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
+	    session.beginTransaction();
+	    
+	    Reclamacion claim = new Reclamacion();
 		
-		
-		return null;
+	    claim.setId(new Integer(claimId));
+	    claim = (reclamacionDao.getReclamacionByExample(claim)).get(0);
+	    session.getTransaction().commit();
+	    ReclamacionDTO claimDTO = new ReclamacionDTO();
+	    claimDTO.populateFromEntity(claim);
+	    
+	    return Response.ok(claimDTO).build();
 	}
+	
+	@Override
+	public Response getClaimDetails(String arrayReclamaciones) {
+	    Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
+	    session.beginTransaction();
+	    
+	    List oListReclamaciones = new ArrayList<ReclamacionDTO>();
+	    String[] array =  arrayReclamaciones.split(",");
+	    
+	    for(String sClaim :array){
+		Reclamacion claim = new Reclamacion();
+		claim.setId(new Integer(sClaim));
+		claim = (reclamacionDao.getReclamacionByExample(claim)).get(0);
+		ReclamacionDTO claimDTO = new ReclamacionDTO();
+		claimDTO.populateFromEntity(claim);
+		oListReclamaciones.add(claimDTO);
+	    }
+	    session.getTransaction().commit();
+	    return Response.ok(oListReclamaciones).build();
+	}
+	
+	
 
 	public Response listClaims() {
 	   Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
@@ -78,12 +104,26 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 		return Response.ok(new ReclamacionDTO()).build();
 	}
 
-	public Response enviaMailNuevoEstado(String claimId, Estado state) {
-//		MailMail mm = (MailMail) this.ac.getBean("mailNuevaReclamacion");
-	//        mm.sendMail("from@no-spam.com",
-	//    		   "to@no-spam.com",
-	//    		   reclamacion.getCodigoReclamacion());
-		return null;
+	public Boolean enviaMailNuevoEstado(Reclamacion claim, Estado state) {
+	    try{
+		String sNombreEstado = state.getNombreEstado(); 
+		if (state.getNombreEstado().equals(StringKeys.RECLAMADAAEROLINEA))
+		    sNombreEstado = "ReclamadaAerolinea";
+		    else if (state.getNombreEstado().equals(StringKeys.RECLAMADAUNION))
+			sNombreEstado = "ReclamadaComision";
+		
+		MailService mm = (MailServiceImpl) appContext.getBean("mailReclamacion"+sNombreEstado);	    
+		    mm.send(claim.getPasajero().getEmail(), "Nuevo estado en la reclamación::" + claim.getCodigoReclamacion()
+			    + "-" + claim.getId(), null, claim, false);
+		    
+		mm = (MailServiceImpl) appContext.getBean("mailReclamacion"+sNombreEstado);	    
+		    mm.send(claim.getPasajero().getEmail(), "Nuevo estado en la reclamación::" + claim.getCodigoReclamacion()
+			    + "-" + claim.getId(), null, claim, true);
+		    
+	    }catch (Exception e) {
+		return false;
+	    }	    
+	    return true;
 	}
 
 	@Override
@@ -97,25 +137,27 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			claim.setId(new Integer(claimId));
 			claim =  (reclamacionDao.getReclamacionByExample(claim)).get(0);
 			
-	//		Reclamacion reclamacion = reclamacionDao.findById(claimId);
+
 			Estado state = new Estado();
 			state.setSecEstado(claim.getEstado().getSecEstado()+1);
 			
-			List<Estado> oListEstado = estadoDao.getEstadoByExample(state);
+			state = estadoDao.getEstadoByExample(state).get(0);
 			
-			if (oListEstado!=null && oListEstado.size()==1)
-				state = (Estado) oListEstado.get(0);
-			else
+//			Map<Integer,Estado> oMapEstado = estadoDao.hashMapFindAll();
+			
+//			state = oMapEstado.get(state.getSecEstado());
+			
+			if (state==null)
 				error	= true;
-						
-			claim.setEstado(state);
-			
-			claim = reclamacionDao.update(claim);
-			enviaMailNuevoEstado( claimId,  state);
+			else{			
+        			claim.setEstado(state);
+        			error = enviaMailNuevoEstado( claim,  state);
+        			claim = reclamacionDao.update(claim);
+			}
 	
 			session.getTransaction().commit();
 			
-			return Response.ok(claim).build();
+			return Response.ok(error).build();
 		}else
 			return Response.serverError().build();
 	}
@@ -123,6 +165,7 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 	@Override
 	public Response rechazaSiguienteEstadoReclamacion(String claimId) {		
 		Boolean error= false;
+		
 		if (claimId!=null){
 			Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
 			session.beginTransaction();
@@ -130,10 +173,11 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			
 			claim.setId(new Integer(claimId));
 			claim =  (reclamacionDao.getReclamacionByExample(claim)).get(0);
+			Integer oldEstado = claim.getEstado().getSecEstado();
 			
 	//		Reclamacion reclamacion = reclamacionDao.findById(claimId);
 			Estado state = new Estado();
-			state.setSecEstado(-1);
+			state.setSecEstado(0);
 			
 			List<Estado> oListEstado = estadoDao.getEstadoByExample(state);
 			
@@ -146,7 +190,7 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			
 			claim = reclamacionDao.update(claim);
 			
-			enviaMailNuevoEstado( claimId,  state);
+			error = enviaMailNuevoEstado( claim,  state);
 			session.getTransaction().commit();
 			
 			return Response.ok(claim).build();
@@ -154,11 +198,11 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			return Response.serverError().build();
 	}
 
-	@Override
-	public Response enviaMail(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Response enviaMail(HttpServletRequest request) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 //	@Override
 //	@POST
@@ -232,8 +276,13 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 //        }	
 //		Reclamacion claim = new Reclamacion();
 //		claim.setTextoReclamacion("");
+//		ReclamacionDTO claimDTO = new ReclamacionDTO();
 //		claim.populateFromReclamacionDTO(claimDTO);
-//		return Response.ok(reclamacionDao.insertClaim(claimDTO)).build();
+//		int iClaim = reclamacionDao.persist(claim);
+//		
+//		return Response.ok(claim).build();
 //	}
+
+	
 
 }

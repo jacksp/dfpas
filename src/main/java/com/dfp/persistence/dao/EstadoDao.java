@@ -1,12 +1,16 @@
 package com.dfp.persistence.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.dfp.persistencia.entities.Estado;
+import com.dfp.persistencia.entities.Pasajero;
 import com.dfp.persistencia.entities.Reclamacion;
 import com.dfp.utiles.hibernate.HibernateUtil;
 
@@ -49,11 +53,14 @@ public class EstadoDao {
 		try {
 			oListReclamacion = (List<Estado>) criteria.list();
 		} catch (Exception e) {
-			System.out.println("Errro al recuperar la lista de estados");
+			System.out.println("Error al recuperar la lista de estados");
 		} finally {
 			return oListReclamacion;
 		}
 	}
+	
+	
+	
 	
 	
 	
@@ -87,13 +94,23 @@ public class EstadoDao {
 	}
 
 
-	public List<Estado> findAll() {		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-        List<Estado> result = session.createCriteria(Estado.class).list();
-//		List<Reclamacion> reclamaciones = (List<Reclamacion>) getCurrentSession().createQuery("from Reclamacion").list();
-//		session.getTransaction().commit();
-		return result;
+	public List<Estado> findAll() {
+		return HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Estado.class).list();
+	}
+	
+	public Map<Integer,Estado> hashMapFindAll() {
+//	    List<Estado> oListEstados = (List<Estado>) HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Estado.class).list();
+	    Map<Integer,Estado> oMapEstado = new HashMap<Integer,Estado>();
+	    
+	    Query query = HibernateUtil.getSessionFactory().getCurrentSession().createQuery("from estado" );
+	    List<Estado> oListEstados  = query.list();
+            
+	    Integer key = 0;
+	    for(Estado estado:oListEstados){
+		oMapEstado.put(estado.getSecEstado(), estado);
+	    }
+	    
+	    return oMapEstado;
 	}
 
 

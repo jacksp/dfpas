@@ -21,7 +21,7 @@ public class Estado {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id")
 	private Integer id = null;
 
 	@Column(name = "secEstado")
@@ -41,16 +41,16 @@ public class Estado {
 		this.id = id;
 	}
 
-	public Set<Reclamacion> getReclamaciones() {
-		return reclamaciones;
-	}
+//	public Set<Reclamacion> getReclamaciones() {
+//		return reclamaciones;
+//	}
+//
+//	public void setReclamaciones(Set<Reclamacion> reclamaciones) {
+//		this.reclamaciones = reclamaciones;
+//	}
 
-	public void setReclamaciones(Set<Reclamacion> reclamaciones) {
-		this.reclamaciones = reclamaciones;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "estado")
-	private Set<Reclamacion> reclamaciones = new HashSet<Reclamacion>(0);
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "estado")
+//	private Set<Reclamacion> reclamaciones = new HashSet<Reclamacion>(0);
 
 	public Integer getSecEstado() {
 		return secEstado;

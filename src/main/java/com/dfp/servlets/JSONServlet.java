@@ -1,8 +1,9 @@
 package com.dfp.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -11,11 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 
 import com.dfp.business.ExtraeDatosReclamacionDesdeRequest;
+import com.dfp.core.StringKeys;
+import com.dfp.core.dto.PasajeroDTO;
 import com.dfp.core.dto.ReclamacionDTO;
+import com.dfp.core.dto.VueloDTO;
 import com.dfp.persistence.dao.EstadoDao;
 import com.dfp.persistence.dao.ReclamacionDao;
 import com.dfp.persistencia.entities.Reclamacion;
@@ -44,8 +47,6 @@ public class JSONServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
        super.init(config);
        ac = (ApplicationContext) config.getServletContext().getAttribute("applicationContext");
-
-    
     }
     
     
@@ -95,39 +96,64 @@ public class JSONServlet extends HttpServlet {
      * doPost(): receives JSON data, parse it, map it and send back as JSON
      ****************************************************/
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{    
-    	 BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-	      /*  String json = "";
-	        if(br != null){
-	            json = br.readLine();
-	        }
-	        ReclamacionDTO reclamacionDTO = null;
-	        ObjectMapper mapper = new ObjectMapper();
-	        if(json!=null){
-               reclamacionDTO = mapper.readValue(json, ReclamacionDTO.class);
-	        }*/
-    	
-    	if (request.getParameter("caso").equals("1")){   
-//    		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-	        String json = "";
-	        if(br != null){
-	            json = br.readLine();
-	        }	        
-	        ObjectMapper mapper = new ObjectMapper();            
-        	ReclamacionDTO reclamacionDTO = mapper.readValue(json, ReclamacionDTO.class);        
-    		String codigoReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO ,this.ac);
-    		  
-    		response.setContentType("application/json");
-    		mapper.writeValue(response.getOutputStream(), codigoReclamacion);
-//    		insertaDatosReclamacion(request, response);
-    	}
-    	else if (request.getParameter("caso").equals("2")){
-    		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
-    		request.getParameter("codigoReclamacion");
-    		
-    		response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio="+result);
-    	}
-    	//response.sendRedirect("http://www.defensadelpasajero.com/");
+            throws ServletException, IOException{
+	
+	try{
+        	//BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        	if (request.getParameter("caso").equals("1")){   
+    //    		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+//    	        String json = null;
+//    	        json.length();
+//    	        if(br != null){
+//    	            json = br.readLine();
+//    	        }	        
+//    	        	ObjectMapper mapper = new ObjectMapper();   
+    	        	PasajeroDTO pasajeroDTO = new PasajeroDTO(
+    	        		request.getParameter("nombre")
+            			,request.getParameter("apellidos")
+            			,request.getParameter("email")
+            			,request.getParameter("telefono")
+    	        		);
+    	        	
+    	        	VueloDTO vueloDTO = new VueloDTO(
+    	        		request.getParameter("id-vuelo")
+            			,request.getParameter("aeropuerto-salida")
+            			,request.getParameter("aeropuerto-llegada")
+    	        		);
+    	        	
+//            		ReclamacionDTO reclamacionDTO = mapper.readValue(json, ReclamacionDTO.class);
+            		ReclamacionDTO reclamacionDTO = new ReclamacionDTO(pasajeroDTO,vueloDTO
+            			,StringKeys.formatter.parse(request.getParameter("hsalidaprevista"))
+            			,StringKeys.formatter.parse(request.getParameter("hsalidareal"))
+            			,StringKeys.formatter.parse(request.getParameter("hllegadaprevista"))
+            			,StringKeys.formatter.parse(request.getParameter("hllegadareal"))
+            			,request.getParameter("comentarios"),request.getParameter("aceptar-condiciones")
+            			,request.getParameter("codigoReclamacion") );
+            		
+            		
+            		
+        		String codigoReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO ,this.ac);
+        		 //respuesta con cors habilitado 
+        		//response.setContentType("application/json");
+        		//mapper.writeValue(response.getOutputStream(), codigoReclamacion);
+        		
+        		response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+codigoReclamacion);
+        	}
+        	else if (request.getParameter("caso").equals("2")){
+        		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
+//        		request.getParameter("codigoReclamacion");
+        		
+        		response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio="+result);
+        	}
+	}catch (Exception e) {
+	    response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+
+	  
+	    StringWriter errors = new StringWriter();
+	    e.printStackTrace(new PrintWriter(errors));
+	    out.println(errors.toString());
+	}
     }
 
 

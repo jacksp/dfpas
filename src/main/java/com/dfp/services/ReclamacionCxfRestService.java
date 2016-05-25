@@ -19,6 +19,14 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 @WebService(name="claimService")
 public interface ReclamacionCxfRestService 
 {
+    
+    	@GET
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
+	@Path("/getClaimDetails")
+	/*
+	 * cabeceras de web services devuelve detalles de emplaeado
+	 */
+	public Response getClaimDetails(@QueryParam("arrayReclamaciones") String claimId);
 	
 	@GET
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
@@ -63,10 +71,7 @@ public interface ReclamacionCxfRestService
 //	 */
 //	public Response insertClaim(ReclamacionDTO claimDTO);
 	
-	
-	@POST
-	@Path("/enviaMail")
-	public Response enviaMail(@Context HttpServletRequest request);
+
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

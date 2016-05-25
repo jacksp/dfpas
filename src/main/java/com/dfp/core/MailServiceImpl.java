@@ -29,8 +29,28 @@ public class MailServiceImpl implements MailService {
 	
 	private Reclamacion reclamacion;
 	
+	private String text;
 	
+	private String subTemplate;
+	
+	private String subTemplateAdmin;
  
+	public String getSubTemplateAdmin() {
+	    return subTemplateAdmin;
+	}
+
+	public void setSubTemplateAdmin(String subTemplateAdmin) {
+	    this.subTemplateAdmin = subTemplateAdmin;
+	}
+
+	public String getSubTemplate() {
+	    return subTemplate;
+	}
+
+	public void setSubTemplate(String subTemplate) {
+	    this.subTemplate = subTemplate;
+	}
+
 	public Reclamacion getReclamacion() {
 	    return reclamacion;
 	}
@@ -42,9 +62,7 @@ public class MailServiceImpl implements MailService {
 	public void setMailSender(JavaMailSenderImpl mailSender) {
 		this.mailSender = mailSender;
 	}
-	
-	private String text;
- 
+	 
 	public String getText() {
 		return text;
 	}
@@ -89,10 +107,10 @@ public class MailServiceImpl implements MailService {
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
  
 	/** envío de email con attachments
-	 * @param to correo electr�nico del destinatario
+	 * @param to correo electrónico del destinatario
 	 * @param subject asunto del mensaje
 	 * @param text cuerpo del mensaje
-	 * @param attachments ficheros que se anexar�n al mensaje 
+	 * @param attachments ficheros que se anexarón al mensaje 
 	 */
 	public void send(String to, String subject,List<File>  attachments, Reclamacion oReclamacion,boolean emailAdministracion) {
 		// chequeo de parámetros 
@@ -146,17 +164,28 @@ public class MailServiceImpl implements MailService {
 			text = text.replaceFirst("%ESTADO%", oReclamacion.getEstado().getNombreEstado()); 
 			text = text.replaceAll("%ESTADO%", "");
 			
-			if (emailAdministracion){
+			text = text.replaceFirst("%DESCRIPCIONESTADO%", oReclamacion.getEstado().getDescripcionEstado()); 
+			text = text.replaceAll("%DESCRIPCIONESTADO%", "");
+		
+			
+			if (emailAdministracion && oReclamacion.getEstado().getSecEstado()!=5 && oReclamacion.getEstado().getSecEstado()!=0){
 				
-				text = text.replaceFirst("%ENLACEESTADOSACEPTA%","<a href='"+StringKeys.urlEstadoAcepta+"'>Aceptar</a>" );
-				text = text.replaceFirst("%ENLACEESTADOSRECHAZA%", "<a href='"+StringKeys.urlEstadoRechaza+"'>Rechazar</a>" );
-				text = text.replaceFirst("%ENLACEPDF%", "<a href='"+StringKeys.urlPdf+oReclamacion.getId()+"'>Pdf</a>" );
-				
+				text = text.replaceFirst("%ENLACEESTADOSACEPTA%","<td class='button' height='45' bgcolor='green' ><a href='"+StringKeys.urlEstadoAcepta+oReclamacion.getId()+"'>Aceptar</a></td>" );
+				text = text.replaceFirst("%ENLACEESTADOSRECHAZA%", "<td class='button' height='45' bgcolor='#e05443' ><a href='"+StringKeys.urlEstadoRechaza+oReclamacion.getId()+"'>Rechazar</a></td>" );
+				text = text.replaceFirst("%ENLACEPDF%", "<td class='button' height='45' bgcolor='blue'><a href='"+StringKeys.urlPdf+oReclamacion.getId()+"'>Pdf</a></td>" );
 			}else{
 				text = text.replaceFirst("%ENLACEESTADOSACEPTA%", "");				
 				text = text.replaceFirst("%ENLACEESTADOSRECHAZA%", "");
 				text = text.replaceFirst("%ENLACEPDF%", "");
 			}
+
+			if (this.getSubTemplate()!=null)
+			    text = text.replaceFirst("%SUBTEMPLATERECLAMACION%", this.getSubTemplate()); 
+			text = text.replaceAll("%SUBTEMPLATERECLAMACION%", "");
+
+			if (this.getSubTemplateAdmin()!=null)
+			    text = text.replaceFirst("%SUBTEMPLATERECLAMACIONADMIN%", this.getSubTemplateAdmin()); 
+			text = text.replaceAll("%SUBTEMPLATERECLAMACIONADMIN%", "");
 			
 			helper.setText(text,true);
 			

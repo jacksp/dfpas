@@ -56,23 +56,23 @@ public class ReclamacionDao  {
 			oListReclamacion = (List<Reclamacion>) criteria.list();
 		
 		
-			for (Reclamacion reclamacion: oListReclamacion){
-//				if(reclamacion.getEstado()!=null)
-//					criteriaEstado.add(Restrictions.eq("id", reclamacion.getEstado().getId()));
+//			for (Reclamacion reclamacion: oListReclamacion){
+////				if(reclamacion.getEstado()!=null)
+////					criteriaEstado.add(Restrictions.eq("id", reclamacion.getEstado().getId()));
+////				
+//				Estado estado = reclamacion.getEstado();
 //				
-				Estado estado = reclamacion.getEstado();
-				
-				
-				reclamacion.setEstado(estado);
-				
-//				if(reclamacion.getPasajero()!=null)
-//					criteriaPasajero.add(Restrictions.eq("id", reclamacion.getPasajero().getId()));
-				
-				Pasajero pasajero = reclamacion.getPasajero();
-				reclamacion.setPasajero(pasajero);
-				
-				
-			}
+//				
+//				reclamacion.setEstado(estado);
+//				
+////				if(reclamacion.getPasajero()!=null)
+////					criteriaPasajero.add(Restrictions.eq("id", reclamacion.getPasajero().getId()));
+//				
+//				Pasajero pasajero = reclamacion.getPasajero();
+//				reclamacion.setPasajero(pasajero);
+//				
+//				
+//			}
 		} catch (Exception e) {
 			System.out.println("Errro al recuperar la lista de estados");
 		} 

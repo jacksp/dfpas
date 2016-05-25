@@ -21,6 +21,17 @@ public class VueloDTO {
 	
 	 private String aeropuertoOrigen="";
 
+	public VueloDTO(String idVuelo,
+	    String aeropuertoSalida, String aeropuertoLlegada) {
+	    this.codigoVuelo = idVuelo;
+	    this.aeropuertoOrigen= aeropuertoSalida;
+	    this.aeropuertoDestino = aeropuertoLlegada;
+	}
+
+	public VueloDTO() {
+	    // TODO Auto-generated constructor stub
+	}
+
 	public String getAeropuertoOrigen() {
 		return aeropuertoOrigen;
 	}

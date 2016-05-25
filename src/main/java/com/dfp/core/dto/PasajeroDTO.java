@@ -12,26 +12,37 @@ public class PasajeroDTO {
     private String idPasajero = "";
 
     private String tipoDocumento = "";
-    
-	public String getIdDocumento() {
-		return idDocumento;
-	}
 
-	public void setIdDocumento(String idDocumento) {
-		this.idDocumento = idDocumento;
-	}
-
-	private String idDocumento = "";
+    public PasajeroDTO(String nombre, String apellidos, String email, String telefono) {
+	this.nombre = nombre;
+	this.apellidos = apellidos;
+	this.email = email;
+	this.telefono = telefono;
+    }
     
+    public PasajeroDTO(){
+	
+    }
+
+    public String getIdDocumento() {
+	return idDocumento;
+    }
+
+    public void setIdDocumento(String idDocumento) {
+	this.idDocumento = idDocumento;
+    }
+
+    private String idDocumento = "";
+
     public String getTelefono() {
-		return telefono;
-	}
+	return telefono;
+    }
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+    public void setTelefono(String telefono) {
+	this.telefono = telefono;
+    }
 
-	private String telefono="";
+    private String telefono = "";
 
     private String email = "";
 
@@ -42,67 +53,67 @@ public class PasajeroDTO {
     private String direccion = "";
 
     public String getIdPasajero() {
-        return idPasajero;
+	return idPasajero;
     }
 
     public void setIdPasajero(String idPasajero) {
-        this.idPasajero = idPasajero;
+	this.idPasajero = idPasajero;
     }
 
     public String getTipoDocumento() {
-        return tipoDocumento;
+	return tipoDocumento;
     }
 
     public void setTipoDocumento(String tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+	this.tipoDocumento = tipoDocumento;
     }
 
     public String getNombre() {
-        return nombre;
+	return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+	this.nombre = nombre;
     }
 
     public String getApellidos() {
-        return apellidos;
+	return apellidos;
     }
 
     public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+	this.apellidos = apellidos;
     }
 
     public String getEmail() {
-        return email;
+	return email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+	this.email = email;
     }
 
     public String getFacebook() {
-        return facebook;
+	return facebook;
     }
 
     public void setFacebook(String facebook) {
-        this.facebook = facebook;
+	this.facebook = facebook;
     }
 
     public String getTwitter() {
-        return twitter;
+	return twitter;
     }
 
     public void setTwitter(String twitter) {
-        this.twitter = twitter;
+	this.twitter = twitter;
     }
 
     public String getDireccion() {
-        return direccion;
+	return direccion;
     }
 
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+	this.direccion = direccion;
     }
 
 }

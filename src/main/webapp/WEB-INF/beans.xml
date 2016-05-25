@@ -27,9 +27,19 @@
 		</jaxrs:extensionMappings>
 	</jaxrs:server>
 
+	<jaxrs:server id="adjuntosService" address="/adjuntoservices">
+		<jaxrs:serviceBeans>
+			<ref bean="adjuntosCxfServiceImpl" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="xml" value="application/xml" />
+			<entry key="json" value="application/json" />
+		</jaxrs:extensionMappings>
+	</jaxrs:server>
+	
+	<bean id="adjuntosCxfServiceImpl" class="com.dfp.services.internal.ReclamacionCfxAdjuntosServiceImpl" />
+
 	<bean id="claimCxfServiceImpl" class="com.dfp.services.internal.ReclamacionCxfRestServiceImpl" />
-	<!-- <bean id="cxfServiceImpl" class="com.prueba.cxfrestservice.internal.CxfRestServiceImpl" 
-		/> -->
 
 	<bean id="reclamacionDao" class="com.dfp.persistence.dao.ReclamacionDao" />
 	<bean id="estadoDao" class="com.dfp.persistence.dao.EstadoDao" />
@@ -55,7 +65,7 @@
 		<property name="mailSender" ref="mailSender" />
 	</bean>
 	
-	<bean id="mailNuevaReclamacion" class="com.dfp.core.MailMail">
+	<!-- <bean id="mailNuevaReclamacion" class="com.dfp.core.MailMail">
         <property name="mailSender" ref="mailSender" />
         <property name="simpleMailMessage" ref="mailReclamacionRecibida" />
     </bean>
@@ -65,6 +75,7 @@
         <property name="from" value="from@no-spam.com" />
         <property name="to" value="to@no-spam.com" />
         <property name="subject" value="Recordatorio de contraseña" />
+         <property name="subTemplate" ref="subtemplateRecibida" />
         <property name="text">
         <value>
             <![CDATA[
@@ -72,22 +83,329 @@
             ]]>
         </value>
     </property>
+    </bean> -->
+    
+    
+    <bean id="mailReclamacionAceptada"
+        class="com.dfp.core.MailServiceImpl">
+      <property name="active" value="true"/>
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
+	  <property name="text" ref="template" />
+	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
+	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
     </bean>
     
     
-   <bean id="mailNuevoEstadoReclamacion"
-        class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="from@no-spam.com" />
-        <property name="to" value="to@no-spam.com" />
-        <property name="subject" value="Recordatorio de contraseña" />
-        <property name="text">
-	        <value>
-	            <![CDATA[
-	                Se ha recibido una reclamación con el código: <h1> %s <h1>, tiene un nuevo estado:
-	                %s
-	            ]]>
-	        </value>
-	    </property>
+    <bean id="mailReclamacionDenegada"
+        class="com.dfp.core.MailServiceImpl">
+      <property name="active" value="true"/>
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
+	  <property name="text" ref="template" />
+	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
+	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
     </bean>
+    
+    <bean id="mailReclamacionAdmitidaReclamadaComision"
+        class="com.dfp.core.MailServiceImpl">
+      <property name="active" value="true"/>
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
+	  <property name="text" ref="template" />
+	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
+	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
+    </bean>
+    
+    
+    <bean id="mailReclamacionReclamadaAerolinea"
+        class="com.dfp.core.MailServiceImpl">
+      <property name="active" value="true"/>
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
+	  <property name="text" ref="template" />
+	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
+	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
+    </bean>
+    
+   <bean id="mailReclamacionAdmitida"
+        class="com.dfp.core.MailServiceImpl">
+      <property name="active" value="true"/>
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
+	  <property name="text" ref="template" />
+	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
+	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
+    </bean>
+    
+    
+     <bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl">
+	  <property name="active" value="true"/>
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
+	  <property name="text" ref="template" />
+	  <property name="subTemplate" ref="subtemplateRecibida" />
+	  <property name="subTemplateAdmin" ref="subtemplateRecibidaAdmin" />
+	</bean>
+	
+	 <bean name="subtemplateRecibidaAdmin" class="java.lang.String">
+		<constructor-arg>
+				<value>Aquí ira la validación del Dni:</value>
+		</constructor-arg>
+	</bean>
+	
+	 <bean name="subtemplateRecibida" class="java.lang.String">
+		<constructor-arg>
+			<value>En el correo encontraras adjuntada la documentación que nos has entregado</value>
+		</constructor-arg>
+	</bean>
+	
+	
+    
+    
+    <bean name="template" class="java.lang.String">
+
+		<constructor-arg>
+			<value> <![CDATA[
+                <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>A Simple Responsive HTML Email</title>
+  <style type="text/css">
+  body {margin: 0; padding: 0; min-width: 100%!important;}
+  img {height: auto;}
+  .content {width: 100%; max-width: 600px;}
+  .header {padding: 40px 30px 20px 30px;}
+  .innerpadding {padding: 30px 30px 30px 30px;}
+  .borderbottom {border-bottom: 1px solid #f2eeed;}
+  .subhead {font-size: 15px; color: #ffffff; font-family: sans-serif; letter-spacing: 10px;}
+  .h1, .h2, .bodycopy {color: #153643; font-family: sans-serif;}
+  .h1 {font-size: 33px; line-height: 38px; font-weight: bold;}
+  .h2 {padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold;}
+  .bodycopy {font-size: 16px; line-height: 22px;}
+  .button {text-align: center; font-size: 18px; font-family: sans-serif; font-weight: bold; padding: 0 30px 0 30px;}
+  .button a {color: #ffffff; text-decoration: none;}
+  .footer {padding: 20px 30px 15px 30px;}
+  .footercopy {font-family: sans-serif; font-size: 14px; color: #ffffff;}
+  .footercopy a {color: #ffffff; text-decoration: underline;}
+
+  @media only screen and (max-width: 550px), screen and (max-device-width: 550px) {
+  body[yahoo] .hide {display: none!important;}
+  body[yahoo] .buttonwrapper {background-color: transparent!important;}
+  body[yahoo] .button {padding: 0px!important;}
+  body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!important;}
+  body[yahoo] .unsubscribe {display: block; margin-top: 20px; padding: 10px 50px; background: #2f3942; border-radius: 5px; text-decoration: none!important; font-weight: bold;}
+  }
+
+  /*@media only screen and (min-device-width: 601px) {
+    .content {width: 600px !important;}
+    .col425 {width: 425px!important;}
+    .col380 {width: 380px!important;}
+    }*/
+
+  </style>
+<style type="text/css"></style><style id="style-1-cropbar-clipper">
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+
+<body yahoo="" bgcolor="#f6f8f1">
+<table width="100%" bgcolor="#f6f8f1" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+  <td>
+    <!--[if (gte mso 9)|(IE)]>
+      <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td>
+    <![endif]-->
+    <table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0">
+      <tbody><tr>
+        <td bgcolor="#c5f3f7" class="header">
+          <table width="70" align="left" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+              <td height="70" style="padding: 0 20px 20px 0;">
+                <img class="fix" src="http://defensadelpasajero.com/reclamacion/resources/img/article1.png" width="70" height="70" border="0" alt="">
+              </td>
+            </tr>
+          </tbody></table>
+          <!--[if (gte mso 9)|(IE)]>
+            <table width="425" align="left" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+          <![endif]-->
+          <table class="col425" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 425px;">
+            <tbody><tr>
+              <td height="70">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tbody><tr>
+                    <td class="subhead" style="padding: 0 0 0 3px;">
+                      Defensa del pasajero
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="h1" style="padding: 5px 0 0 0;">
+                      Caso de reclamaci&oacute;n %CASORECLAMACION%
+                    </td>
+                  </tr>
+                </tbody></table>
+              </td>
+            </tr>
+          </tbody></table>
+          <!--[if (gte mso 9)|(IE)]>
+                </td>
+              </tr>
+          </table>
+          <![endif]-->
+        </td>
+      </tr>
+      <tr>
+        <td class="innerpadding borderbottom">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody><tr>
+              <td class="h2">
+                Hola, %NOMBRE%
+              </td>
+            </tr>
+            <tr>
+              <td class="bodycopy">
+                Nos ha llegado el siguiente caso de reclamación:<br>
+                %NOMBRECOMPLETO%<br>
+                %MOTIVORECLAMACION% <br>
+				%TELEFONO% <br>
+				%TRAYECTOVUELO% <br>
+				%HORARIOPREVISTO% <br>
+				%HORARIOREAL% <br>
+                %TEXTORECLAMACION% <br>
+               
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <tr>
+        <td class="innerpadding borderbottom">
+          <!-- <table width="115" align="left" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+              <td height="115" style="padding: 0 20px 20px 0;">
+                <img class="fix" src="C:\Users\amfranco\Downloads\Defensa del pasajero (@defensapasajero) _ Twitter_files/logo.jpg" width="115" height="115" border="0" alt="">
+              </td>
+            </tr>
+          </tbody></table> -->
+          <!--[if (gte mso 9)|(IE)]>
+            <table width="380" align="left" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+          <![endif]-->
+          <table class="col380" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 380px;">
+            <tbody><tr>
+              <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tbody><tr>
+                    <td class="bodycopy">
+                     %SUBTEMPLATERECLAMACION% <br>
+                      %SUBTEMPLATERECLAMACIONADMIN% <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 20px 0 0 0;">
+                      <table class="buttonwrapper" bgcolor="#e05443" border="0" cellspacing="0" cellpadding="0">
+                        <tbody><tr>
+                          %ENLACEESTADOSACEPTA%
+                        
+                          %ENLACEESTADOSRECHAZA%
+                        </td>
+                      </tr>
+                      <tr></tr>
+                      <tr>
+                        
+                          %ENLACEPDF%
+                        </td>
+                      </tr>
+                      </tbody></table>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </td>
+            </tr>
+          </tbody></table>
+          <!--[if (gte mso 9)|(IE)]>
+                </td>
+              </tr>
+          </table>
+          <![endif]-->
+        </td>
+      </tr>
+
+      <tr>
+        <td class="innerpadding bodycopy">
+          Actualmente tu reclamación está en estado %ESTADO%
+        </td>
+      </tr>
+      <tr>
+        <td class="innerpadding bodycopy">
+        	%DESCRIPCIONESTADO%
+        </td>
+      </tr>
+      <tr>
+        <td class="footer" bgcolor="#44525f">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody><tr>
+              <td align="center" class="footercopy">
+                ® Defensa del pasajero, España 2016<br>
+                <a href="http://defensadelpasajero.com" class="unsubscribe"><font color="#ffffff">Dejar de enviar</font></a>
+                <span class="hide">No quiero recibir más avisos</span>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding: 20px 0 0 0;">
+                <table border="0" cellspacing="0" cellpadding="0">
+                  <tbody><tr>
+                    <td width="37" style="text-align: center; padding: 0 10px 0 10px;">
+                      <a href="http://www.facebook.com/defensapasajero/">
+                        <img src="http://defensadelpasajero.com/reclamacion/resources/img/facebook.png" width="37" height="37" alt="Facebook" border="0">
+                      </a>
+                    </td>
+                    <td width="37" style="text-align: center; padding: 0 10px 0 10px;">
+                      <a href="https://twitter.com/defensapasajero/" target="black">
+                        <img src="http://defensadelpasajero.com/reclamacion/resources/img/twitter.png" width="37" height="37" alt="Twitter" border="0">
+                      </a>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+    </tbody></table>
+    <!--[if (gte mso 9)|(IE)]>
+          </td>
+        </tr>
+    </table>
+    <![endif]-->
+    </td>
+  </tr>
+</tbody></table>
+
+<!--analytics-->
+<script   src="https://code.jquery.com/jquery-1.11.0.min.js"   integrity="sha256-spTpc4lvj4dOkKjrGokIrHkJgNA0xMS98Pw9N7ir9oI="   crossorigin="anonymous"></script>
+</body></html>
+            ]]></value>
+		</constructor-arg>
+
+	</bean>
+    
+    
+   
 
 </beans>
