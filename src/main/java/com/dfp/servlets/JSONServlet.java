@@ -137,13 +137,13 @@ public class JSONServlet extends HttpServlet {
         		//response.setContentType("application/json");
         		//mapper.writeValue(response.getOutputStream(), codigoReclamacion);
         		
-        		response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+codigoReclamacion);
+        		response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+codigoReclamacion);
         	}
         	else if (request.getParameter("caso").equals("2")){
         		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
 //        		request.getParameter("codigoReclamacion");
         		
-        		response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio="+result);
+        		response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion4.html?resultEnvio="+result);
         	}
 	}catch (Exception e) {
 	    response.setContentType("text/html");
