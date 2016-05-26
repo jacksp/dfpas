@@ -17,13 +17,12 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>PdfServlet</servlet-name>
-		<servlet-class>wscentral.Dfpas_reportServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
+		<servlet-name>pdfservlet</servlet-name>
+		<servlet-class>com.dfp.servlets.Dfpas_reportServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>PdfServlet</servlet-name>
+		<servlet-name>pdfservlet</servlet-name>
 		<url-pattern>/PdfServlet</url-pattern>
 	</servlet-mapping>
 

@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 
 import com.dfp.persistence.dao.ReclamacionDao;
 import com.dfp.persistencia.entities.Reclamacion;
+import com.dfp.utiles.hibernate.HibernateUtil;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -47,8 +49,8 @@ public class Dfpas_reportServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-			 String jrxmlFileName =   System.getenv("OPENSHIFT_DATA_DIR");
-             jrxmlFileName = jrxmlFileName+"/jasper/reclamacionesAena.jasper";
+	    String jrxmlFileName =   System.getenv("OPENSHIFT_DATA_DIR");
+            jrxmlFileName = jrxmlFileName+"/jasper/reclamacionesAena.jasper";
             File archivoReporte = new File(jrxmlFileName);
             HashMap hm = null;
             hm = new HashMap();
@@ -57,8 +59,12 @@ public class Dfpas_reportServlet extends HttpServlet {
             
             Reclamacion reclamacion = new Reclamacion();
             reclamacion.setId(new Integer(idClaim));
+            Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
+            session.beginTransaction();
             
             reclamacion = reclamacionDao.getReclamacionByExample(reclamacion).get(0);
+            
+            session.getTransaction().commit();
  
             ServletOutputStream servletOutputStream = response.getOutputStream();
             

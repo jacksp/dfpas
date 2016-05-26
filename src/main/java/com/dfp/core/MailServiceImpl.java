@@ -71,7 +71,7 @@ public class MailServiceImpl implements MailService {
 		this.text = text;
 	}
 
-	/** correo electr�nico del remitente */
+	/** correo electronico del remitente */
 	private String from;
  
 	public void setFrom(String from) {
@@ -82,7 +82,7 @@ public class MailServiceImpl implements MailService {
 		return from;
 	}
  
-	/** flag para indicar si est� activo el servicio */
+	/** flag para indicar si esta  activo el servicio */
 	public boolean active = true;
  
 	public boolean isActive() {
@@ -96,7 +96,7 @@ public class MailServiceImpl implements MailService {
 	private static final List<File>  NO_ATTACHMENTS = null;
  
 	/** envío de email 
-	 * @param to correo electr�nico del destinatario
+	 * @param to correo electronico del destinatario
 	 * @param subject asunto del mensaje
 	 * @param text cuerpo del mensaje
 	 */
@@ -114,9 +114,10 @@ public class MailServiceImpl implements MailService {
 	 */
 	public void send(String to, String subject,List<File>  attachments, Reclamacion oReclamacion,boolean emailAdministracion) {
 		// chequeo de parámetros 
+	    	String textmensaje = this.text;
 		Assert.hasLength(to, "email 'to' needed");
 		Assert.hasLength(subject, "email 'subject' needed");
-		Assert.hasLength(text, "email 'text' needed");
+		Assert.hasLength(textmensaje, "email 'text' needed");
  
 		// asegurando la trazabilidad
 		if (log.isDebugEnabled()) {
@@ -141,53 +142,53 @@ public class MailServiceImpl implements MailService {
 			helper.setSubject(subject);
 			helper.setFrom(getFrom());
 //			helper.setText(text);
-			text = text.replaceFirst("%CASORECLAMACION%", oReclamacion.getCodigoReclamacion()+"-"+oReclamacion.getId());			
-			text = text.replaceAll("%CASORECLAMACION%", "");
-			text = text.replaceFirst("%MOTIVORECLAMACION%", "Motivo de la reclamación "+oReclamacion.getCodigoReclamacion());			
-			text = text.replaceAll("%MOTIVORECLAMACION%", "");
-			text = text.replaceFirst("%NOMBRE%",  oReclamacion.getPasajero().getNombre());			
-			text = text.replaceAll("%NOMBRE%", "");
-			text = text.replaceFirst("%NOMBRECOMPLETO%", oReclamacion.getPasajero().getNombre()+" "+oReclamacion.getPasajero().getApellidos());			
-			text = text.replaceAll("%NOMBRECOMPLETO%", "");
-			text = text.replaceFirst("%TELEFONO%","Teléfono: "+ oReclamacion.getPasajero().getTelefono());
-			text = text.replaceAll("%TELEFONO%", "");
-			text = text.replaceFirst("%TRAYECTOVUELO%", " Trayecto: "+oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()+"-"+oReclamacion.getPasajero().getVuelo().getAeropuertoDestino());
-			text = text.replaceAll("%TRAYECTOVUELO%", "");
-			text = text.replaceFirst("%TRAYECTOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
-			text = text.replaceAll("%TRAYECTOVUELO%", "");
-			text = text.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));
-			text = text.replaceAll("%HORARIOPREVISTO%", "");
-			text = text.replaceFirst("%HORARIOREAL%", " Horario real: "+df.format(oReclamacion.getHoraInicioVueloReal())+" "+df.format(oReclamacion.getHoraFinVueloReal()));
-			text = text.replaceAll("%HORARIOREAL%", "");
-			text = text.replaceFirst("%TEXTORECLAMACION%", oReclamacion.getTextoReclamacion());
-			text = text.replaceAll("%TEXTORECLAMACION%", "");
-			text = text.replaceFirst("%ESTADO%", oReclamacion.getEstado().getNombreEstado()); 
-			text = text.replaceAll("%ESTADO%", "");
+			textmensaje = textmensaje.replaceFirst("%CASORECLAMACION%", oReclamacion.getCodigoReclamacion()+"-"+oReclamacion.getId());			
+			textmensaje = textmensaje.replaceAll("%CASORECLAMACION%", "");
+			textmensaje = textmensaje.replaceFirst("%MOTIVORECLAMACION%", "Motivo de la reclamación "+oReclamacion.getCodigoReclamacion());			
+			textmensaje = textmensaje.replaceAll("%MOTIVORECLAMACION%", "");
+			textmensaje = textmensaje.replaceFirst("%NOMBRE%",  oReclamacion.getPasajero().getNombre());			
+			textmensaje = textmensaje.replaceAll("%NOMBRE%", "");
+			textmensaje = textmensaje.replaceFirst("%NOMBRECOMPLETO%", oReclamacion.getPasajero().getNombre()+" "+oReclamacion.getPasajero().getApellidos());			
+			textmensaje = textmensaje.replaceAll("%NOMBRECOMPLETO%", "");
+			textmensaje = textmensaje.replaceFirst("%TELEFONO%","Teléfono: "+ oReclamacion.getPasajero().getTelefono());
+			textmensaje = textmensaje.replaceAll("%TELEFONO%", "");
+			textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Trayecto: "+oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()+"-"+oReclamacion.getPasajero().getVuelo().getAeropuertoDestino());
+			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
+			textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
+			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
+			textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));
+			textmensaje = textmensaje.replaceAll("%HORARIOPREVISTO%", "");
+			textmensaje = textmensaje.replaceFirst("%HORARIOREAL%", " Horario real: "+df.format(oReclamacion.getHoraInicioVueloReal())+" "+df.format(oReclamacion.getHoraFinVueloReal()));
+			textmensaje = textmensaje.replaceAll("%HORARIOREAL%", "");
+			textmensaje = textmensaje.replaceFirst("%TEXTORECLAMACION%", oReclamacion.getTextoReclamacion());
+			textmensaje = textmensaje.replaceAll("%TEXTORECLAMACION%", "");
+			textmensaje = textmensaje.replaceFirst("%ESTADO%", oReclamacion.getEstado().getNombreEstado()); 
+			textmensaje = textmensaje.replaceAll("%ESTADO%", "");
 			
-			text = text.replaceFirst("%DESCRIPCIONESTADO%", oReclamacion.getEstado().getDescripcionEstado()); 
-			text = text.replaceAll("%DESCRIPCIONESTADO%", "");
+			textmensaje = textmensaje.replaceFirst("%DESCRIPCIONESTADO%", oReclamacion.getEstado().getDescripcionEstado()); 
+			textmensaje = textmensaje.replaceAll("%DESCRIPCIONESTADO%", "");
 		
 			
 			if (emailAdministracion && oReclamacion.getEstado().getSecEstado()!=5 && oReclamacion.getEstado().getSecEstado()!=0){
 				
-				text = text.replaceFirst("%ENLACEESTADOSACEPTA%","<td class='button' height='45' bgcolor='green' ><a href='"+StringKeys.urlEstadoAcepta+oReclamacion.getId()+"'>Aceptar</a></td>" );
-				text = text.replaceFirst("%ENLACEESTADOSRECHAZA%", "<td class='button' height='45' bgcolor='#e05443' ><a href='"+StringKeys.urlEstadoRechaza+oReclamacion.getId()+"'>Rechazar</a></td>" );
-				text = text.replaceFirst("%ENLACEPDF%", "<td class='button' height='45' bgcolor='blue'><a href='"+StringKeys.urlPdf+oReclamacion.getId()+"'>Pdf</a></td>" );
+				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSACEPTA%","<td class='button' height='45' bgcolor='green' ><a href='"+StringKeys.urlEstadoAcepta+oReclamacion.getId()+"'>Aceptar</a></td>" );
+				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSRECHAZA%", "<td class='button' height='45' bgcolor='#e05443' ><a href='"+StringKeys.urlEstadoRechaza+oReclamacion.getId()+"'>Rechazar</a></td>" );
+				textmensaje = textmensaje.replaceFirst("%ENLACEPDF%", "<td class='button' height='45' bgcolor='blue'><a href='"+StringKeys.urlPdf+oReclamacion.getId()+"'>Pdf</a></td>" );
 			}else{
-				text = text.replaceFirst("%ENLACEESTADOSACEPTA%", "");				
-				text = text.replaceFirst("%ENLACEESTADOSRECHAZA%", "");
-				text = text.replaceFirst("%ENLACEPDF%", "");
+				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSACEPTA%", "");				
+				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSRECHAZA%", "");
+				textmensaje = textmensaje.replaceFirst("%ENLACEPDF%", "");
 			}
 
 			if (this.getSubTemplate()!=null)
-			    text = text.replaceFirst("%SUBTEMPLATERECLAMACION%", this.getSubTemplate()); 
-			text = text.replaceAll("%SUBTEMPLATERECLAMACION%", "");
+			    textmensaje = textmensaje.replaceFirst("%SUBTEMPLATERECLAMACION%", this.getSubTemplate()); 
+			textmensaje = textmensaje.replaceAll("%SUBTEMPLATERECLAMACION%", "");
 
 			if (this.getSubTemplateAdmin()!=null)
-			    text = text.replaceFirst("%SUBTEMPLATERECLAMACIONADMIN%", this.getSubTemplateAdmin()); 
-			text = text.replaceAll("%SUBTEMPLATERECLAMACIONADMIN%", "");
+			    textmensaje = textmensaje.replaceFirst("%SUBTEMPLATERECLAMACIONADMIN%", this.getSubTemplateAdmin()); 
+			textmensaje = textmensaje.replaceAll("%SUBTEMPLATERECLAMACIONADMIN%", "");
 			
-			helper.setText(text,true);
+			helper.setText(textmensaje,true);
 			
 	//		helper.setText(text, "<h1>HOla</h1>");
 			
@@ -209,6 +210,7 @@ public class MailServiceImpl implements MailService {
 		
 		// el envío
 		this.mailSender.send(message);
+		//System.out.println("mensaje------------------>" +textmensaje);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.dfp.services.internal;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -121,15 +123,23 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			    + "-" + claim.getId(), null, claim, true);
 		    
 	    }catch (Exception e) {
-		return false;
+		return true;
 	    }	    
-	    return true;
+	    return false;
 	}
-
-	@Override
-	public Response aceptaSiguienteEstadoReclamacion(String claimId) {
-		Boolean error= false;
+	
+	private Estado getEstadoBySecuence(int iEstado){
+	    Estado state = new Estado();
+	    
+	    state.setSecEstado(iEstado);
+	    return estadoDao.getEstadoByExample(state).get(0);
+	}
+	
+	private String cambioEstadoBySecuence(String claimId,Integer secuence) {
+	    Boolean error= false;
+		String sMensaje = "";
 		if (claimId!=null){
+		    try{
 			Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
 			session.beginTransaction();
 			Reclamacion claim = new Reclamacion();
@@ -137,63 +147,49 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			claim.setId(new Integer(claimId));
 			claim =  (reclamacionDao.getReclamacionByExample(claim)).get(0);
 			
-
-			Estado state = new Estado();
-			state.setSecEstado(claim.getEstado().getSecEstado()+1);
-			
-			state = estadoDao.getEstadoByExample(state).get(0);
-			
-//			Map<Integer,Estado> oMapEstado = estadoDao.hashMapFindAll();
-			
-//			state = oMapEstado.get(state.getSecEstado());
+			Estado state = null;
+			if (secuence.equals(1))
+			    state = getEstadoBySecuence(claim.getEstado().getSecEstado()+secuence);
+			else
+			    state = getEstadoBySecuence(secuence);
 			
 			if (state==null)
 				error	= true;
 			else{			
-        			claim.setEstado(state);
-        			error = enviaMailNuevoEstado( claim,  state);
-        			claim = reclamacionDao.update(claim);
+    			claim.setEstado(state);
+    			error = enviaMailNuevoEstado( claim,  state);
+    			if (!error)
+    			    claim = reclamacionDao.update(claim);
 			}
 	
 			session.getTransaction().commit();
+		    }catch(Exception e){  
+			    StringWriter errors = new StringWriter();
+			    e.printStackTrace(new PrintWriter(errors));
+			    sMensaje = errors.toString();
+		    }
+		}
+	    return sMensaje;
+	}
+
+	@Override
+	public Response aceptaSiguienteEstadoReclamacion(String claimId) {
+		String sMensaje = "ok";
+		if (claimId!=null){
+		    	cambioEstadoBySecuence( claimId,1);
 			
-			return Response.ok(error).build();
+			return Response.ok(sMensaje).build();
 		}else
 			return Response.serverError().build();
 	}
 
 	@Override
-	public Response rechazaSiguienteEstadoReclamacion(String claimId) {		
-		Boolean error= false;
-		
+	public Response rechazaSiguienteEstadoReclamacion(String claimId) {	
+		String sMensaje = "ok";
 		if (claimId!=null){
-			Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
-			session.beginTransaction();
-			Reclamacion claim = new Reclamacion();
+		    	cambioEstadoBySecuence( claimId,0);
 			
-			claim.setId(new Integer(claimId));
-			claim =  (reclamacionDao.getReclamacionByExample(claim)).get(0);
-			Integer oldEstado = claim.getEstado().getSecEstado();
-			
-	//		Reclamacion reclamacion = reclamacionDao.findById(claimId);
-			Estado state = new Estado();
-			state.setSecEstado(0);
-			
-			List<Estado> oListEstado = estadoDao.getEstadoByExample(state);
-			
-			if (oListEstado!=null && oListEstado.size()==1)
-				state = (Estado) oListEstado.get(0);
-			else
-				error	= true;
-						
-			claim.setEstado(state);
-			
-			claim = reclamacionDao.update(claim);
-			
-			error = enviaMailNuevoEstado( claim,  state);
-			session.getTransaction().commit();
-			
-			return Response.ok(claim).build();
+			return Response.ok(sMensaje).build();
 		}else
 			return Response.serverError().build();
 	}

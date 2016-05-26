@@ -34,10 +34,10 @@ public class ExtraeDatosReclamacionDesdeRequest {
 
     public static boolean envioMailConAdjuntos(List<File> attachments, Reclamacion oReclamacion, ApplicationContext ac) {
 	MailService mm = (MailServiceImpl) ac.getBean("mailReclamacionRecibidaAdjuntos");
-	String text = mm.getText();
+	//String text = mm.getText();
 	mm.send(oReclamacion.getPasajero().getEmail(), "Nueva reclamación::" + oReclamacion.getCodigoReclamacion()
 		+ "-" + oReclamacion.getId(), attachments, oReclamacion, false);
-	mm.setText(text);
+	//mm.setText(text);
 	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() + "-"
 		+ oReclamacion.getId(), attachments, oReclamacion, true);
 	return true;

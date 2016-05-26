@@ -52,41 +52,7 @@ public class JSONServlet extends HttpServlet {
     
  
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
 
-        try {
-//            // Begin unit of work
-//            HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
-//
-//            // Process request and render page...
-//
-//            // End unit of work
-//            HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
-        	Reclamacion reclamacion = new Reclamacion();
-        	reclamacion.setTextoReclamacion("sssssssssss");
-        	reclamacionDao.persist(reclamacion);
-        	
-        	List<Reclamacion> oList  = reclamacionDao.findAll();
-        	
-        	for(Reclamacion recla :oList){
-        		System.out.println(recla.getTextoReclamacion());
-        	}
-        	
-        }
-        catch (Exception ex) {
-        	
-        	System.out.println("Exception "+ex.getMessage());
-            HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
-            if ( ServletException.class.isInstance( ex ) ) {
-                throw ( ServletException ) ex;
-            }
-            else {
-                throw new ServletException( ex );
-            }
-        }
-    	
-    }
     
     
     
@@ -137,13 +103,13 @@ public class JSONServlet extends HttpServlet {
         		//response.setContentType("application/json");
         		//mapper.writeValue(response.getOutputStream(), codigoReclamacion);
         		
-        		response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+codigoReclamacion);
+        		response.sendRedirect(StringKeys.urlBase+"/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+codigoReclamacion);
         	}
         	else if (request.getParameter("caso").equals("2")){
         		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
 //        		request.getParameter("codigoReclamacion");
         		
-        		response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion4.html?resultEnvio="+result);
+        		response.sendRedirect(StringKeys.urlBase+"/reclamacion/Reclamacion4.html?resultEnvio="+result);
         	}
 	}catch (Exception e) {
 	    response.setContentType("text/html");
