@@ -120,7 +120,7 @@ public class ExtraeDatosReclamacionDesdeRequest {
 
 	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-	try {
+//	try {
 
 	    session.beginTransaction();
 
@@ -158,10 +158,11 @@ public class ExtraeDatosReclamacionDesdeRequest {
 
 	    session.getTransaction().commit();
 
-	} catch (Exception e) {
-	    session.getTransaction().rollback();
-	    return "-1";
-	}
+//	} catch (Exception e) {
+//	   // session.getTransaction().rollback();
+//		
+//	    return "-1";
+//	}
 	// 5. Add article to List<Article>
 	// articles.add(article);
 	return codigoReclamacion;
