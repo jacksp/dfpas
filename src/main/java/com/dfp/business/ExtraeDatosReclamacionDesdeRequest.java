@@ -110,7 +110,7 @@ public class ExtraeDatosReclamacionDesdeRequest {
     }
 
     public static String insertaDatosReclamacion(ReclamacionDTO reclamacionDTO, ApplicationContext ac)
-	    throws IOException, JsonGenerationException, JsonMappingException {
+	    throws Exception {
 
 	ReclamacionDao reclamacionDao = (ReclamacionDao) ac.getBean("reclamacionDao");
 	EstadoDao estadoDao = (EstadoDao) ac.getBean("estadoDao");
