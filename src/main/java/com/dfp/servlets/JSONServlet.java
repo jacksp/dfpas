@@ -87,19 +87,19 @@ public class JSONServlet extends HttpServlet {
             			,request.getParameter("aeropuerto-llegada")
     	        		);
     	        	Date hsalidaprevista = new Date();
-    	        	if (request.getParameter("hsalidaprevista")!=null  || request.getParameter("hsalidaprevista").equals("") )
+    	        	if (request.getParameter("hsalidaprevista")!=null  && !request.getParameter("hsalidaprevista").equals("") )
     	        		 hsalidaprevista = StringKeys.formatter.parse(request.getParameter("hsalidaprevista"));
     	        	
     	        	Date hsalidareal = new Date();
-    	        	if (request.getParameter("hsalidareal")!=null  || request.getParameter("hsalidareal").equals(""))
+    	        	if (request.getParameter("hsalidareal")!=null  && !request.getParameter("hsalidareal").equals(""))
     	        		hsalidareal = StringKeys.formatter.parse(request.getParameter("hsalidareal"));
     	        	
     	        	Date hllegadaprevista = new Date();
-    	        	if (request.getParameter("hllegadaprevista")!=null  || request.getParameter("hllegadaprevista").equals(""))
+    	        	if (request.getParameter("hllegadaprevista")!=null  && !request.getParameter("hllegadaprevista").equals(""))
     	        		hllegadaprevista = StringKeys.formatter.parse(request.getParameter("hllegadaprevista"));
     	        	
     	        	Date hllegadareal = new Date();
-    	        	if (request.getParameter("hllegadareal")!=null || request.getParameter("hllegadareal").equals(""))
+    	        	if (request.getParameter("hllegadareal")!=null && !request.getParameter("hllegadareal").equals(""))
     	        		hllegadareal = StringKeys.formatter.parse(request.getParameter("hllegadareal"));
 
     	        	
