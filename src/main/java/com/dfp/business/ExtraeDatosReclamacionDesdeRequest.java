@@ -36,10 +36,10 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	MailService mm = (MailServiceImpl) ac.getBean("mailReclamacionRecibidaAdjuntos");
 	//String text = mm.getText();
 	mm.send(oReclamacion.getPasajero().getEmail(), "Nueva reclamación::" + oReclamacion.getCodigoReclamacion()
-		+ "-" + oReclamacion.getId(), attachments, oReclamacion, false);
+		+ "-" + oReclamacion.getId(), null, oReclamacion, false);
 	//mm.setText(text);
 	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() + "-"
-		+ oReclamacion.getId(), attachments, oReclamacion, true);
+		+ oReclamacion.getId(), null, oReclamacion, true);
 	return true;
     }
 
