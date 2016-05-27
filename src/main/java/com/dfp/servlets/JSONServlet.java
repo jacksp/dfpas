@@ -86,13 +86,28 @@ public class JSONServlet extends HttpServlet {
             			,request.getParameter("aeropuerto-salida")
             			,request.getParameter("aeropuerto-llegada")
     	        		);
+    	        	Date hsalidaprevista = new Date();
+    	        	if (request.getParameter("hsalidaprevista")!=null  || request.getParameter("hsalidaprevista")!="" )
+    	        		 hsalidaprevista = StringKeys.formatter.parse(request.getParameter("hsalidaprevista"));
     	        	
-//            		ReclamacionDTO reclamacionDTO = mapper.readValue(json, ReclamacionDTO.class);
+    	        	Date hsalidareal = new Date();
+    	        	if (request.getParameter("hsalidareal")!=null  || request.getParameter("hsalidareal")!="")
+    	        		hsalidareal = StringKeys.formatter.parse(request.getParameter("hsalidareal"));
+    	        	
+    	        	Date hllegadaprevista = new Date();
+    	        	if (request.getParameter("hllegadaprevista")!=null  || request.getParameter("hllegadaprevista")!="")
+    	        		hllegadaprevista = StringKeys.formatter.parse(request.getParameter("hllegadaprevista"));
+    	        	
+    	        	Date hllegadareal = new Date();
+    	        	if (request.getParameter("hllegadareal")!=null || request.getParameter("hllegadareal")!="")
+    	        		hllegadareal = StringKeys.formatter.parse(request.getParameter("hllegadareal"));
+
+    	        	
             		ReclamacionDTO reclamacionDTO = new ReclamacionDTO(pasajeroDTO,vueloDTO
-            			,StringKeys.formatter.parse(request.getParameter("hsalidaprevista"))
-            			,StringKeys.formatter.parse(request.getParameter("hsalidareal"))
-            			,StringKeys.formatter.parse(request.getParameter("hllegadaprevista"))
-            			,StringKeys.formatter.parse(request.getParameter("hllegadareal"))
+            			,hsalidaprevista
+            			,hsalidareal
+            			,hllegadaprevista
+            			,hllegadareal
             			,request.getParameter("comentarios"),request.getParameter("aceptar-condiciones")
             			,request.getParameter("codigoReclamacion") );
             		
