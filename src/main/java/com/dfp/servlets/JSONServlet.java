@@ -86,6 +86,7 @@ public class JSONServlet extends HttpServlet {
             			,request.getParameter("aeropuerto-salida")
             			,request.getParameter("aeropuerto-llegada")
     	        		);
+    	        	
     	        	Date hsalidaprevista = new Date();
     	        	if (request.getParameter("hsalidaprevista")!=null  && !request.getParameter("hsalidaprevista").equals("") )
     	        		 hsalidaprevista = StringKeys.formatter.parse(request.getParameter("hsalidaprevista"));
