@@ -111,12 +111,14 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 
 	    Reclamacion oReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacion, appContext);
 	    
-	    File oFile = FileUtils.toFileFromByteArray(content);
-	    List<File> attachments = new LinkedList<File>();
-	    attachments.add(oFile);
+//	    File oFile = FileUtils.toFileFromByteArray(content);
+//	    List<File> attachments = new LinkedList<File>();
+//	    attachments.add(oFile);
+	    
+	    
 //	    Reclamacion oReclamacion = new Reclamacion();
 //	    oReclamacion.populateFromReclamacionDTO(reclamacion);
-	    ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(attachments, oReclamacion, appContext);
+	    ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(null, oReclamacion, appContext);
 	    
 
 	} catch (FileUploadException e) {
