@@ -42,7 +42,6 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
     @Context
     private MessageContext context;
 
-
     @Override
     public Response enviaMail() {
 	ServletFileUpload upload = new ServletFileUpload();
@@ -56,9 +55,9 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 	    FileItemIterator fileIterator = upload.getItemIterator(req);
 
 	    byte[] content = null;
-	    StringWriter writer = new StringWriter();
+	   
 	    while (fileIterator.hasNext()) {
-
+	    	 StringWriter writer = new StringWriter();
 		FileItemStream item = fileIterator.next();
 		if ("file".equals(item.getFieldName())) {
 		    content = IOUtils.toByteArray(item.openStream());
@@ -76,7 +75,7 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 		    pasajero.setTelefono(writer.toString());
 		} else if ("idvuelo".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
-		    pasajero.setEmail(writer.toString());
+		    vuelo.setCodigoVuelo(writer.toString());
 		} else if ("aeropuertosalida".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
 		    vuelo.setAeropuertoOrigen(writer.toString());
@@ -111,14 +110,12 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 
 	    Reclamacion oReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacion, appContext);
 	    
-//	    File oFile = FileUtils.toFileFromByteArray(content);
-//	    List<File> attachments = new LinkedList<File>();
-//	    attachments.add(oFile);
-	    
-	    
+	    File oFile = FileUtils.toFileFromByteArray(content);
+	    List<File> attachments = new LinkedList<File>();
+	    attachments.add(oFile);
 //	    Reclamacion oReclamacion = new Reclamacion();
 //	    oReclamacion.populateFromReclamacionDTO(reclamacion);
-	    ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(null, oReclamacion, appContext);
+	    ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(attachments, oReclamacion, appContext);
 	    
 
 	} catch (FileUploadException e) {
