@@ -48,17 +48,18 @@
 	
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="mail.defensadelpasajero.com" />
-		<property name="port" value="25" />
-		<property name="username" value="auto@defensadelpasajero.com" />
-		<property name="password" value="Judas974" />
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="ladefensadelpasajero@gmail.com" />
+		<property name="password" value="volar2016DP" />
 
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-			</props>
+            	<prop key="mail.smtp.auth">true</prop>
+            	<prop key="mail.smtp.starttls.enable">true</prop>
+        	</props>
 		</property>
+
 	</bean>
 
 	<bean id="mailMail" class="com.dfp.core.MailMail">

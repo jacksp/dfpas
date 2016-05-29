@@ -87,45 +87,29 @@ public class JSONServlet extends HttpServlet {
             			,request.getParameter("aeropuerto-llegada")
     	        		);
     	        	
-    	        	Date hsalidaprevista = new Date();
-    	        	if (request.getParameter("hsalidaprevista")!=null  && !request.getParameter("hsalidaprevista").equals("") )
-    	        		 hsalidaprevista = StringKeys.formatter.parse(request.getParameter("hsalidaprevista"));
-    	        	
-    	        	Date hsalidareal = new Date();
-    	        	if (request.getParameter("hsalidareal")!=null  && !request.getParameter("hsalidareal").equals(""))
-    	        		hsalidareal = StringKeys.formatter.parse(request.getParameter("hsalidareal"));
-    	        	
-    	        	Date hllegadaprevista = new Date();
-    	        	if (request.getParameter("hllegadaprevista")!=null  && !request.getParameter("hllegadaprevista").equals(""))
-    	        		hllegadaprevista = StringKeys.formatter.parse(request.getParameter("hllegadaprevista"));
-    	        	
-    	        	Date hllegadareal = new Date();
-    	        	if (request.getParameter("hllegadareal")!=null && !request.getParameter("hllegadareal").equals(""))
-    	        		hllegadareal = StringKeys.formatter.parse(request.getParameter("hllegadareal"));
-
-    	        	
+//            		ReclamacionDTO reclamacionDTO = mapper.readValue(json, ReclamacionDTO.class);
             		ReclamacionDTO reclamacionDTO = new ReclamacionDTO(pasajeroDTO,vueloDTO
-            			,hsalidaprevista
-            			,hsalidareal
-            			,hllegadaprevista
-            			,hllegadareal
+            			,StringKeys.formatter.parse(request.getParameter("hsalidaprevista"))
+            			,StringKeys.formatter.parse(request.getParameter("hsalidareal"))
+            			,StringKeys.formatter.parse(request.getParameter("hllegadaprevista"))
+            			,StringKeys.formatter.parse(request.getParameter("hllegadareal"))
             			,request.getParameter("comentarios"),request.getParameter("aceptar-condiciones")
             			,request.getParameter("codigoReclamacion") );
             		
             		
             		
-        		String codigoReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO ,this.ac);
+        		Reclamacion reclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO ,this.ac);
         		 //respuesta con cors habilitado 
         		//response.setContentType("application/json");
         		//mapper.writeValue(response.getOutputStream(), codigoReclamacion);
         		
-        		response.sendRedirect(StringKeys.urlBase+"/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+codigoReclamacion);
+        		response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
         	}
         	else if (request.getParameter("caso").equals("2")){
         		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
 //        		request.getParameter("codigoReclamacion");
         		
-        		response.sendRedirect(StringKeys.urlBase+"/reclamacion/Reclamacion4.html?resultEnvio="+result);
+        		response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio="+result);
         	}
 	}catch (Exception e) {
 	    response.setContentType("text/html");

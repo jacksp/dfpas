@@ -42,6 +42,7 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
     @Context
     private MessageContext context;
 
+
     @Override
     public Response enviaMail() {
 	ServletFileUpload upload = new ServletFileUpload();
@@ -79,34 +80,42 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 		} else if ("aeropuertosalida".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
 		    vuelo.setAeropuertoOrigen(writer.toString());
-		} else if ("retrasosalida".equals(item.getFieldName())) {
-		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
-		    reclamacion.setHoraInicioVueloReal(StringKeys.formatter.parse(writer.toString()));
-		} else if ("horasalidaprevista".equals(item.getFieldName())) {
-		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
-		    reclamacion.setHoraInicioVueloPrevista(StringKeys.formatter.parse(writer.toString()));
-		} else if ("AeropuertoLlegada".equals(item.getFieldName())) {
+		} 
+//		else if ("retrasosalida".equals(item.getFieldName())) {
+//		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
+//		    reclamacion.setHoraInicioVueloReal(StringKeys.formatter.parse(writer.toString()));
+//		} else if ("horasalidaprevista".equals(item.getFieldName())) {
+//		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
+//		    reclamacion.setHoraInicioVueloPrevista(StringKeys.formatter.parse(writer.toString()));
+//		} 
+		else if ("AeropuertoLlegada".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
 		    vuelo.setAeropuertoDestino(writer.toString());
-		} else if ("retrasollegada".equals(item.getFieldName())) {
-		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
-		    reclamacion.setHoraFinVueloReal(StringKeys.formatter.parse(writer.toString()));
-		} else if ("horallegadaprevista".equals(item.getFieldName())) {
-		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
-		    reclamacion.setHoraFinVueloPrevista(StringKeys.formatter.parse(writer.toString()));
-		} else if ("codigoReclamacion".equals(item.getFieldName())) {
+		} 
+//	    }else if ("retrasollegada".equals(item.getFieldName())) {
+//		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
+//		    reclamacion.setHoraFinVueloReal(StringKeys.formatter.parse(writer.toString()));
+//		} else if ("horallegadaprevista".equals(item.getFieldName())) {
+//		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
+//		    reclamacion.setHoraFinVueloPrevista(StringKeys.formatter.parse(writer.toString()));
+//		} 
+		
+		else if ("codigoReclamacion".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
 		    reclamacion.setCodigoReclamacion(writer.toString());
 		}
 	    }
+	    
+	    reclamacion.setPasajero(pasajero);
+	    reclamacion.setVuelo(vuelo);
 
-	    String codigoReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacion, appContext);
+	    Reclamacion oReclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacion, appContext);
 	    
 	    File oFile = FileUtils.toFileFromByteArray(content);
 	    List<File> attachments = new LinkedList<File>();
 	    attachments.add(oFile);
-	    Reclamacion oReclamacion = new Reclamacion();
-	    oReclamacion.populateFromReclamacionDTO(reclamacion);
+//	    Reclamacion oReclamacion = new Reclamacion();
+//	    oReclamacion.populateFromReclamacionDTO(reclamacion);
 	    ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(attachments, oReclamacion, appContext);
 	    
 

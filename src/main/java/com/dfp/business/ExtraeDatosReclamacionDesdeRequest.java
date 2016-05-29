@@ -109,66 +109,64 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	return attachments;
     }
 
-    public static String insertaDatosReclamacion(ReclamacionDTO reclamacionDTO, ApplicationContext ac)
-	    throws Exception {
+    public static Reclamacion insertaDatosReclamacion(ReclamacionDTO reclamacionDTO, ApplicationContext ac)
+    	    throws IOException, JsonGenerationException, JsonMappingException {
 
-	ReclamacionDao reclamacionDao = (ReclamacionDao) ac.getBean("reclamacionDao");
-	EstadoDao estadoDao = (EstadoDao) ac.getBean("estadoDao");
-	Boolean error = false;
+    	ReclamacionDao reclamacionDao = (ReclamacionDao) ac.getBean("reclamacionDao");
+    	EstadoDao estadoDao = (EstadoDao) ac.getBean("estadoDao");
+    	Boolean error = false;
 
-	String codigoReclamacion = "";
+    	String codigoReclamacion = "";
+        Reclamacion reclamacion = new Reclamacion();
+    	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    	try {
 
-//	try {
+    	    session.beginTransaction();
 
-	    session.beginTransaction();
+    	    Pasajero pasajero = new Pasajero();
+    	    Vuelo vuelo = new Vuelo();
+    	    vuelo.populate(reclamacionDTO.getVuelo());
+    	    pasajero.populate(reclamacionDTO.getPasajero());
 
-	    Reclamacion reclamacion = new Reclamacion();
-	    Pasajero pasajero = new Pasajero();
-	    Vuelo vuelo = new Vuelo();
-	    vuelo.populate(reclamacionDTO.getVuelo());
-	    pasajero.populate(reclamacionDTO.getPasajero());
+    	    reclamacion.populateFromReclamacionDTO(reclamacionDTO);
+    	    reclamacion.setPasajero(pasajero);
 
-	    reclamacion.populateFromReclamacionDTO(reclamacionDTO);
-	    reclamacion.setPasajero(pasajero);
+    	    pasajero.setVuelo(vuelo);
+    	    // reclamacion.setHoraInicioVueloReclamacion(reclamacionDTO.getIdvuelo());
+    	    // int pasajeroId = pasajeroDao.persist(pasajero);
+    	    // reclamacion.setIdPasajero(pasajeroId);
 
-	    pasajero.setVuelo(vuelo);
-	    // reclamacion.setHoraInicioVueloReclamacion(reclamacionDTO.getIdvuelo());
-	    // int pasajeroId = pasajeroDao.persist(pasajero);
-	    // reclamacion.setIdPasajero(pasajeroId);
+    	    Estado estado = new Estado();
+    	    estado.setNombreEstado("Recibida");
 
-	    Estado estado = new Estado();
-	    estado.setNombreEstado("Recibida");
+    	    List<Estado> oListEstado = estadoDao.getEstadoByExample(estado);
 
-	    List<Estado> oListEstado = estadoDao.getEstadoByExample(estado);
+    	    if (oListEstado != null && oListEstado.size() == 1)
+    		estado = oListEstado.get(0);
+    	    else
+    		error = true;
 
-	    if (oListEstado != null && oListEstado.size() == 1)
-		estado = oListEstado.get(0);
-	    else
-		error = true;
+    	    reclamacion.setEstado(estado);
 
-	    reclamacion.setEstado(estado);
+    	    int codigo = reclamacionDao.persist(reclamacion);
 
-	    int codigo = reclamacionDao.persist(reclamacion);
+    	    if (codigo == -1)
+    		return null;
+    	    codigoReclamacion = reclamacionDTO.getCodigoReclamacion() + "-" + codigo;
+    	    reclamacion.setCodigoReclamacion(codigoReclamacion);
+    	    session.getTransaction().commit();
 
-	    if (codigo == -1)
-		return "-1";
-	    codigoReclamacion = reclamacionDTO.getCodigoReclamacion() + "-" + codigo;
+    	} catch (Exception e) {
+    	    session.getTransaction().rollback();
+    	    return null;
+    	}
+    	// 5. Add article to List<Article>
+    	// articles.add(article);
+    	return reclamacion;
 
-	    session.getTransaction().commit();
+    	// 6. Send List<Article> as JSON to client
 
-//	} catch (Exception e) {
-//	   // session.getTransaction().rollback();
-//		
-//	    return "-1";
-//	}
-	// 5. Add article to List<Article>
-	// articles.add(article);
-	return codigoReclamacion;
-
-	// 6. Send List<Article> as JSON to client
-
-    }
+        }
 
 }
