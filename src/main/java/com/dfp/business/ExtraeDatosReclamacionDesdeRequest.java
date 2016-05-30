@@ -43,7 +43,7 @@ public class ExtraeDatosReclamacionDesdeRequest {
 		+ "-" + oReclamacion.getId(), null, oReclamacion, false);
 	//mm.setText(text);
 	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() + "-"
-		+ oReclamacion.getId(), attachments, oReclamacion, true);
+		+ oReclamacion.getId(), null, oReclamacion, true);
 	return true;
     }
 
