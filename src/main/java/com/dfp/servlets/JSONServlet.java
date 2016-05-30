@@ -3,11 +3,11 @@ package com.dfp.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
-import java.util.List;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +22,10 @@ import com.dfp.core.dto.VueloDTO;
 import com.dfp.persistence.dao.EstadoDao;
 import com.dfp.persistence.dao.ReclamacionDao;
 import com.dfp.persistencia.entities.Reclamacion;
-import com.dfp.utiles.hibernate.HibernateUtil;
  
 //import com.fasterxml.jackson.databind.ObjectMapper;
- 
+
+
 public class JSONServlet extends HttpServlet {
  
     private static final long serialVersionUID = 1L;
@@ -104,12 +104,37 @@ public class JSONServlet extends HttpServlet {
         		//mapper.writeValue(response.getOutputStream(), codigoReclamacion);
         		
         		response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
+        		//response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
         	}
         	else if (request.getParameter("caso").equals("2")){
-        		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
+        	    
+        	     Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,this.ac);
+        	    
+        /*	    final AsyncContext contextoAsincrono = request.startAsync();
+        	    contextoAsincrono.setTimeout(12000);
+        	    Boolean result = true;
+        	    
+        	    contextoAsincrono.start(new Runnable() {
+        		 @Override
+        		 public void run() {       		     
+        		 
+        		     Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,null);
+        		 contextoAsincrono.complete();
+        		 
+        		}
+        	    });*/
+        	    
+        		
+        		
+        		
+        		
 //        		request.getParameter("codigoReclamacion");
         		
+        		
         		response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion4.html?resultEnvio="+result);
+//        		response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio="+result);
+        		
+        		
         	}
 	}catch (Exception e) {
 	    response.setContentType("text/html");

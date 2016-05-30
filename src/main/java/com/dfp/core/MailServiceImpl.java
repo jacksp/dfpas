@@ -13,6 +13,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.dfp.persistencia.entities.Reclamacion;
@@ -20,6 +22,7 @@ import com.dfp.persistencia.entities.Reclamacion;
 /**
  * Servicio de envío de emails
  */
+//@Service
 public class MailServiceImpl implements MailService {
  
 	private static final Log log = LogFactory.getLog(MailServiceImpl.class);
@@ -112,6 +115,7 @@ public class MailServiceImpl implements MailService {
 	 * @param text cuerpo del mensaje
 	 * @param attachments ficheros que se anexarón al mensaje 
 	 */
+	//@Async
 	public void send(String to, String subject,List<File>  attachments, Reclamacion oReclamacion,boolean emailAdministracion) {
 		// chequeo de parámetros 
 	    	String textmensaje = this.text;
@@ -142,35 +146,56 @@ public class MailServiceImpl implements MailService {
 			helper.setSubject(subject);
 			helper.setFrom(getFrom());
 //			helper.setText(text);
-			textmensaje = textmensaje.replaceFirst("%CASORECLAMACION%", oReclamacion.getCodigoReclamacion()+"-"+oReclamacion.getId());			
+			if (oReclamacion.getCodigoReclamacion()!=null && oReclamacion.getId()!=null)
+			    textmensaje = textmensaje.replaceFirst("%CASORECLAMACION%", oReclamacion.getCodigoReclamacion()+"-"+oReclamacion.getId());
 			textmensaje = textmensaje.replaceAll("%CASORECLAMACION%", "");
-			textmensaje = textmensaje.replaceFirst("%MOTIVORECLAMACION%", "Motivo de la reclamación "+oReclamacion.getCodigoReclamacion());			
+			
+			if (oReclamacion.getCodigoReclamacion()!=null)
+			    textmensaje = textmensaje.replaceFirst("%MOTIVORECLAMACION%", "Motivo de la reclamación "+oReclamacion.getCodigoReclamacion());			
 			textmensaje = textmensaje.replaceAll("%MOTIVORECLAMACION%", "");
-			textmensaje = textmensaje.replaceFirst("%NOMBRE%",  oReclamacion.getPasajero().getNombre());			
+			
+			if (oReclamacion.getPasajero().getNombre()!=null)
+			    textmensaje = textmensaje.replaceFirst("%NOMBRE%",  oReclamacion.getPasajero().getNombre());			
 			textmensaje = textmensaje.replaceAll("%NOMBRE%", "");
-			textmensaje = textmensaje.replaceFirst("%NOMBRECOMPLETO%", oReclamacion.getPasajero().getNombre()+" "+oReclamacion.getPasajero().getApellidos());			
+			
+			if (oReclamacion.getPasajero().getNombre()!=null && oReclamacion.getPasajero().getApellidos()!=null)
+			    textmensaje = textmensaje.replaceFirst("%NOMBRECOMPLETO%", oReclamacion.getPasajero().getNombre()+" "+oReclamacion.getPasajero().getApellidos());			
 			textmensaje = textmensaje.replaceAll("%NOMBRECOMPLETO%", "");
-			textmensaje = textmensaje.replaceFirst("%TELEFONO%","Teléfono: "+ oReclamacion.getPasajero().getTelefono());
+			
+			if (oReclamacion.getPasajero().getTelefono()!=null)
+			    textmensaje = textmensaje.replaceFirst("%TELEFONO%","Teléfono: "+ oReclamacion.getPasajero().getTelefono());
 			textmensaje = textmensaje.replaceAll("%TELEFONO%", "");
-			textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Trayecto: "+oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()+"-"+oReclamacion.getPasajero().getVuelo().getAeropuertoDestino());
+			
+			if (oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()!=null && oReclamacion.getPasajero().getVuelo().getAeropuertoDestino()!=null)
+			    textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Trayecto: "+oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()+"-"+oReclamacion.getPasajero().getVuelo().getAeropuertoDestino());			
 			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
-			textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
+			
+			if (oReclamacion.getPasajero().getVuelo().getCodigoVuelo()!=null)
+			    textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
 			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
-			textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));
+			
+			if (oReclamacion.getHoraInicioVueloPrevista()!=null && oReclamacion.getHoraFinVueloPrevista()!=null)
+			    textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));
 			textmensaje = textmensaje.replaceAll("%HORARIOPREVISTO%", "");
-			textmensaje = textmensaje.replaceFirst("%HORARIOREAL%", " Horario real: "+df.format(oReclamacion.getHoraInicioVueloReal())+" "+df.format(oReclamacion.getHoraFinVueloReal()));
+			
+			if (oReclamacion.getHoraInicioVueloReal()!=null && oReclamacion.getHoraFinVueloReal()!=null)
+			    textmensaje = textmensaje.replaceFirst("%HORARIOREAL%", " Horario real: "+df.format(oReclamacion.getHoraInicioVueloReal())+" "+df.format(oReclamacion.getHoraFinVueloReal()));
 			textmensaje = textmensaje.replaceAll("%HORARIOREAL%", "");
-			textmensaje = textmensaje.replaceFirst("%TEXTORECLAMACION%", oReclamacion.getTextoReclamacion());
+			
+			if (oReclamacion.getTextoReclamacion()!=null)
+			    textmensaje = textmensaje.replaceFirst("%TEXTORECLAMACION%", oReclamacion.getTextoReclamacion());			
 			textmensaje = textmensaje.replaceAll("%TEXTORECLAMACION%", "");
-			textmensaje = textmensaje.replaceFirst("%ESTADO%", oReclamacion.getEstado().getNombreEstado()); 
+			
+			if (oReclamacion.getEstado().getNombreEstado()!=null)
+			    textmensaje = textmensaje.replaceFirst("%ESTADO%", oReclamacion.getEstado().getNombreEstado()); 
 			textmensaje = textmensaje.replaceAll("%ESTADO%", "");
 			
-			textmensaje = textmensaje.replaceFirst("%DESCRIPCIONESTADO%", oReclamacion.getEstado().getDescripcionEstado()); 
+			if (oReclamacion.getEstado().getDescripcionEstado()!=null)
+			    textmensaje = textmensaje.replaceFirst("%DESCRIPCIONESTADO%", oReclamacion.getEstado().getDescripcionEstado()); 
 			textmensaje = textmensaje.replaceAll("%DESCRIPCIONESTADO%", "");
 		
 			
-			if (emailAdministracion && oReclamacion.getEstado().getSecEstado()!=5 && oReclamacion.getEstado().getSecEstado()!=0){
-				
+			if (emailAdministracion && oReclamacion.getEstado().getSecEstado()!=5 && oReclamacion.getEstado().getSecEstado()!=0){				
 				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSACEPTA%","<td class='button' height='45' bgcolor='green' ><a href='"+StringKeys.urlEstadoAcepta+oReclamacion.getId()+"'>Aceptar</a></td>" );
 				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSRECHAZA%", "<td class='button' height='45' bgcolor='#e05443' ><a href='"+StringKeys.urlEstadoRechaza+oReclamacion.getId()+"'>Rechazar</a></td>" );
 				textmensaje = textmensaje.replaceFirst("%ENLACEPDF%", "<td class='button' height='45' bgcolor='blue'><a href='"+StringKeys.urlPdf+oReclamacion.getId()+"'>Pdf</a></td>" );

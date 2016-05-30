@@ -57,7 +57,7 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 	    byte[] content = null;
 	   
 	    while (fileIterator.hasNext()) {
-	    	 StringWriter writer = new StringWriter();
+	    	StringWriter writer = new StringWriter();
 		FileItemStream item = fileIterator.next();
 		if ("file".equals(item.getFieldName())) {
 		    content = IOUtils.toByteArray(item.openStream());
@@ -79,6 +79,9 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 		} else if ("aeropuertosalida".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
 		    vuelo.setAeropuertoOrigen(writer.toString());
+		} else if ("observaciones".equals(item.getFieldName())) {
+		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
+		    reclamacion.setTextoReclamacion(writer.toString());
 		} 
 //		else if ("retrasosalida".equals(item.getFieldName())) {
 //		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
@@ -99,7 +102,10 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 //		    reclamacion.setHoraFinVueloPrevista(StringKeys.formatter.parse(writer.toString()));
 //		} 
 		
-		else if ("codigoReclamacion".equals(item.getFieldName())) {
+		else if ("observaciones".equals(item.getFieldName())) {
+		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
+		    reclamacion.setCodigoReclamacion(writer.toString());
+		} else if ("casoReclamacion".equals(item.getFieldName())) {
 		    IOUtils.copy(item.openStream(), writer, StandardCharsets.UTF_8);
 		    reclamacion.setCodigoReclamacion(writer.toString());
 		}

@@ -152,7 +152,20 @@ public class Reclamacion {
 
 		if (reclamacion.getHoraFinVueloReal()!=null)
 			this.setHoraFinVueloReal(reclamacion.getHoraFinVueloReal());
-
+		
+		if (reclamacion.getPasajero()!=null){
+			Pasajero pasajero = new Pasajero();
+			pasajero.populate(reclamacion.getPasajero());
+			this.setPasajero(pasajero);
+		}
+		
+		if (reclamacion.getVuelo()!=null){
+			Vuelo  vuelo = new Vuelo();
+			vuelo.populate(reclamacion.getVuelo());
+			this.pasajero.setVuelo(vuelo);
+		}
+		
+			
 	}
 
 
