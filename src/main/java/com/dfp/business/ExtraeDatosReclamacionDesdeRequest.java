@@ -37,14 +37,20 @@ public class ExtraeDatosReclamacionDesdeRequest {
 //    private static MailServiceImpl mm;
 
     public static boolean envioMailConAdjuntos(List<File> attachments, Reclamacion oReclamacion, ApplicationContext ac) {
-	MailService mm = (MailServiceImpl) ac.getBean("mailReclamacionRecibidaAdjuntos");
-	//String text = mm.getText();
-	mm.send(oReclamacion.getPasajero().getEmail(), "Nueva reclamación::" + oReclamacion.getCodigoReclamacion()
-		+ "-" + oReclamacion.getId(), null, oReclamacion, false);
-	//mm.setText(text);
-	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() + "-"
-		+ oReclamacion.getId(), null, oReclamacion, true);
-	return true;
+	try {
+        	MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaAdjuntos");
+        	//String text = mm.getText();
+        	mm.send(oReclamacion.getPasajero().getEmail(), "Nueva reclamación::" + oReclamacion.getCodigoReclamacion()
+        		+ "-" + oReclamacion.getId(), null, oReclamacion, false);
+        	//mm.setText(text);
+        	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() + "-"
+        		+ oReclamacion.getId(), attachments, oReclamacion, true);
+        	return true;
+	} catch (Exception e) {
+	    MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
+	    mm.send(StringKeys.mailTecnico, "Error al enviar los adjuntos de reclamación codigo::" + oReclamacion.getCodigoReclamacion(),oReclamacion);
+	    return false;
+	}
     }
 
     public static boolean insertaAdjuntosReclamacion(HttpServletRequest request, HttpServletResponse response,
@@ -92,8 +98,8 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	     * attachments, oReclamacion, true);
 	     */
 	} catch (Exception e) {
-	    MailService mm = (MailServiceImpl) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
-	    mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion());
+	    MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
+	    mm.send(StringKeys.mailTecnico, "Error al enviar convertir las imagenes de la reclamación codigo::" + oReclamacion.getCodigoReclamacion(),oReclamacion);
 	    return false;
 	}
 	return true;

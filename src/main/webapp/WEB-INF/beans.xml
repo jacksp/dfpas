@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" 
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:task="http://www.springframework.org/schema/task"
+	
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
  	http://cxf.apache.org/jaxrs
@@ -9,7 +13,9 @@
  	http://cxf.apache.org/jaxws
  	http://cxf.apache.org/schemas/jaxws.xsd
  	http://www.springframework.org/schema/context
- 	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+ 	http://www.springframework.org/schema/context/spring-context-4.1.xsd
+ 	http://www.springframework.org/schema/task 
+ 	http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<context:component-scan base-package="com.*" />
@@ -52,122 +58,32 @@
 		<property name="port" value="587" />
 		<property name="username" value="ladefensadelpasajero@gmail.com" />
 		<property name="password" value="volar2016DP" />
-
+ 		<property name="protocol"><value>smtp</value></property>
 		<property name="javaMailProperties">
 			<props>
             	<prop key="mail.smtp.auth">true</prop>
             	<prop key="mail.smtp.starttls.enable">true</prop>
+           	    <prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+                <prop key="mail.smtps.ssl.trust">*</prop>
         	</props>
 		</property>
 
 	</bean>
-
-	<bean id="mailMail" class="com.dfp.core.MailMail">
-		<property name="mailSender" ref="mailSender" />
-	</bean>
 	
-	<!-- <bean id="mailNuevaReclamacion" class="com.dfp.core.MailMail">
-        <property name="mailSender" ref="mailSender" />
-        <property name="simpleMailMessage" ref="mailReclamacionRecibida" />
-    </bean>
-
-   <bean id="mailReclamacionRecibida"
-        class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="from@no-spam.com" />
-        <property name="to" value="to@no-spam.com" />
-        <property name="subject" value="Recordatorio de contraseña" />
-         <property name="subTemplate" ref="subtemplateRecibida" />
-        <property name="text">
-        <value>
-            <![CDATA[
-                Se ha recibido una reclamación con el código: <h1> %s <h1>
-            ]]>
-        </value>
-    </property>
-    </bean> -->
-    
-    
-    <bean id="mailReclamacionAceptada"
-        class="com.dfp.core.MailServiceImpl">
-      <property name="active" value="true"/>
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
-	  <property name="text" ref="template" />
-	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
-	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
-    </bean>
-    
-    
-    <bean id="mailReclamacionDenegada"
-        class="com.dfp.core.MailServiceImpl">
-      <property name="active" value="true"/>
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
-	  <property name="text" ref="template" />
-	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
-	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
-    </bean>
-    
-    <bean id="mailReclamacionAdmitidaReclamadaComision"
-        class="com.dfp.core.MailServiceImpl">
-      <property name="active" value="true"/>
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
-	  <property name="text" ref="template" />
-	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
-	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
-    </bean>
-    
-    
-    <bean id="mailReclamacionReclamadaAerolinea"
-        class="com.dfp.core.MailServiceImpl">
-      <property name="active" value="true"/>
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
-	  <property name="text" ref="template" />
-	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
-	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
-    </bean>
-    
-   <bean id="mailReclamacionAdmitida"
-        class="com.dfp.core.MailServiceImpl">
-      <property name="active" value="true"/>
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
-	  <property name="text" ref="template" />
-	<!--   <property name="subTemplate" ref="subtemplateAdmitida" />
-	  <property name="subTemplate" ref="subtemplateAdmitidaAdmin" /> -->
-    </bean>
-    
-    
-     <bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl">
+	<context:annotation-config />
+	
+	<!-- <context:component-scan base-package="com.dfp.business" /> -->
+	
+	<task:annotation-driven />
+	
+	
+	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl" scope="prototype">
 	  <property name="active" value="true"/>
 	  <property name="mailSender" ref="mailSender"/>
 	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
-	  <property name="text" ref="template" />
-	  <property name="subTemplate" ref="subtemplateRecibida" />
-	  <property name="subTemplateAdmin" ref="subtemplateRecibidaAdmin" />
-	</bean>
-	
-	 <bean name="subtemplateRecibidaAdmin" class="java.lang.String">
-		<constructor-arg>
-				<value>Aquí ira la validación del Dni:</value>
-		</constructor-arg>
-	</bean>
-	
-	 <bean name="subtemplateRecibida" class="java.lang.String">
-		<constructor-arg>
-			<value>En el correo encontraras adjuntada la documentación que nos has entregado</value>
-		</constructor-arg>
-	</bean>
-	
-	
-    
-    
-    <bean name="template" class="java.lang.String">
-
-		<constructor-arg>
-			<value> <![CDATA[
+	  <property name="text">
+        <value>
+            <![CDATA[
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -287,7 +203,7 @@
 				%HORARIOPREVISTO% <br>
 				%HORARIOREAL% <br>
                 %TEXTORECLAMACION% <br>
-               
+                %HORAINICIOPREVISTA% <br>
               </td>
             </tr>
           </tbody></table>
@@ -313,22 +229,23 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tbody><tr>
                     <td class="bodycopy">
-                     %SUBTEMPLATERECLAMACION% <br>
-                      %SUBTEMPLATERECLAMACIONADMIN% <br>
+                      En el correo encontraras adjuntada la documentación que nos has entregado
                     </td>
                   </tr>
                   <tr>
                     <td style="padding: 20px 0 0 0;">
                       <table class="buttonwrapper" bgcolor="#e05443" border="0" cellspacing="0" cellpadding="0">
                         <tbody><tr>
+                        <td class="button" height="45" bgcolor="green" >
                           %ENLACEESTADOSACEPTA%
-                        
+                        </td>
+                        <td class="button" height="45" bgcolor="#e05443" >
                           %ENLACEESTADOSRECHAZA%
                         </td>
                       </tr>
                       <tr></tr>
                       <tr>
-                        
+                        <td class="button" height="45" bgcolor="blue">
                           %ENLACEPDF%
                         </td>
                       </tr>
@@ -350,11 +267,6 @@
       <tr>
         <td class="innerpadding bodycopy">
           Actualmente tu reclamación está en estado %ESTADO%
-        </td>
-      </tr>
-      <tr>
-        <td class="innerpadding bodycopy">
-        	%DESCRIPCIONESTADO%
         </td>
       </tr>
       <tr>
@@ -401,12 +313,48 @@
 <!--analytics-->
 <script   src="https://code.jquery.com/jquery-1.11.0.min.js"   integrity="sha256-spTpc4lvj4dOkKjrGokIrHkJgNA0xMS98Pw9N7ir9oI="   crossorigin="anonymous"></script>
 </body></html>
-            ]]></value>
-		</constructor-arg>
-
+            ]]>
+        </value>
+    </property>
 	</bean>
+
+	<bean id="mailMail" class="com.dfp.core.MailMail">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+	
+	<bean id="mailNuevaReclamacion" class="com.dfp.core.MailMail">
+        <property name="mailSender" ref="mailSender" />
+        <property name="simpleMailMessage" ref="mailReclamacionRecibida" />
+    </bean>
+
+   <bean id="mailReclamacionRecibida"
+        class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="from@no-spam.com" />
+        <property name="to" value="to@no-spam.com" />
+        <property name="subject" value="Recordatorio de contraseña" />
+        <property name="text">
+        <value>
+            <![CDATA[
+                Se ha recibido una reclamación con el código: <h1> %s <h1>
+            ]]>
+        </value>
+    </property>
+    </bean>
     
     
-   
+   <bean id="mailNuevoEstadoReclamacion"
+        class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="from@no-spam.com" />
+        <property name="to" value="to@no-spam.com" />
+        <property name="subject" value="Recordatorio de contraseña" />
+        <property name="text">
+	        <value>
+	            <![CDATA[
+	                Se ha recibido una reclamación con el código: <h1> %s <h1>, tiene un nuevo estado:
+	                %s
+	            ]]>
+	        </value>
+	    </property>
+    </bean>
 
 </beans>

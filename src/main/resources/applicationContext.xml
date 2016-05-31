@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" 
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:task="http://www.springframework.org/schema/task"
+	
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
  	http://cxf.apache.org/jaxrs
@@ -9,7 +13,9 @@
  	http://cxf.apache.org/jaxws
  	http://cxf.apache.org/schemas/jaxws.xsd
  	http://www.springframework.org/schema/context
- 	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+ 	http://www.springframework.org/schema/context/spring-context-4.1.xsd
+ 	http://www.springframework.org/schema/task 
+ 	http://www.springframework.org/schema/task/spring-task.xsd">
 
 
 	<bean id="claimCxfServiceImpl" class="com.dfp.services.internal.ReclamacionCxfRestServiceImpl" />
@@ -27,21 +33,25 @@
 		<property name="port" value="587" />
 		<property name="username" value="ladefensadelpasajero@gmail.com" />
 		<property name="password" value="volar2016DP" />
-
+ 		<property name="protocol"><value>smtp</value></property>
 		<property name="javaMailProperties">
 			<props>
             	<prop key="mail.smtp.auth">true</prop>
             	<prop key="mail.smtp.starttls.enable">true</prop>
+           	    <prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+                <prop key="mail.smtps.ssl.trust">*</prop>
         	</props>
 		</property>
 
 	</bean>
 
-
+	<context:annotation-config />
 	
+	<!-- <context:component-scan base-package="com.dfp.core" /> -->
+	
+	<task:annotation-driven />
 
-
-	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl">
+	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl" scope="prototype">
 	  <property name="active" value="true"/>
 	  <property name="mailSender" ref="mailSender"/>
 	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
@@ -167,6 +177,7 @@
 				%HORARIOPREVISTO% <br>
 				%HORARIOREAL% <br>
                 %TEXTORECLAMACION% <br>
+                %HORAINICIOPREVISTA% <br>
               </td>
             </tr>
           </tbody></table>
@@ -192,7 +203,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tbody><tr>
                     <td class="bodycopy">
-                      En el correo encontraras adjuntada la documentación que nos has entregado
+                      Nos ha llegado la documentación que nos has adjuntado con la que preparemos tu reclamación.
                     </td>
                   </tr>
                   <tr>

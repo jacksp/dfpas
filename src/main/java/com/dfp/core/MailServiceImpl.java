@@ -22,7 +22,7 @@ import com.dfp.persistencia.entities.Reclamacion;
 /**
  * Servicio de envío de emails
  */
-//@Service
+
 public class MailServiceImpl implements MailService {
  
 	private static final Log log = LogFactory.getLog(MailServiceImpl.class);
@@ -103,8 +103,8 @@ public class MailServiceImpl implements MailService {
 	 * @param subject asunto del mensaje
 	 * @param text cuerpo del mensaje
 	 */
-	public void send(String to, String subject) {
-		send(to, subject,  NO_ATTACHMENTS);
+	public void send(String to, String subject, Reclamacion oReclamacion) {
+		send(to, subject,  NO_ATTACHMENTS,oReclamacion, true);
 	}
 	
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -115,7 +115,7 @@ public class MailServiceImpl implements MailService {
 	 * @param text cuerpo del mensaje
 	 * @param attachments ficheros que se anexarón al mensaje 
 	 */
-	//@Async
+	
 	public void send(String to, String subject,List<File>  attachments, Reclamacion oReclamacion,boolean emailAdministracion) {
 		// chequeo de parámetros 
 	    	String textmensaje = this.text;
@@ -178,6 +178,10 @@ public class MailServiceImpl implements MailService {
 			    textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));
 			textmensaje = textmensaje.replaceAll("%HORARIOPREVISTO%", "");
 			
+			if (oReclamacion.getHoraInicioVueloPrevista()!=null)
+			    textmensaje = textmensaje.replaceFirst("%HORAINICIOPREVISTA%", " Fecha y hora prevista: "+df.format(oReclamacion.getHoraInicioVueloPrevista()));
+			textmensaje = textmensaje.replaceAll("%HORAINICIOPREVISTA%", "");
+			
 			if (oReclamacion.getHoraInicioVueloReal()!=null && oReclamacion.getHoraFinVueloReal()!=null)
 			    textmensaje = textmensaje.replaceFirst("%HORARIOREAL%", " Horario real: "+df.format(oReclamacion.getHoraInicioVueloReal())+" "+df.format(oReclamacion.getHoraFinVueloReal()));
 			textmensaje = textmensaje.replaceAll("%HORARIOREAL%", "");
@@ -230,6 +234,7 @@ public class MailServiceImpl implements MailService {
 			}
  
 		} catch (MessagingException e) {
+		    System.out.println("done");
 			new RuntimeException(e);
 		}
 		
@@ -238,11 +243,7 @@ public class MailServiceImpl implements MailService {
 		//System.out.println("mensaje------------------>" +textmensaje);
 	}
 
-	@Override
-	public void send(String string, String string2, List<File> attachments) {
-	    // TODO Auto-generated method stub
-	    
-	}
+	
 
 	
 
