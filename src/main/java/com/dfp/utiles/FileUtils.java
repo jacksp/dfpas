@@ -105,8 +105,11 @@ public class FileUtils {
 	    sName = "x" + sName;
 	}
 	
-	if(sExtension.toUpperCase().equals("JPG") || sExtension.toUpperCase().equals("PNG") ||  sExtension.toUpperCase().equals("GIF") )
+	if(sExtension.toUpperCase().equals("JPG")  )
 	    return  compresssionImage( in,  sName, sExtension);
+	else
+	if(sExtension.toUpperCase().equals("PNG") ||  sExtension.toUpperCase().equals("GIF") )
+	    return  createTemp( in,  sName, sExtension);
 	else 
 	    return  createZipTemp( in,  sName, sExtension);
 	 //   return  createTemp( in,  sName, sExtension);
