@@ -84,7 +84,6 @@ public class JSONServlet extends HttpServlet {
 
 		Reclamacion reclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO,
 			this.ac);
-		
 		 response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
 		//response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="			+ reclamacion.getCodigoReclamacion());
 	    } else if (request.getParameter("caso").equals("2")) {
