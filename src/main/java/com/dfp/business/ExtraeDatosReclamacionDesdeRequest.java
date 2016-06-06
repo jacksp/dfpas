@@ -15,11 +15,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.dfp.core.MailService;
-import com.dfp.core.MailServiceImpl;
 import com.dfp.core.StringKeys;
 import com.dfp.core.dto.ReclamacionDTO;
 import com.dfp.persistence.dao.EstadoDao;
@@ -41,14 +39,13 @@ public class ExtraeDatosReclamacionDesdeRequest {
         	MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaAdjuntos");
         	//String text = mm.getText();
         	mm.send(oReclamacion.getPasajero().getEmail(), "Nueva reclamación::" + oReclamacion.getCodigoReclamacion()
-        		+ "-" + oReclamacion.getId(), null, oReclamacion, false);
+        		, null, oReclamacion, false);
         	//mm.setText(text);
-        	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() + "-"
-        		+ oReclamacion.getId(), attachments, oReclamacion, true);
+        	mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() , attachments, oReclamacion, true);
         	return true;
 	} catch (Exception e) {
 	    MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
-	    mm.send(StringKeys.mailTecnico, "Error al enviar los adjuntos de reclamación codigo::" + oReclamacion.getCodigoReclamacion(),oReclamacion);
+	    mm.send(StringKeys.mailTecnico, "Error al enviar los adjuntos de reclamación codigo::" + oReclamacion.getCodigoReclamacion(),null,oReclamacion,true);
 	    return false;
 	}
     }
@@ -99,7 +96,9 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	     */
 	} catch (Exception e) {
 	    MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
-	    mm.send(StringKeys.mailTecnico, "Error al enviar convertir las imagenes de la reclamación codigo::" + oReclamacion.getCodigoReclamacion(),oReclamacion);
+	    mm.send(StringKeys.mailTecnico, "Error al enviar convertir las imagenes de la reclamación codigo::" + oReclamacion.getCodigoReclamacion(),null, oReclamacion,true);
+	    
+	    
 	    return false;
 	}
 	return true;

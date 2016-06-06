@@ -6,8 +6,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.dfp.persistencia.entities.Estado;
-import com.dfp.persistencia.entities.Pasajero;
 import com.dfp.persistencia.entities.Reclamacion;
 import com.dfp.utiles.hibernate.HibernateUtil;
 

@@ -12,7 +12,6 @@ import com.dfp.persistencia.entities.Reclamacion;
 @Service
 public interface MailService {
  
-    	public void send(String to, String subject, Reclamacion oReclamacion);
     	
 	@Async
 	public void send(String string, String string2, List<File> attachments,

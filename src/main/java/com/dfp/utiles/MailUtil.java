@@ -1,5 +1,4 @@
 package com.dfp.utiles;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.logging.Logger;

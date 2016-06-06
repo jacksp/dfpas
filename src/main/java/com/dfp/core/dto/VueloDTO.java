@@ -1,8 +1,6 @@
 package com.dfp.core.dto;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Alberto on 30/12/2015.

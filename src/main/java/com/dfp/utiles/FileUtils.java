@@ -2,13 +2,10 @@ package com.dfp.utiles;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
@@ -23,6 +20,8 @@ import javax.imageio.stream.ImageOutputStream;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+
+import com.dfp.core.StringKeys;
 
 public class FileUtils {
 
@@ -42,7 +41,7 @@ public class FileUtils {
 	
 	OutputStream os =new FileOutputStream(compressedImageFile);
 
-	Iterator<ImageWriter>writers =  ImageIO.getImageWritersByFormatName("jpg");
+	Iterator<ImageWriter>writers =  ImageIO.getImageWritersByFormatName(sExtension);
 	ImageWriter writer = (ImageWriter) writers.next();
 
 	ImageOutputStream ios = ImageIO.createImageOutputStream(os);
@@ -105,11 +104,11 @@ public class FileUtils {
 	    sName = "x" + sName;
 	}
 	
-	if(sExtension.toUpperCase().equals("JPG")  )
+	if(sExtension.toUpperCase().equals(StringKeys.JPG) || sExtension.toUpperCase().equals(StringKeys.JPEG) )
 	    return  compresssionImage( in,  sName, sExtension);
-	else
-	if(sExtension.toUpperCase().equals("PNG") ||  sExtension.toUpperCase().equals("GIF") )
-	    return  createTemp( in,  sName, sExtension);
+	else if (sExtension.toUpperCase().equals(StringKeys.PNG) 
+		||  sExtension.toUpperCase().equals(StringKeys.GIF))
+	    return createTemp(in, sName, sExtension);
 	else 
 	    return  createZipTemp( in,  sName, sExtension);
 	 //   return  createTemp( in,  sName, sExtension);

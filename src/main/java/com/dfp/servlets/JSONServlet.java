@@ -70,6 +70,8 @@ public class JSONServlet extends HttpServlet {
 		if (request.getParameter("hllegadareal")!=null && !request.getParameter("hllegadareal").equals("") )
 		    hLlegadaReal = StringKeys.formatter.parse(request.getParameter("hllegadareal"));
 		
+		if (request.getParameter("hsalidaprevistacancel")!=null && !request.getParameter("hsalidaprevistacancel").equals("") )
+		    hSalidaPrevista = StringKeys.formatter.parse(request.getParameter("hsalidaprevistacancel"));
 		
 
 		ReclamacionDTO reclamacionDTO = new ReclamacionDTO(pasajeroDTO, vueloDTO,
@@ -82,6 +84,7 @@ public class JSONServlet extends HttpServlet {
 
 		Reclamacion reclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO,
 			this.ac);
+		
 		 response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
 		//response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="			+ reclamacion.getCodigoReclamacion());
 	    } else if (request.getParameter("caso").equals("2")) {

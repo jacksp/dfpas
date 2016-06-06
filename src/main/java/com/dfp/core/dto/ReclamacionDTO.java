@@ -3,11 +3,14 @@ package com.dfp.core.dto;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.Produces;
+
 import com.dfp.persistencia.entities.Reclamacion;
 
 /**
  * Created by Alberto on 30/12/2015.
  */
+
 public class ReclamacionDTO {
 
 

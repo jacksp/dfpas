@@ -13,8 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.dfp.persistencia.entities.Reclamacion;
@@ -98,14 +96,7 @@ public class MailServiceImpl implements MailService {
  
 	private static final List<File>  NO_ATTACHMENTS = null;
  
-	/** envío de email 
-	 * @param to correo electronico del destinatario
-	 * @param subject asunto del mensaje
-	 * @param text cuerpo del mensaje
-	 */
-	public void send(String to, String subject, Reclamacion oReclamacion) {
-		send(to, subject,  NO_ATTACHMENTS,oReclamacion, true);
-	}
+
 	
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
  
@@ -147,7 +138,7 @@ public class MailServiceImpl implements MailService {
 			helper.setFrom(getFrom());
 //			helper.setText(text);
 			if (oReclamacion.getCodigoReclamacion()!=null && oReclamacion.getId()!=null)
-			    textmensaje = textmensaje.replaceFirst("%CASORECLAMACION%", oReclamacion.getCodigoReclamacion()+"-"+oReclamacion.getId());
+			    textmensaje = textmensaje.replaceFirst("%CASORECLAMACION%", oReclamacion.getCodigoReclamacion());
 			textmensaje = textmensaje.replaceAll("%CASORECLAMACION%", "");
 			
 			if (oReclamacion.getCodigoReclamacion()!=null)
