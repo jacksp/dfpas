@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://www.reclamair.com/indemnizacion-retraso-vuelo/ -->
+<html>
+
+<head>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<link href="./resources/css/style.css" rel="stylesheet">
+
+
+	<link href="./resources/css/toastr.min.css" rel="stylesheet" />
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="resources/js/moment.js"></script>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+	<script type="text/javascript" src="resources/js/transition.js"></script>
+	<script type="text/javascript" src="resources/js/collapse.js"></script>
+	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript" src="resources/js/reclamacion.js"></script>
+
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<script src="./resources/js/toastr.min.js"></script>
+	<script>
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+	</script>
+
+</head>
+
+
+<!-- Begin Body -->
+
+<body  style="background-color:#C7F2F8">
+	<div class="page-header" style="background-image: url(./resources/img/dfpas.jpg);background-size: 100% 100%;
+	background-repeat: no-repeat;height:auto;border-color: #C7F2F8;"  >
+		<h1 data-translate="titulo-paso1" >Complete the form</h1>
+		<p class="lead" id="tituloFormulario"  data-translate="subtitulo-paso1" >Claim for delay in flight</p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</div>
+	<div class="container">
+
+
+
+
+		  <form action="http://localhost:8080/dfpas2/jsonServlet?caso=1" method="post" id="formReclamacion" >
+		  <!--  <form action="http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=1" method="post" id="formReclamacion" > -->
+
+			<div class="row">
+				<div class="col-md-6">
+					<p><span class="glyphicon glyphicon-user text-success"></span> Nombre *
+						<br>
+						<input type="text" id="nombre" name="nombre" value="" class="form-control campo-unico"  maxlength="30">
+						<p id="nombreError" class="textError text-danger"></p>
+					</p>
+				</div>
+				<div class="col-md-6">
+					<p><span class="glyphicon glyphicon-user text-success"></span> Apellidos *
+						<br>
+						<input type="text" id="apellidos" name="apellidos" value="" class="form-control campo-unico"  maxlength="50">
+						<p id="apellidosError" class="textError text-danger"></p>
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<p><span class="glyphicon glyphicon-envelope text-success"></span> Email *
+						<br>
+						<input type="email" id="email" name="email" value="" class="form-control campo-unico" aria-required="true" aria-invalid="false" maxlength="150">
+					</p>
+					<p id="emailError" class="textError text-danger"></p>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-6">
+					<p><span class="glyphicon glyphicon-earphone text-success"></span> Teléfono *
+						<br>
+						<input type="text" id="telefono" name="telefono" value="" class="form-control campo-unico" maxlength="15">
+						<p id="telefonoError" class="textError text-danger"></p>
+					</p>
+				</div>
+				<div class="col-md-6">
+					<p><span class="glyphicon glyphicon-plane text-success"></span> Id Vuelo *
+						<br>
+						<input type="text" id="id-vuelo" name="id-vuelo" value="" class="form-control  campo-unico" size="10"  maxlength="10" >
+						<p id="id-vueloError" class="textError text-danger"></p>
+					</p>
+				</div>
+			</div>
+
+
+			<div class="row" id="aeropuertos">
+				<div class="col-md-6">
+					<p> <span class="glyphicon glyphicon-map-marker text-success"></span> Aeropuerto de Salida
+						<br>
+						<input type="text" id="aeropuerto-salida" name="aeropuerto-salida" value="" class="form-control campo-unico" maxlength="50">
+						<p id="aeropuerto-salidaError" class="textError text-danger"></p>
+					</p>
+				</div>
+				<div class="col-md-6">
+					<p> <span class="glyphicon glyphicon-map-marker text-success"></span> Aeropuerto de Llegada
+						<br>
+						<input type="text" id="aeropuerto-llegada" name="aeropuerto-llegada" value="" class="form-control campo-unico" maxlength="50">
+						<p id="aeropuerto-llegadaError" class="textError text-danger"></p>
+					</p>
+				</div>
+			</div>
+
+			<input type='hidden' id='codigoReclamacion' name="codigoReclamacion" class="form-control campo-unico" />
+			
+			
+			<div class="row" id="horasalidacancel">
+				<div class='col-sm-12'>
+					<p> <span class="glyphicon glyphicon-calendar text-success"></span> Fecha y hora de Salida Prevista
+						<br>
+						<!--  El name tiene que estar así par que vaya a al servlet al mismo sitio que Hora de Salida Prevista -->
+						<input type='text' id='hsalidaprevistacancel' name="hsalidaprevistacancel" class="form-control campo-unico" />
+					</p>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$('#hsalidaprevistacancel').datetimepicker({
+							locale: 'es'
+						});
+					});
+				</script>
+			</div>
+
+			<div class="row" id="horasalida">
+				<div class='col-sm-6'>
+					<p> <span class="glyphicon glyphicon-calendar text-success"></span> Hora de Salida Prevista
+						<br>
+						<input type='text' id='hsalidaprevista' name="hsalidaprevista" class="form-control campo-unico" />
+					</p>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$('#hsalidaprevista').datetimepicker({
+							locale: 'es'
+						});
+					});
+				</script>
+				<div class='col-sm-6'>
+					<p> <span class="glyphicon glyphicon-calendar text-success"></span> Hora de Salida Real
+						<br>
+						<input type='text' class="form-control campo-unico" name="hsalidareal" id='hsalidareal' />
+					</p>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$('#hsalidareal').datetimepicker({
+							locale: 'es'
+						});
+					});
+				</script>
+			</div>
+
+			<div class="row" id="horasentrada">
+				<div class='col-sm-6'>
+					<p> <span class="glyphicon glyphicon-calendar text-success"></span> Hora de llegada Prevista
+						<br>
+						<input type='text' class="form-control campo-unico" name="hllegadaprevista" id='hllegadaprevista' />
+					</p>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$('#hllegadaprevista').datetimepicker({
+							locale: 'es'
+						});
+					});
+				</script>
+				<div class='col-sm-6'>
+					<p> <span class="glyphicon glyphicon-calendar text-success"></span> Hora de llegada Real
+						<br>
+						<input type='text' class="form-control campo-unico" name="hllegadareal" id='hllegadareal' />
+					</p>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$('#hllegadareal').datetimepicker({
+							locale: 'es'
+						});
+					});
+				</script>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<p> <span class="glyphicon glyphicon-comment text-success"></span> Comentarios (Max: 200 carácteres)
+						<br>
+						<textarea id="comentarios" class="form-control campo-unico" name="comentarios" cols="40" rows="5" maxlength="200"></textarea>
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<p class="lead">
+						<span ><input type="checkbox" name="aceptar-condiciones" id="aceptar-condiciones" value="1" ></span>&nbsp;MARCA LA CASILLA SI "ACEPTAS" LAS <a href="./Reclamacion3.html" target="_blank" title="condiciones-generales">CONDICIONES GENERALES</a>.
+						<p id="aceptar-condicionesError" class="textError text-danger"></p>
+					</p>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-12">
+					<input type="submit" class="btn btn-success" value="Enviar reclamación"/>
+					<!-- <button type="button" id="sendReclamacion" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-send"></span>&nbsp;&nbsp;Paso 2</button> -->
+				</div>
+			</div>
+
+			<!-- <div class="row">
+				<div class="col-md-12">
+					<button type="button" id="prueba" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-send"></span>reclamacion</button>
+				</div>
+			</div> -->
+
+
+		</form>
+
+		<footer class="footer">
+			<div class="container">
+				<p class="text-muted">Defensa del pasajero, 2016</p>
+			</div>
+		</footer>
+
+
+	</div>
+	<script src="./resources/js/jqueryTranslator.min.js"></script>
+	<script>
+		(function(){
+			$("[data-translate]").jqTranslate('./resources/traducciones/index',{defaultLang: 'en'});
+		})();
+	</script>
+	<script type="text/javascript">
+		app.initialize();
+	</script>
+</body>
+
+</html>

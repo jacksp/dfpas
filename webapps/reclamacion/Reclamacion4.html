@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://www.reclamair.com/indemnizacion-retraso-vuelo/ -->
+<html>
+
+<head>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<link href="./resources/css/style.css" rel="stylesheet">
+
+	<!-- <link rel="stylesheet" href="./resources/css/jquery.mobile-1.4.5.min.css"> -->
+
+
+		<!-- <script src="resources/js/jquery.min.js"></script> -->
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<script src="resources/js/moment.js"></script>
+
+		<link href="./resources/css/toastr.min.css" rel="stylesheet" />
+
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+		<script type="text/javascript" src="resources/js/transition.js"></script>
+		<script type="text/javascript" src="resources/js/collapse.js"></script>
+		<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.js"></script>
+		<!-- <script type="text/javascript" src="resources/js/reclamacion.js"></script> -->
+		<script type="text/javascript" src="resources/js/resultado.js"></script>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<script src="./resources/js/toastr.min.js"></script>
+	<script>
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+	</script>
+</head>
+
+
+<!-- Begin Body -->
+<body style="background-color:#C7F2F8">
+	<div class="page-header" style="background-image: url(./resources/img/dfpas.jpg);background-size: 100% 100%;
+	background-repeat: no-repeat;height:auto;border-color: #C7F2F8;"  >
+		<h1 data-translate="finproceso" >End of process</h1>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</div>
+<div class="container">
+
+
+
+	<!-- <form action="http://localhost:7001/dfpas2/jsonServlet?caso=2" method="post" id="formAdjuntos" enctype="multipart/form-data"  > -->
+
+				 <div class="row">
+						<div class="col-md-12" id="msg-final-exito"  ><p data-translate="msg-final-exito">
+Congratulations your claim has been stored in our databases. In short our legal department will contact you to communicate the result of the next stages of your claim. Our policy is to inform you in real time of any change in the status of your claim. Anyway you can also ask for phone, mail or twitter ;)</p>
+						</div>
+					</div>
+
+					<div class="row">
+ 						<div class="col-md-12"  id="msg-final-error" ><p data-translate="msg-final-error" >
+It seems that excessive traffic on our databases we could not store documents that you bring to us. Do not worry you can send pictures by email to sos@defensadelpasajero.com or if you prefer we will contact you to solve the problem whatsoever. You can also ask by phone  , mail or twitter (@defensapasajero) ;)</p>
+ 						</div>
+ 					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<button type="button" id="volverPagina" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-send"></span>&nbsp;&nbsp;Continuar</button>
+						</div>
+					</div>
+
+			<!-- </form> -->
+
+			<footer class="footer">
+  <div class="container">
+    <p class="text-muted">Defensa del pasajero, 2016</p>
+  </div>
+</footer>
+
+
+				</div>
+				<script src="./resources/js/jqueryTranslator.min.js"></script>
+				<script>
+					(function(){
+						$("[data-translate]").jqTranslate('./resources/traducciones/index',{defaultLang: 'en'});
+					})();
+				</script>
+				<script type="text/javascript">
+					app.initialize();
+				</script>
+			</body>
+</html>
