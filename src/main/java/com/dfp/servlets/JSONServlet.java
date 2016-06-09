@@ -84,16 +84,16 @@ public class JSONServlet extends HttpServlet {
 
 		Reclamacion reclamacion = ExtraeDatosReclamacionDesdeRequest.insertaDatosReclamacion(reclamacionDTO,
 			this.ac);
-		 response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
-		//response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="			+ reclamacion.getCodigoReclamacion());
+		// response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="+reclamacion.getCodigoReclamacion());
+		response.sendRedirect("./reclamacion/Reclamacion2.html?caso=2&codigoReclamacion="			+ reclamacion.getCodigoReclamacion());
 	    } else if (request.getParameter("caso").equals("2")) {
 
 		Boolean result = ExtraeDatosReclamacionDesdeRequest.insertaAdjuntosReclamacion(request, response,
 			this.ac);
 
-		 response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion4.html?resultEnvio="+result);
+		// response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion4.html?resultEnvio="+result);
 		 
-		//response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio=" + result);
+		response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio=" + result);
 
 		System.out.println("done");
 	    }
