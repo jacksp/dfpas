@@ -163,7 +163,9 @@
                 %NOMBRECOMPLETO%<br>
                 %MOTIVORECLAMACION% <br>
 				%TELEFONO% <br>
+				%EMAIL% <br>
 				%TRAYECTOVUELO% <br>
+				%CODIGOVUELO% <br>
 				%HORARIOPREVISTO% <br>
 				%HORARIOREAL% <br>
                 %TEXTORECLAMACION% <br>

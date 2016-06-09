@@ -162,8 +162,12 @@ public class MailServiceImpl implements MailService {
 			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
 			
 			if (oReclamacion.getPasajero().getVuelo().getCodigoVuelo()!=null)
-			    textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
-			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
+			    textmensaje = textmensaje.replaceFirst("%CODIGOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
+			textmensaje = textmensaje.replaceAll("%CODIGOVUELO%", "");
+			
+			if (oReclamacion.getPasajero().getEmail()!=null)
+			    textmensaje = textmensaje.replaceFirst("%EMAIL%", " Email: "+oReclamacion.getPasajero().getEmail());			
+			textmensaje = textmensaje.replaceAll("%EMAIL%", "");
 			
 			if (oReclamacion.getHoraInicioVueloPrevista()!=null && oReclamacion.getHoraFinVueloPrevista()!=null)
 			    textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));

@@ -267,11 +267,13 @@
             </tr>
             <tr>
               <td class="bodycopy">
-                Nos ha llegado el siguiente caso de reclamación:<br>
+                    Nos ha llegado el siguiente caso de reclamación:<br>
                 %NOMBRECOMPLETO%<br>
                 %MOTIVORECLAMACION% <br>
 				%TELEFONO% <br>
+				%EMAIL% <br>
 				%TRAYECTOVUELO% <br>
+				%CODIGOVUELO% <br>
 				%HORARIOPREVISTO% <br>
 				%HORARIOREAL% <br>
                 %TEXTORECLAMACION% <br>
