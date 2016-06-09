@@ -92,6 +92,7 @@ public class JSONServlet extends HttpServlet {
 			this.ac);
 
 		 response.sendRedirect("http://defensadelpasajero.com/reclamacion/Reclamacion4.html?resultEnvio="+result);
+		 
 		//response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio=" + result);
 
 		System.out.println("done");
