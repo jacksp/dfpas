@@ -12,78 +12,78 @@ var app = {
       return this.aLangKeys[''+idLang][''+id];
     }
     ,
-//    sendWebServices:function(){ 
-//    	
-//      var userLang = navigator.language || navigator.userLanguage;
-//      var idLang = userLang.split('-')[0];
-//      //console.log("El codigo Locale de la pagina es :: "+idLang);
-//      if (idLang!='es' && idLang!='ca')
-//        idLang = 'en';
-//      this.currentLang = idLang;
-//      
-//      var pasajeroObject= {
-//              nombre: $('#nombre').val(),
-//              apellidos: $('#apellidos').val(),
-//              email: $('#email').val(),
-//              telefono: $('#telefono').val()
-//             };
-//
-//      var vueloObject= {
-//              codigoVuelo: $('#id-vuelo').val(),
-//              aeropuertoOrigen: $('#aeropuerto-salida').val(),
-//              aeropuertoDestino: $('#aeropuerto-llegada').val()
-//            };
-//
-//      var dataReclamacion= {
-//              pasajero:pasajeroObject,
-//              vuelo:vueloObject,
-//              idvuelo: $('#id-vuelo').val(),
-//              textoReclamacion: $('#comentarios').val(),
-//              horaFinVueloPrevista: $('#hllegadaprevista').val(),
-//              horaInicioVueloPrevista: $('#hsalidaprevista').val(),
-//              horaFinVueloReal: $('#hllegadaprevista').val(),
-//              horaInicioVueloReal: $('#hsalidaprevista').val(),
-//              codigoReclamacion:this.currentCaso
-//              };
-//      
-//     
-//      
-//  
-//
-//        var sUrlBusqueda = 'http://localhost:7001/dfpas2/jsonServlet?caso=1';
-//
-////      var sUrlBusqueda = 'http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=1';
-//
-//      $.ajax({
-//					  type: 'POST',
-//					  url: sUrlBusqueda,
-//         dataType: 'json',
-//         data: JSON.stringify(dataReclamacion),
-//        // contentType: 'application/json',
-//        // mimeType: 'application/json',
-////					  success: function(result) {
-////              if (result==-1) {
-////                var error = app.traduceCadena("errorServidor");
-////                toastr["error"](error);
-////              } else{
-////                var userLang = navigator.language || navigator.userLanguage;
-////                var idLang = userLang.split('-')[0];
-////                //console.log("El codigo Locale de la pagina es :: "+idLang);
-////                if (idLang!='es' && idLang!='ca')
-////                  idLang = 'en';
-////                this.currentLang = idLang;
-////                result = result.split('-')[1];
-////                window.location.href = 'Reclamacion2.html?caso=2&codigoReclamacion='+result+'&language='+this.currentLang;
-////              }
-////            },
-//            error: function (xhr, status) {
+    sendWebServices:function(){ 
+    	
+      var userLang = navigator.language || navigator.userLanguage;
+      var idLang = userLang.split('-')[0];
+      //console.log("El codigo Locale de la pagina es :: "+idLang);
+      if (idLang!='es' && idLang!='ca')
+        idLang = 'en';
+      this.currentLang = idLang;
+      
+      var pasajeroObject= {
+              nombre: $('#nombre').val(),
+              apellidos: $('#apellidos').val(),
+              email: $('#email').val(),
+              telefono: $('#telefono').val()
+             };
+
+      var vueloObject= {
+              codigoVuelo: $('#id-vuelo').val(),
+              aeropuertoOrigen: $('#aeropuerto-salida').val(),
+              aeropuertoDestino: $('#aeropuerto-llegada').val()
+            };
+
+      var dataReclamacion= {
+              pasajero:pasajeroObject,
+              vuelo:vueloObject,
+              idvuelo: $('#id-vuelo').val(),
+              textoReclamacion: $('#comentarios').val(),
+              horaFinVueloPrevista: $('#hllegadaprevista').val(),
+              horaInicioVueloPrevista: $('#hsalidaprevista').val(),
+              horaFinVueloReal: $('#hllegadaprevista').val(),
+              horaInicioVueloReal: $('#hsalidaprevista').val(),
+              codigoReclamacion:this.currentCaso
+              };
+      
+     
+      
+  
+
+        var sUrlBusqueda = 'http://localhost:8080/dfpas2/jsonServlet?caso=1';
+
+//      var sUrlBusqueda = 'http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=1';
+
+      $.ajax({
+					  type: 'POST',
+					  url: sUrlBusqueda,
+         dataType: 'json',
+         data: JSON.stringify(dataReclamacion),
+        // contentType: 'application/json',
+        // mimeType: 'application/json',
+//					  success: function(result) {
+//              if (result==-1) {
 //                var error = app.traduceCadena("errorServidor");
 //                toastr["error"](error);
-//                alert(xhr.responseText);
-//            }
-//					});
-//
-//    },
+//              } else{
+//                var userLang = navigator.language || navigator.userLanguage;
+//                var idLang = userLang.split('-')[0];
+//                //console.log("El codigo Locale de la pagina es :: "+idLang);
+//                if (idLang!='es' && idLang!='ca')
+//                  idLang = 'en';
+//                this.currentLang = idLang;
+//                result = result.split('-')[1];
+//                window.location.href = 'Reclamacion2.html?caso=2&codigoReclamacion='+result+'&language='+this.currentLang;
+//              }
+//            },
+            error: function (xhr, status) {
+                var error = app.traduceCadena("errorServidor");
+                toastr["error"](error);
+                alert(xhr.responseText);
+            }
+					});
+
+    },
     currentCaso:""
     ,
     currentLang:""

@@ -32,15 +32,11 @@ var app = {
 				app.currentCaso = sParameterName[1];
 
 			if (sParameterName[0] == 'codigoReclamacion') {
-//				var url = "http://localhost:7001/dfpas2/jsonServlet?caso=2&codigoReclamacion="						+ sParameterName[1];
-				 var url = "http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=2&codigoReclamacion="+sParameterName[1];
-				 
-				 
-				 
+//				var url = "http://localhost:8080/dfpas2/jsonServlet?caso=2&codigoReclamacion="
+//						+ sParameterName[1];
+				 var url =
+				 "http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=2&codigoReclamacion="+sParameterName[1];
 				$("#formAdjuntos").attr("action", url);
-				
-				
-				
 				// $("#codigoReclamacion").val(sParameterName[1]);
 			}
 			// if(sParameterName[0]=='language')
