@@ -51,5 +51,9 @@ public class StringKeys {
     public static final String DATELLEGADAPREVISTA = "datellegadaprevista";
     
     public static final String[] STRINGLABELSDURATION = {"Days","Day","Días","Día","Dia","Dies"};
+
+	public static final Integer ULTIMONIVEL = new Integer(5);
+	
+	public static final Integer ULTIMONIVELDENEGADA = new Integer(-1);
     
 }

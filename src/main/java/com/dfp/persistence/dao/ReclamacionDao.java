@@ -39,7 +39,7 @@ public class ReclamacionDao  {
 //	}
 	
 	
-	public List<Reclamacion> getReclamacionByExample(Reclamacion claim) {	
+	public List<Reclamacion> getListReclamacionByExample(Reclamacion claim) {	
 		Criteria criteria = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Reclamacion.class);
 		List<Reclamacion> oListReclamacion = null;
 		
@@ -53,30 +53,22 @@ public class ReclamacionDao  {
 			
 			oListReclamacion = (List<Reclamacion>) criteria.list();
 		
-		
-//			for (Reclamacion reclamacion: oListReclamacion){
-////				if(reclamacion.getEstado()!=null)
-////					criteriaEstado.add(Restrictions.eq("id", reclamacion.getEstado().getId()));
-////				
-//				Estado estado = reclamacion.getEstado();
-//				
-//				
-//				reclamacion.setEstado(estado);
-//				
-////				if(reclamacion.getPasajero()!=null)
-////					criteriaPasajero.add(Restrictions.eq("id", reclamacion.getPasajero().getId()));
-//				
-//				Pasajero pasajero = reclamacion.getPasajero();
-//				reclamacion.setPasajero(pasajero);
-//				
-//				
-//			}
 		} catch (Exception e) {
 			System.out.println("Errro al recuperar la lista de estados");
 		} 
 		finally {
 			return oListReclamacion;
 		}
+	}
+	
+	public Reclamacion getReclamacionByExample(Reclamacion claim) {
+		
+		List<Reclamacion> oList = this.getListReclamacionByExample(claim);
+		
+		if (oList.isEmpty())
+			return null;
+		else
+			return oList.get(0);
 	}
 	
 	

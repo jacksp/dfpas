@@ -320,7 +320,7 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 	    if (array.length==2){	    	
 			Reclamacion claim = new Reclamacion();
 			claim.setId(new Integer(array[1]));
-			claim = (reclamacionDao.getReclamacionByExample(claim)).get(0);
+			claim = reclamacionDao.getReclamacionByExample(claim);
 			
 			claimDTO.populateFromEntity(claim);
 	    }

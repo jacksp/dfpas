@@ -39,7 +39,7 @@ public class EstadoDao {
 		}
 	}
 	
-	public List<Estado> getEstadoByExample(Estado estado) {	
+	public List<Estado> getListEstadoByExample(Estado estado) {	
 		Criteria criteria = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Estado.class);
 		List<Estado> oListReclamacion = null;
 		
@@ -58,6 +58,15 @@ public class EstadoDao {
 		}
 	}
 	
+	
+	public Estado getEstadoByExample(Estado estado) {	
+			List<Estado> oEstados = this.getListEstadoByExample(estado);
+			
+			if (oEstados.isEmpty())
+				return null;
+			else 
+				return (Estado)oEstados.get(0);
+	}
 	
 	
 	

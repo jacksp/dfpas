@@ -41,10 +41,10 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 	    Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
 	    session.beginTransaction();
 	    
-	    Reclamacion claim = new Reclamacion();
-		
-	    claim.setId(new Integer(claimId));
-	    claim = (reclamacionDao.getReclamacionByExample(claim)).get(0);
+	    Reclamacion claim = new Reclamacion();		
+	    claim.setId(new Integer(claimId));	    
+	    claim = reclamacionDao.getReclamacionByExample(claim);
+	    
 	    session.getTransaction().commit();
 	    ReclamacionDTO claimDTO = new ReclamacionDTO();
 	    claimDTO.populateFromEntity(claim);
@@ -63,10 +63,14 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 	    for(String sClaim :array){
 		Reclamacion claim = new Reclamacion();
 		claim.setId(new Integer(sClaim));
-		claim = (reclamacionDao.getReclamacionByExample(claim)).get(0);
-		ReclamacionDTO claimDTO = new ReclamacionDTO();
-		claimDTO.populateFromEntity(claim);
-		oListReclamaciones.add(claimDTO);
+		
+		claim =  reclamacionDao.getReclamacionByExample(claim);
+	
+			if (claim!=null){
+				ReclamacionDTO claimDTO = new ReclamacionDTO();
+				claimDTO.populateFromEntity(claim);
+				oListReclamaciones.add(claimDTO);
+			}
 	    }
 	    session.getTransaction().commit();
 	    return Response.ok(oListReclamaciones).build();
@@ -116,11 +120,11 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 		
 		MailService mm = (MailServiceImpl) appContext.getBean("mailReclamacion"+sNombreEstado);	    
 		    mm.send(claim.getPasajero().getEmail(), "Nuevo estado en la reclamación::" + claim.getCodigoReclamacion()
-			    + "-" + claim.getId(), null, claim, false);
+			  , null, claim, false);
 		    
 		mm = (MailServiceImpl) appContext.getBean("mailReclamacion"+sNombreEstado);	    
-		    mm.send(claim.getPasajero().getEmail(), "Nuevo estado en la reclamación::" + claim.getCodigoReclamacion()
-			    + "-" + claim.getId(), null, claim, true);
+		    mm.send(StringKeys.mailTecnico, "Nuevo estado en la reclamación::" + claim.getCodigoReclamacion()
+			  , null, claim, true);
 		    
 	    }catch (Exception e) {
 		return true;
@@ -132,12 +136,13 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 	    Estado state = new Estado();
 	    
 	    state.setSecEstado(iEstado);
-	    return estadoDao.getEstadoByExample(state).get(0);
+	    
+	    return estadoDao.getEstadoByExample(state);
 	}
 	
 	private String cambioEstadoBySecuence(String claimId,Integer secuence) {
 	    Boolean error= false;
-		String sMensaje = "";
+		String sMensaje = "ok";
 		if (claimId!=null){
 		    try{
 			Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
@@ -145,9 +150,17 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 			Reclamacion claim = new Reclamacion();
 			
 			claim.setId(new Integer(claimId));
-			claim =  (reclamacionDao.getReclamacionByExample(claim)).get(0);
+			claim = reclamacionDao.getReclamacionByExample(claim);
+			
+			if (claim==null)
+				return "noOK";
+			
+			if (claim.getEstado().getSecEstado().equals(StringKeys.ULTIMONIVEL)||
+					claim.getEstado().getSecEstado().equals(StringKeys.ULTIMONIVELDENEGADA))
+				return "La reclamación ya está en su último nivel";
 			
 			Estado state = null;
+			
 			if (secuence.equals(1))
 			    state = getEstadoBySecuence(claim.getEstado().getSecEstado()+secuence);
 			else
@@ -176,7 +189,7 @@ public class ReclamacionCxfRestServiceImpl implements ReclamacionCxfRestService 
 	public Response aceptaSiguienteEstadoReclamacion(String claimId) {
 		String sMensaje = "ok";
 		if (claimId!=null){
-		    	cambioEstadoBySecuence( claimId,1);
+			sMensaje = cambioEstadoBySecuence( claimId,1);
 			
 			return Response.ok(sMensaje).build();
 		}else

@@ -63,7 +63,7 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	try {
 	    session.beginTransaction();
-	    oReclamacion = (Reclamacion) reclamacionDao.getReclamacionByExample(oReclamacion).get(0);
+	    oReclamacion = (Reclamacion) reclamacionDao.getReclamacionByExample(oReclamacion);
 	    session.getTransaction().commit();
 	} catch (Exception e) {
 	    session.getTransaction().rollback();
@@ -148,14 +148,12 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	    Estado estado = new Estado();
 	    estado.setNombreEstado("Recibida");
 
-	    List<Estado> oListEstado = estadoDao.getEstadoByExample(estado);
+	    Estado oEstado = estadoDao.getEstadoByExample(estado);
 
-	    if (oListEstado != null && oListEstado.size() == 1)
-		estado = oListEstado.get(0);
-	    else
-		error = true;
+	    if (oEstado == null)
+	    	error = true;
 
-	    reclamacion.setEstado(estado);
+	    reclamacion.setEstado(oEstado);
 
 	    int codigo = reclamacionDao.persist(reclamacion);
 

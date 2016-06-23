@@ -62,7 +62,7 @@ public class Dfpas_reportServlet extends HttpServlet {
             Session session =HibernateUtil.getSessionFactory().getCurrentSession();	        
             session.beginTransaction();
             
-            reclamacion = reclamacionDao.getReclamacionByExample(reclamacion).get(0);
+            reclamacion = reclamacionDao.getReclamacionByExample(reclamacion);
             
             session.getTransaction().commit();
  

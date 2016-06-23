@@ -27,11 +27,13 @@
 		<property name="port" value="587" />
 		<property name="username" value="ladefensadelpasajero@gmail.com" />
 		<property name="password" value="volar2016DP" />
-
+		<property name="protocol"><value>smtp</value></property>
 		<property name="javaMailProperties">
 			<props>
             	<prop key="mail.smtp.auth">true</prop>
             	<prop key="mail.smtp.starttls.enable">true</prop>
+		<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+                <prop key="mail.smtps.ssl.trust">*</prop>
         	</props>
 		</property>
 
@@ -41,13 +43,13 @@
 	
 
 
-	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl">
+	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl" scope="prototype">
 	  <property name="active" value="true"/>
 	  <property name="mailSender" ref="mailSender"/>
 	  <property name="from" value="ladefensadelpasajero@gmail.com"/>
 	  <property name="text">
         <value>
-            <![CDATA[
+               <![CDATA[
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -163,14 +165,19 @@
                 %NOMBRECOMPLETO%<br>
                 %MOTIVORECLAMACION% <br>
 				%TELEFONO% <br>
-				%EMAIL% <br>
 				%TRAYECTOVUELO% <br>
-				%CODIGOVUELO% <br>
 				%HORARIOPREVISTO% <br>
 				%HORARIOREAL% <br>
                 %TEXTORECLAMACION% <br>
+    			%HORAINICIOPREVISTA% <br>
               </td>
             </tr>
+             <tr>
+	        <td class="bodycopy">
+	          Actualmente tu reclamación está en estado %ESTADO%<br>
+	          %DESCRIPCIONESTADO%
+	        </td>
+	      </tr>
           </tbody></table>
         </td>
       </tr>
@@ -194,7 +201,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tbody><tr>
                     <td class="bodycopy">
-                      En el correo encontraras adjuntada la documentación que nos has entregado
+                      Estamos revisando tu documentación
                     </td>
                   </tr>
                   <tr>
@@ -214,6 +221,7 @@
                           %ENLACEPDF%
                         </td>
                       </tr>
+                       
                       </tbody></table>
                     </td>
                   </tr>
@@ -229,11 +237,7 @@
         </td>
       </tr>
 
-      <tr>
-        <td class="innerpadding bodycopy">
-          Actualmente tu reclamación está en estado %ESTADO%
-        </td>
-      </tr>
+    
       <tr>
         <td class="footer" bgcolor="#44525f">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
