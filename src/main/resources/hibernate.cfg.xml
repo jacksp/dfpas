@@ -9,7 +9,7 @@
     <!-- <property name="hibernate.connection.url">jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}</property>
    <property name="hibernate.connection.username">${OPENSHIFT_MYSQL_DB_USERNAME}</property>
    <property name="hibernate.connection.password">${OPENSHIFT_MYSQL_DB_PASSWORD}</property>  -->
-   <property name="hibernate.connection.url">jdbc:mysql://127.6.90.131:3306/wscentral</property>
+   <property name="hibernate.connection.url">jdbc:mysql://127.6.90.131:3306/wscentral?autoReconnect=true</property>
    <property name="hibernate.connection.username">admin9lmwL5t</property>
    <property name="hibernate.connection.password">QYNXgYdgeRJB</property>
    
