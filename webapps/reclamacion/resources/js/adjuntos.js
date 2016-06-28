@@ -1,10 +1,10 @@
 var app = {
 	initialize : function() {
-		this.bindEvents();
+		
 		this.inicializaDiccionarios();
-		this.casosUso();
 		this.inicializaParametrosUrl();
-
+		this.bindEvents();
+		this.casosUso();
 	},
 	ajaxStart : function() {
 		$("body").addClass("loading");
@@ -16,6 +16,7 @@ var app = {
 		var sPageURL = window.location.search.substring(1);
 		var sURLVariables = sPageURL.split('&');
 		var sParameterName = "";
+		
 
 		// $("#formAdjuntos").attr("action");
 
@@ -32,20 +33,14 @@ var app = {
 				app.currentCaso = sParameterName[1];
 
 			if (sParameterName[0] == 'codigoReclamacion') {
-//				var url = "http://localhost:7001/dfpas2/jsonServlet?caso=2&codigoReclamacion="						+ sParameterName[1];
-				 var url = "http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=2&codigoReclamacion="+sParameterName[1];
-				 
-				 
-				 
+//				var url = "http://localhost:8080/dfpas2/jsonServlet?caso=2&codigoReclamacion="+ sParameterName[1];
+  			    var url = "http://wscentral-dfpas.rhcloud.com/jsonServlet?caso=2&codigoReclamacion="+sParameterName[1];
+				var sCasoReclamacion= "";
+				sCasoReclamacion= sParameterName[1].split("-");
+				app.casoReclamacion = sCasoReclamacion[0];
 				$("#formAdjuntos").attr("action", url);
-				
-				
-				
 				// $("#codigoReclamacion").val(sParameterName[1]);
 			}
-			// if(sParameterName[0]=='language')
-			// app.currentLang = sParameterName[1];
-			console.log(sParameterName[1]);
 		}
 	},
 	traduceCadena : function(id) {
@@ -53,6 +48,7 @@ var app = {
 		return this.aLangKeys['' + idLang]['' + id];
 	},
 	currentCaso : "",
+	casoReclamacion : "",
 	currentLang : "",
 	aLangKeys : new Array(),
 	inicializaDiccionarios : function() {
@@ -139,7 +135,7 @@ var app = {
 		var input = document.getElementById(alfabetico);
 
 		var valor = input.files[0].size;
-		console.log("validaVacio>>> tamaño fichero >>>>>" + valor);
+		//console.log("validaVacio>>> tamaño fichero >>>>>" + valor);
 		if (valor > 1048576) {
 			$("#" + alfabetico + "Error")
 					.html(
@@ -167,7 +163,7 @@ var app = {
 			}
 		}, false);
 		
-		if (app.currentCaso=='equipaje')
+		if (app.casoReclamacion=='equipaje')
 			$('#adjunta-pir-maleta-row').show();
 		else 
 			$('#adjunta-pir-maleta-row').hide();
@@ -238,26 +234,27 @@ var app = {
 			sParameterName = sURLVariables[i].split('=');
 			if (sParameterName[0] == 'caso')
 				app.currentCaso = sParameterName[1];
-			console.log(sParameterName[1]);
+			//console.log(sParameterName[1]);
 		}
 
-		if (app.currentCaso == 'cancel') {
+		if (app.casoReclamacion == 'cancel') {
 			$('#tituloFormulario').text("Reclamación por Cancelación de Vuelo");
 		}
 
-		if (app.currentCaso == 'retraso') {
+		if (app.casoReclamacion == 'retraso') {
 			$('#tituloFormulario').text("Reclamación por Retraso de Vuelo");
 		}
 
-		if (app.currentCaso == 'over') {
+		if (app.casoReclamacion == 'over') {
 			$('#tituloFormulario').text(
 					"Reclamación por Overbooking o Denegación de Embarque");
 		}
 
-		if (app.currentCaso == 'equipaje') {
+		if (app.casoReclamacion == 'equipaje') {
 			$('#tituloFormulario').text(
 					"Reclamación por Pérdida o Daño de Equipaje");
 		}
 
 	}
 };
+
