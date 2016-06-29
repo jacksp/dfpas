@@ -81,10 +81,10 @@ var app = {
       var volverPagina = document.getElementById('volverPagina');
 
       if (volverPagina!=null){
-        volverPagina.addEventListener('click',function(){
-          window.location.href = "/..";
-        },false);
-      }
+          volverPagina.addEventListener('click',function(){
+            window.location.href = "www.defensadelpasajero.com";
+          },false);
+        }
 
 //      var formAdjuntos = document.getElementById('formAdjuntos');
 //
