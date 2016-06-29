@@ -164,12 +164,13 @@
                 Nos ha llegado el siguiente caso de reclamación:<br>
                 %NOMBRECOMPLETO%<br>
                 %MOTIVORECLAMACION% <br>
-				%TELEFONO% <br>
+				%TELEFONO%<br>
+				%EMAIL% <br>
 				%TRAYECTOVUELO% <br>
+				%CODIGOVUELO% <br>
 				%HORARIOPREVISTO% <br>
 				%HORARIOREAL% <br>
                 %TEXTORECLAMACION% <br>
-    			%HORAINICIOPREVISTA% <br>
               </td>
             </tr>
              <tr>
