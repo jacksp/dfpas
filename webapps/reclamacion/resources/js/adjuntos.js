@@ -136,10 +136,10 @@ var app = {
 
 		var valor = input.files[0].size;
 		//console.log("validaVacio>>> tamaño fichero >>>>>" + valor);
-		if (valor > 1048576) {
+		if (valor > 1548576) {
 			$("#" + alfabetico + "Error")
 					.html(
-							"Este fichero no puede pesar más de 1MB, si es una imagén puedes reducirlo con esta herramienta (<a href='https://compressor.io/compress' target='black'>Compressor.io</a>)");
+							"Este fichero no puede pesar más de 1.5MB, si es una imagén puedes reducirlo con esta herramienta (<a href='https://compressor.io/compress' target='black'>Compressor.io</a>)");
 			return false;
 		}
 		return true;
