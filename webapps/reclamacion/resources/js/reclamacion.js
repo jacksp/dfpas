@@ -171,9 +171,9 @@ var app = {
               $("#aceptar-condicionesError").text("Debes aceptar las condiciones para poner la reclamación");
           }else {
             $("#aceptar-condicionesError").hide();
-          }
+          }        
+        }
         return ok;
-      }
     },
     bindEvents: function() {
 
