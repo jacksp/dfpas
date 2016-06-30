@@ -82,7 +82,7 @@ var app = {
 
       if (volverPagina!=null){
           volverPagina.addEventListener('click',function(){
-            window.location.href = "www.defensadelpasajero.com";
+            window.location.href = "http://www.defensadelpasajero.com";
           },false);
         }
 
