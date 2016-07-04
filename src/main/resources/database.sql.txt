@@ -38,6 +38,18 @@ telefono VARCHAR(15)
 )
 
 
+CREATE TABLE library.taxi (
+ idTaxi INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+ nombre VARCHAR(100),
+ tlf VARCHAR(15),
+ twitter VARCHAR(20),
+ email VARCHAR(50),
+ localidad  VARCHAR(50),
+ cp  VARCHAR(6),
+ recomendaciones VARCHAR(60)
+);
+
+
 CREATE TABLE `estado` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `secEstado` int(11) DEFAULT NULL,

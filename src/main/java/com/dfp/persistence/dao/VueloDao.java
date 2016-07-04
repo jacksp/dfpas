@@ -15,7 +15,7 @@ public class VueloDao {
 			session.save(entity);
 		}catch(Exception e){
 			return -1;
-		}
+		} 
 		
 		return entity.getId();
 	}
