@@ -127,7 +127,7 @@
 	</bean>
 
 
-	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl">
+	<bean id="mailReclamacionRecibidaAdjuntos" class="com.dfp.core.MailServiceImpl" scope="prototype">
 		<property name="active" value="true" />
 		<property name="mailSender" ref="mailSender" />
 		<property name="from" value="ladefensadelpasajero@gmail.com" />
