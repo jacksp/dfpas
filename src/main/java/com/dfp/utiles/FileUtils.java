@@ -39,8 +39,7 @@ public class FileUtils {
 
 		final File compressedImageFile = File.createTempFile(FilenameUtils.getBaseName(sName) + "-", "." + sExtension);
 
-		if (compressedImageFile.length() < 120000)
-			return compressedImageFile;
+		
 
 		OutputStream os = new FileOutputStream(compressedImageFile);
 
