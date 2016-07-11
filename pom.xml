@@ -155,6 +155,27 @@
 			<version>2.7.7</version>
 		</dependency>
 		
+		<!-- Hibernate c3p0 connection pool -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-c3p0</artifactId>
+		    <version>4.3.6.Final</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.mchange</groupId>
+		    <artifactId>mchange-commons-java</artifactId>
+		    <version>0.2.11</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.mchange</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.5.2</version>
+		</dependency>
+
+		
 	</dependencies>
 	<profiles>
 		<profile>
