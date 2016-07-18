@@ -146,6 +146,7 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 	Map<String,String> oMapTimes = new HashMap<String,String>();
 	Boolean error = false;
 	HttpServletRequest req = context.getHttpServletRequest();
+	String json = "";
 	try {
 	    FileItemIterator fileIterator = upload.getItemIterator(req);
 	    
@@ -248,13 +249,12 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 	    attachments.add(oFile);
 //	    Reclamacion oReclamacion = new Reclamacion();
 //	    oReclamacion.populateFromReclamacionDTO(reclamacion);
-	    ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(attachments, oReclamacion, appContext);
+	    error = ExtraeDatosReclamacionDesdeRequest.envioMailConAdjuntos(attachments, oReclamacion, appContext);
 	    
-	    if (error){
-		MailService mm = (MailServiceImpl) appContext.getBean("mailReclamacionRecibidaAdjuntos");	
-		mm.send(StringKeys.mailTecnico, "Nueva reclamación::" + oReclamacion.getCodigoReclamacion() , null, oReclamacion, true);
+	    if (!error){
+	    	json = "error";
 	    }
-	    
+	   
 
 	} catch (FileUploadException e) {
 	    // TODO Auto-generated catch block
@@ -273,8 +273,9 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 	claim.populateFromReclamacionDTO(claimDTO);
 	// int iClaim = reclamacionDao.persist(claim);
 
-	return Response.ok(null).build();
+	return Response.ok(json).build();
     }
+    
     
     
 	@Override
