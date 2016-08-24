@@ -14,6 +14,8 @@ public class StringKeys {
     
     public static final String mailTecnico = "ladefensadelpasajero@gmail.com";
     
+    public static final String mailTecnico1 = "amarques74@gmail.com";
+    
     public static final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
     
     public static final String sformatter = "dd/MM/yyyy hh:mm a";

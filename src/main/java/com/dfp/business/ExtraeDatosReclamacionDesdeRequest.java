@@ -45,7 +45,7 @@ public class ExtraeDatosReclamacionDesdeRequest {
         	return true;
 	} catch (Exception e) {
 	    MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
-	    mm.send(StringKeys.mailTecnico, "Error al enviar los adjuntos de reclamación codigo::" + oReclamacion.getCodigoReclamacion(),null,oReclamacion,true);
+	    mm.send(StringKeys.mailTecnico1, "Error al enviar los adjuntos de reclamación codigo::" + oReclamacion.getCodigoReclamacion(),null,oReclamacion,true);
 	    return false;
 	}
     }
@@ -96,7 +96,7 @@ public class ExtraeDatosReclamacionDesdeRequest {
 	     */
 	} catch (Exception e) {
 	    MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
-	    mm.send(StringKeys.mailTecnico, "Error al enviar convertir las imagenes de la reclamación codigo::" + oReclamacion.getCodigoReclamacion(),null, oReclamacion,true);
+	    mm.send(StringKeys.mailTecnico1, "Error al enviar convertir las imagenes de la reclamación codigo::" + oReclamacion.getCodigoReclamacion(),null, oReclamacion,true);
 	    
 	    
 	    return false;

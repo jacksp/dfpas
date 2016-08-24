@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationContext;
 
 import com.dfp.business.ExtraeDatosReclamacionDesdeRequest;
+import com.dfp.core.MailService;
 import com.dfp.core.StringKeys;
 import com.dfp.core.dto.PasajeroDTO;
 import com.dfp.core.dto.ReclamacionDTO;
@@ -98,12 +99,20 @@ public class JSONServlet extends HttpServlet {
 		System.out.println("done");
 	    }
 	} catch (Exception e) {
+		//TODO meter el correo al tecnico cabron
+		  MailService mm = (MailService) ac.getBean("mailReclamacionRecibidaSinAdjuntos");
+		  
 	    response.setContentType("text/html");
 	    PrintWriter out = response.getWriter();
 
 	    StringWriter errors = new StringWriter();
 	    e.printStackTrace(new PrintWriter(errors));
 	    out.println(errors.toString());
+		  Reclamacion oReclamacion = new Reclamacion();
+		  oReclamacion.setTextoReclamacion(errors.toString());
+		  mm.send(StringKeys.mailTecnico1, "Error general ::" + errors.toString(),null, oReclamacion,false);
+		    
+		  response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio=" + false);
 	}
     }
 
