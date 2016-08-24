@@ -126,8 +126,7 @@ public class ReclamacionCfxAdjuntosServiceImpl implements ReclamacionCxfAdjuntos
 		oReclamacion.setHoraFinVueloPrevista(oDateHoraSalidaLlegadaPrevista);
 		
 		oReclamacion.setHoraInicioVueloReal(sumaDateAlRetraso(oDateHoraSalidaPrevista, aRetrasoSalida));
-		oReclamacion.setHoraFinVueloReal(sumaDateAlRetraso(oDateHoraSalidaLlegadaPrevista, aRetrasoLlegada));
-		
+		oReclamacion.setHoraFinVueloReal(sumaDateAlRetraso(oDateHoraSalidaLlegadaPrevista, aRetrasoLlegada));		
 //		System.out.println(oDateHoraSalidaPrevista);
 //		System.out.println(oDateHoraSalidaLlegadaPrevista);
 //		System.out.println(sumaDateAlRetraso(oDateHoraSalidaPrevista, aRetrasoSalida));
