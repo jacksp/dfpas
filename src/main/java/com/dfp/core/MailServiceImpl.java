@@ -214,7 +214,7 @@ public class MailServiceImpl implements MailService {
 			
 			helper.setText(textmensaje,true);
 			
-	//		helper.setText(text, "<h1>HOla</h1>");
+	//		helper.setText(text, "<h1>HOla</h1>"); 
 			
  
 			// adjuntando los ficheros
