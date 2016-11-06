@@ -145,27 +145,27 @@ public class MailServiceImpl implements MailService {
 			    textmensaje = textmensaje.replaceFirst("%MOTIVORECLAMACION%", "Motivo de la reclamación "+oReclamacion.getCodigoReclamacion());			
 			textmensaje = textmensaje.replaceAll("%MOTIVORECLAMACION%", "");
 			
-			if (oReclamacion.getPasajero().getNombre()!=null)
+			if (oReclamacion.getPasajero()!=null && oReclamacion.getPasajero().getNombre()!=null)
 			    textmensaje = textmensaje.replaceFirst("%NOMBRE%",  oReclamacion.getPasajero().getNombre());			
 			textmensaje = textmensaje.replaceAll("%NOMBRE%", "");
 			
-			if (oReclamacion.getPasajero().getNombre()!=null && oReclamacion.getPasajero().getApellidos()!=null)
+			if (oReclamacion.getPasajero()!=null && oReclamacion.getPasajero().getNombre()!=null && oReclamacion.getPasajero().getApellidos()!=null)
 			    textmensaje = textmensaje.replaceFirst("%NOMBRECOMPLETO%", oReclamacion.getPasajero().getNombre()+" "+oReclamacion.getPasajero().getApellidos());			
 			textmensaje = textmensaje.replaceAll("%NOMBRECOMPLETO%", "");
 			
-			if (oReclamacion.getPasajero().getTelefono()!=null)
+			if (oReclamacion.getPasajero()!=null && oReclamacion.getPasajero().getTelefono()!=null)
 			    textmensaje = textmensaje.replaceFirst("%TELEFONO%","Teléfono: "+ oReclamacion.getPasajero().getTelefono());
 			textmensaje = textmensaje.replaceAll("%TELEFONO%", "");
 			
-			if (oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()!=null && oReclamacion.getPasajero().getVuelo().getAeropuertoDestino()!=null)
+			if (oReclamacion.getPasajero()!=null && oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()!=null && oReclamacion.getPasajero().getVuelo().getAeropuertoDestino()!=null)
 			    textmensaje = textmensaje.replaceFirst("%TRAYECTOVUELO%", " Trayecto: "+oReclamacion.getPasajero().getVuelo().getAeropuertoOrigen()+"-"+oReclamacion.getPasajero().getVuelo().getAeropuertoDestino());			
 			textmensaje = textmensaje.replaceAll("%TRAYECTOVUELO%", "");
 			
-			if (oReclamacion.getPasajero().getEmail()!=null)
+			if (oReclamacion.getPasajero()!=null && oReclamacion.getPasajero().getEmail()!=null)
 			    textmensaje = textmensaje.replaceFirst("%EMAIL%", " Email: "+oReclamacion.getPasajero().getEmail());			
 			textmensaje = textmensaje.replaceAll("%EMAIL%", "");
 			
-			if (oReclamacion.getPasajero().getVuelo().getCodigoVuelo()!=null)
+			if (oReclamacion.getPasajero()!=null && oReclamacion.getPasajero().getVuelo().getCodigoVuelo()!=null)
 			    textmensaje = textmensaje.replaceFirst("%CODIGOVUELO%", " Código de vuelo: "+oReclamacion.getPasajero().getVuelo().getCodigoVuelo());
 			textmensaje = textmensaje.replaceAll("%CODIGOVUELO%", "");
 			
@@ -194,7 +194,7 @@ public class MailServiceImpl implements MailService {
 			textmensaje = textmensaje.replaceAll("%DESCRIPCIONESTADO%", "");
 		
 			
-			if (emailAdministracion && oReclamacion.getEstado().getSecEstado()!=5 && oReclamacion.getEstado().getSecEstado()!=0){				
+			if (emailAdministracion && oReclamacion.getEstado()!=null &&  oReclamacion.getEstado().getSecEstado()!=5 && oReclamacion.getEstado().getSecEstado()!=0){				
 				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSACEPTA%","<td class='button' height='45' bgcolor='green' ><a href='"+StringKeys.urlEstadoAcepta+oReclamacion.getId()+"'>Aceptar</a></td>" );
 				textmensaje = textmensaje.replaceFirst("%ENLACEESTADOSRECHAZA%", "<td class='button' height='45' bgcolor='#e05443' ><a href='"+StringKeys.urlEstadoRechaza+oReclamacion.getId()+"'>Rechazar</a></td>" );
 				textmensaje = textmensaje.replaceFirst("%ENLACEPDF%", "<td class='button' height='45' bgcolor='blue'><a href='"+StringKeys.urlPdf+oReclamacion.getId()+"'>Pdf</a></td>" );
