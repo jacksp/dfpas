@@ -238,22 +238,25 @@ var app = {
 		}
 
 		if (app.casoReclamacion == 'cancel') {
-			$('#tituloFormulario').text("Reclamación por Cancelación de Vuelo");
+			//$('#tituloFormulario').text("Reclamación por Cancelación de Vuelo");
+			 $('#tituloFormulario-cancel').show();
 		}
 
 		if (app.casoReclamacion == 'retraso') {
-			$('#tituloFormulario').text("Reclamación por Retraso de Vuelo");
+			//$('#tituloFormulario').text("Reclamación por Retraso de Vuelo");
+			 $('#tituloFormulario').show();
 		}
 
 		if (app.casoReclamacion == 'over') {
-			$('#tituloFormulario').text(
-					"Reclamación por Overbooking o Denegación de Embarque");
+			//$('#tituloFormulario').text("Reclamación por Overbooking o Denegación de Embarque");
+			$('#tituloFormulario-over').show();
 		}
 
 		if (app.casoReclamacion == 'equipaje') {
-			$('#tituloFormulario').text(
-					"Reclamación por Pérdida o Daño de Equipaje");
+			//$('#tituloFormulario').text("Reclamación por Pérdida o Daño de Equipaje");
+			$('#tituloFormulario-equi').show();
 		}
+		
 
 	}
 };

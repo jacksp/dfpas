@@ -274,36 +274,41 @@ var app = {
       $("#codigoReclamacion").val(app.currentCaso);
 
       if(sParameterName[1]=='cancel'){
-        $('#aeropuertos').hide();
-        $('#horasalida').hide();
-        $('#horasentrada').hide();
-        $('#tituloFormulario').text("Reclamación por Cancelación de Vuelo");
-        $('#horasalidacancel').show();
-      }
+          $('#aeropuertos').hide();
+          $('#horasalida').hide();
+          $('#horasentrada').hide();
+          //$('#tituloFormulario').text("Reclamación por Cancelación de Vuelo");
+          $('#tituloFormulario-cancel').show();
+          $('#horasalidacancel').show();
+        }
 
-      if(sParameterName[1]=='retraso'){
-        $('#aeropuertos').show();
-        $('#horasalida').show();
-        $('#horasentrada').show();
-        $('#tituloFormulario').text("Reclamación por Retraso de Vuelo");
-        $('#horasalidacancel').hide();
-      }
+        if(sParameterName[1]=='retraso'){
+          $('#aeropuertos').show();
+          $('#horasalida').show();
+          $('#horasentrada').show();
+          //$('#tituloFormulario').text("Reclamación por Retraso de Vuelo");
+          $('#tituloFormulario').show();
+          $('#horasalidacancel').hide();
+        }
 
-      if(sParameterName[1]=='over'){
-        $('#aeropuertos').hide();
-        $('#horasalida').hide();
-        $('#horasentrada').hide();
-        $('#tituloFormulario').text("Reclamación por Overbooking o Denegación de Embarque");
-        $('#horasalidacancel').show();
-      }
+        if(sParameterName[1]=='over'){
+          $('#aeropuertos').hide();
+          $('#horasalida').hide();
+          $('#horasentrada').hide();
+          //$('#tituloFormulario').text("Reclamación por Overbooking o Denegación de Embarque");
+          $('#tituloFormulario-over').show();
+          $('#horasalidacancel').show();
+        }
 
-      if(sParameterName[1]=='equipaje'){
-        $('#aeropuertos').show();
-        $('#horasalida').hide();
-        $('#horasentrada').hide();
-        $('#tituloFormulario').text("Reclamación por Pérdida o Daño de Equipaje");
-        $('#horasalidacancel').hide();
-      }
+        if(sParameterName[1]=='equipaje'){
+          $('#aeropuertos').show();
+          $('#horasalida').hide();
+          $('#horasentrada').hide();
+          //$('#tituloFormulario').text("Reclamación por Pérdida o Daño de Equipaje");
+          $('#tituloFormulario-equi').show();
+          $('#horasalidacancel').hide();
+        }
+
 
     }
 };
