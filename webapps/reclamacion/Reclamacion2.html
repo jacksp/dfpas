@@ -170,6 +170,12 @@
 	<div class="modal">
 		<!-- Place at bottom of page -->
 	</div>
+	<script src="./resources/js/jqueryTranslator.min.js"></script>
+	<script>
+		(function(){
+			$("[data-translate]").jqTranslate('./resources/traducciones/index',{defaultLang: 'en'});
+		})();
+	</script>
 	<script type="text/javascript">
 		app.initialize();
 	</script>
