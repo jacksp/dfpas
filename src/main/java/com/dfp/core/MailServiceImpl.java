@@ -171,11 +171,11 @@ public class MailServiceImpl implements MailService {
 			
 			if (oReclamacion.getHoraInicioVueloPrevista()!=null && oReclamacion.getHoraFinVueloPrevista()!=null)
 			    textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Horario previsto: "+df.format(oReclamacion.getHoraInicioVueloPrevista())+" "+df.format(oReclamacion.getHoraFinVueloPrevista()));
-			textmensaje = textmensaje.replaceAll("%HORARIOPREVISTO%", "");
+			//textmensaje = textmensaje.replaceAll("%HORARIOPREVISTO%", "");
 			
-			if (oReclamacion.getHoraInicioVueloPrevista()!=null)
-			    textmensaje = textmensaje.replaceFirst("%HORAINICIOPREVISTA%", " Fecha y hora prevista: "+df.format(oReclamacion.getHoraInicioVueloPrevista()));
-			textmensaje = textmensaje.replaceAll("%HORAINICIOPREVISTA%", "");
+			if (oReclamacion.getHoraInicioVueloPrevista()!=null  && oReclamacion.getHoraFinVueloPrevista()==null)
+			    textmensaje = textmensaje.replaceFirst("%HORARIOPREVISTO%", " Fecha y hora prevista: "+df.format(oReclamacion.getHoraInicioVueloPrevista()));
+			textmensaje = textmensaje.replaceAll("%HORARIOPREVISTO%", "");
 			
 			if (oReclamacion.getHoraInicioVueloReal()!=null && oReclamacion.getHoraFinVueloReal()!=null)
 			    textmensaje = textmensaje.replaceFirst("%HORARIOREAL%", " Horario real: "+df.format(oReclamacion.getHoraInicioVueloReal())+" "+df.format(oReclamacion.getHoraFinVueloReal()));
