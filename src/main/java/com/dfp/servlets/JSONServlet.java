@@ -108,11 +108,11 @@ public class JSONServlet extends HttpServlet {
 	    StringWriter errors = new StringWriter();
 	    e.printStackTrace(new PrintWriter(errors));
 	    out.println(errors.toString());
-		  Reclamacion oReclamacion = new Reclamacion();
-		  oReclamacion.setTextoReclamacion(errors.toString());
-		  mm.send(StringKeys.mailTecnico1, "Error general ::" + errors.toString(),null, oReclamacion,false);
+		//  Reclamacion oReclamacion = new Reclamacion();
+		//  oReclamacion.setTextoReclamacion(errors.toString());
+		//  mm.send(StringKeys.mailTecnico1, "Error general ::" + errors.toString(),null, oReclamacion,false);
 		    
-		  response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio=" + false);
+		//  response.sendRedirect("./reclamacion/Reclamacion4.html?resultEnvio=" + false);
 	}
     }
 
